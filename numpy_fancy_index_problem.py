@@ -7,6 +7,7 @@ c = a>5
 a1[c] += 5
 print('a1 = ', a1)
 #case2
+a1 = a.copy()
 e = a1[c]
 e += 5
 print('a1 = ', a1)
