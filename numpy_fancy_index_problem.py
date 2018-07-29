@@ -11,3 +11,12 @@ a1 = a.copy()
 e = a1[c]
 e += 5
 print('a1 = ', a1)
+#case 3
+a1 = a.copy()
+a1[c][:] += 5
+print('a1 = ', a1)
+#case 4
+a1 = a.copy()
+e = a1[c][:]
+e += 5
+print('a1 = ', a1)
