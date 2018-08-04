@@ -15,7 +15,7 @@ draw = ImageDraw.Draw(img_pil)
 
 ascent, descent = font.getmetrics()
 print('ascent, descent = ', ascent, descent)
-text = 'Â'
+text = 'g'
 (width, baseline), (offset_x, offset_y) = font.font.getsize(text)
 width2, baseline2 = font.getsize(text)
 print('width, baseline = ', width, baseline)
@@ -26,7 +26,7 @@ box = font.getmask(text).getbbox()
 print('box = ',box)
 
 b,g,r,a = 0,255,0,0
-draw.text((0, offset_y ),  text, font = font, fill = (b, g, r, a))
+draw.text((0, 0 ),  text, font = font, fill = (b, g, r, a))
 img = np.array(img_pil)
 cv2.imshow('img', img)
 cv2.waitKey(0)
