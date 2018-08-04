@@ -17,7 +17,9 @@ ascent, descent = font.getmetrics()
 print('ascent, descent = ', ascent, descent)
 text = 'Â'
 (width, baseline), (offset_x, offset_y) = font.font.getsize(text)
+width2, baseline2 = font.getsize(text)
 print('width, baseline = ', width, baseline)
+print('width2, baseline2 = ', width2, baseline2)
 print('offset_x, offset_y = ', offset_x, offset_y)
 
 box = font.getmask(text).getbbox()
