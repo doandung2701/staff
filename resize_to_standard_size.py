@@ -13,13 +13,13 @@ def create_img(img_resolution, is_value_is_zero = True):
 	else:
 		img = np.ones((height,width,3), np.uint8)
 	return img
-def resize_img(img, cv2t_area):
+def resize_img(img, cvt_area):
     width, height = _img_revolution = img.shape[1::-1]
     area = width*height
-    ratio = math.sqrt(1.0*cv2t_area/area)
-    cv2t_width = int(width*ratio)
-    cv2t_height = int(height*ratio)
-    resize_shape = (cv2t_width, cv2t_height)
+    ratio = math.sqrt(1.0*cvt_area/area)
+    cvt_width = int(width*ratio)
+    cvt_height = int(height*ratio)
+    resize_shape = (cvt_width, cvt_height)
     resized_img = cv2.resize(img, resize_shape)
     return resized_img
 def window_to_slice(window, slice_step=None):
