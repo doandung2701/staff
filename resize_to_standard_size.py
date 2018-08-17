@@ -33,11 +33,14 @@ def window_to_slice(window, slice_step=None):
 		window_slice = slice(top, top+h, h_slice_step), slice(left,left+w, w_slice_step)
         
 	return window_slice
-def resize(img_path, standard_size):
+def resize(img_path, standard_size, back_ground_img=None):
     standard_w, standard_h = standard_size
     img = cv2.imread(img_path)
     img_w, img_h = get_resolution(img)
-    standard_img = create_img((standard_w,standard_h))
+    if back_ground_img is not None:
+        standard_img = cv2.resize(back_ground_img, (standard_w,standard_h))
+    else:
+        standard_img = create_img((standard_w,standard_h))
     resized_h = standard_h
     ratio = 1.0*resized_h/img_h
     resized_w = int(ratio*img_w)
@@ -50,6 +53,7 @@ def resize(img_path, standard_size):
     return standard_img
 
 if __name__ == '__main__':
+    back_ground_img = None
     try:
         img_path = sys.argv[1]
     except:
@@ -57,11 +61,17 @@ if __name__ == '__main__':
     try:
         size_str = sys.argv[2]
     except:
-        size_str = '360x188'
+        size_str = '1000x188'
+    try:
+        back_ground_path = sys.argv[3]
+    except:
+        back_ground_path = 'src/CardDetection/card_imgs_folder/cmt_mat_truoc_0.jpg'
+        back_ground_img = cv2.imread(back_ground_path)
+        # cv2.imshow('back_ground_img', back_ground_img)
     standard_size = tuple(map(int,size_str.split('x')))
     img = cv2.imread(img_path)
-    standard_img = resize(img_path, standard_size)
-    cv2.imshow('img',img)
+    standard_img = resize(img_path, standard_size, back_ground_img)
+    # cv2.imshow('img',img)
     cv2.imshow('standard_img',standard_img)
     cv2.waitKey(0)
 
