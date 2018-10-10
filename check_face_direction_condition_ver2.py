@@ -16,6 +16,19 @@ import support_lib as sl
 MIN_SIZE = config.FACE_MIN_SIZE
 MAX_SIZE = config.FACE_MAX_SIZE
 
+def get_point_coords(points):
+    x1 = points[0]
+    y1 = points[0 + 5]
+    x4 = points[1]
+    y4 = points[1 + 5]
+    x_nose = points[2]
+    y_nose = points[2 + 5]
+    x3 = points[3]
+    y3 = points[3 + 5]
+    x2 = points[4]
+    y2 = points[4 + 5]
+    return (x1,y1), (x2,y2), (x3,y3), (x4, y4), (x_nose, y_nose)
+    
 def center_of_4points(points):
 	(x1,y1), (x2,y2), (x3,y3), (x4, y4) = points
 	xi = ((x1*y2-y1*x2)*(x3-x4) - (x1-x2)*(x3*y4-y3*x4))/((x1-x2)*(y3-y4)-(y1-y2)*(x3-x4))
