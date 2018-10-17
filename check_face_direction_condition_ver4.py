@@ -8,10 +8,10 @@ from numpy import (array, dot, arccos, clip)
 from numpy.linalg import norm
 
 import config
-import util
+# import util
 from face_detection_mtcnn import detect_face
 sys.path.append('/home/cuong/VNG/National_Identification_Card_Reader/src')
-import support_lib as sl
+import local_support_lib as sl
 
 MIN_SIZE = config.FACE_MIN_SIZE
 MAX_SIZE = config.FACE_MAX_SIZE
@@ -36,21 +36,7 @@ def get_point_coords(points):
 	y2 = points[4 + 5]
 	return (x1,y1), (x2,y2), (x3,y3), (x4, y4), (x_nose, y_nose)
 	
-def center_of_4points(points):
-	(x1,y1), (x2,y2), (x3,y3), (x4, y4) = points
-	xi = ((x1*y2-y1*x2)*(x3-x4) - (x1-x2)*(x3*y4-y3*x4))/((x1-x2)*(y3-y4)-(y1-y2)*(x3-x4))
-	yi = ((x1*y2-y1*x2)*(y3-y4) - (y1-y2)*(x3*y4-y3*x4))/((x1-x2)*(y3-y4)-(y1-y2)*(x3-x4))
-	return xi, yi
-def calculate_angle_vector_and_vertical_vector(vector):
-	x, y = vector
-	vertical_vector = np.array([0, 1])
-	vector = np.array(vector)
-	u, v = vertical_vector, vector
-	c = dot(u,v)/norm(u)/norm(v) 
-	angle = arccos(clip(c, -1, 1))
-	if x < 0:
-		angle = 2*math.pi - angle 
-	return angle
+
 def evaluate_region_direction(face_location, (x1,y1), (x2,y2), (x3,y3), (x4, y4), (x_nose, y_nose), frame):
 	(l, t, r, b) =  face_location
 
@@ -59,11 +45,11 @@ def evaluate_region_direction(face_location, (x1,y1), (x2,y2), (x3,y3), (x4, y4)
 	top_limit = 0.07*face_size
 	bottom_limit = 0.015*face_size
 
-	sl.draw_points(frame, [(x_nose,y_nose)], (0, 255, 0), radius=10, thickness=10)
-	sl.draw_points(frame, [(x1,y1)], (255, 0, 0), radius=10, thickness=10)
-	sl.draw_points(frame, [(x2,y2)], (0, 0, 255), radius=10, thickness=10)
-	sl.draw_points(frame, [(x3,y3)], (255, 0, 255), radius=10, thickness=10)
-	sl.draw_points(frame, [(x4,y4)], (0, 255, 255), radius=10, thickness=10)
+	# sl.draw_points(frame, [(x_nose,y_nose)], (0, 255, 0), radius=10, thickness=10)
+	# sl.draw_points(frame, [(x1,y1)], (255, 0, 0), radius=10, thickness=10)
+	# sl.draw_points(frame, [(x2,y2)], (0, 0, 255), radius=10, thickness=10)
+	# sl.draw_points(frame, [(x3,y3)], (255, 0, 255), radius=10, thickness=10)
+	# sl.draw_points(frame, [(x4,y4)], (0, 255, 255), radius=10, thickness=10)
 	
 	four_points = (x1,y1), (x2,y2), (x3,y3), (x4, y4)
 	x_intersec, y_intersec = sl.center_of_4points(four_points)
@@ -178,9 +164,10 @@ def get_require_direction(indir):
 			face = img[t:b, l:r]
 			if face.shape[0] > 0 and face.shape[1] > 0:
 				
-				is_good = util.is_good(face, points[:, best_index])
+				# is_good = util.is_good(face, points[:, best_index])
 				# if is_good:
-				(x1,y1), (x2,y2), (x3,y3), (x4, y4), (x_nose, y_nose) = util.get_point_coords(points[:, best_index])
+				# (x1,y1), (x2,y2), (x3,y3), (x4, y4), (x_nose, y_nose) = util.get_point_coords(points[:, best_index])
+				(x1,y1), (x2,y2), (x3,y3), (x4, y4), (x_nose, y_nose) = get_point_coords(points[:, best_index])
 				
 				new_region, vector_length = evaluate_region_direction(face_location, (x1,y1), (x2,y2), (x3,y3), (x4, y4), (x_nose, y_nose), img)
 				four_drawed_region_counter[new_region] += 1
@@ -188,8 +175,8 @@ def get_require_direction(indir):
 				vecto_length_each_region[new_region].append(vector_length)
 
 
-				basename = os.path.basename(image_file)
-				basename = basename[:basename.rfind('.')]
+				# basename = os.path.basename(image_file)
+				# basename = basename[:basename.rfind('.')]
 				# test_write_file = os.path.join(test_outdir, basename  + '_' +str(new_region) +'.jpg')
 				# cv2.imwrite(test_write_file ,img)
 				# tmp_test_write_file = os.path.join(tmp_test_outdir, basename  + '_' +str(new_region) +'.jpg')
@@ -246,13 +233,8 @@ def get_require_direction(indir):
 					image_file = image_file_and_vector_length[0]
 					final_four_drawed_region_files[upper].append(image_file)
 	
-
-			# for image_file in four_drawed_region_files[upper][:MIN_FACE_DIRECTION_RIGHT_LEFT - four_drawed_region_counter[lower]]:
-			# 	final_four_drawed_region_files[upper].append(image_file)
 		else:
 			for i in [2,4]:
-				# for image_file in four_drawed_region_files[i][: MIN_FACE_DIRECTION_RIGHT_LEFT//2]:
-				# 	final_four_drawed_region_files[i].append(image_file)
 				if len(file_and_vector_length) > 0:
 					for image_file_and_vector_length in file_and_vector_length[:MIN_FACE_DIRECTION_RIGHT_LEFT//2]:
 						image_file = image_file_and_vector_length[0]
@@ -263,8 +245,8 @@ def get_require_direction(indir):
 		print 'Huong ' + str(i) + ': ', four_drawed_region_counter[i], len(final_four_drawed_region_files[i])
 		image_number += len(final_four_drawed_region_files[i])
 
-	print indir
-	print outdir
+	# print indir
+	# print outdir
 
 	os.system("rm -rf " + indir)
 	os.renames(outdir, indir)
