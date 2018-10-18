@@ -19,11 +19,6 @@ MIN_FACE_DIRECTION_LOW = 8
 MIN_FACE_DIRECTION_RIGHT_LEFT = 40
 MIN_FACE_DIRECTION_DICT = {0: MIN_FACE_DIRECTION_CENTER, 1: MIN_FACE_DIRECTION_LOW, 3: MIN_FACE_DIRECTION_UP}
 DEBUG = False
-import numpy as np
-from numpy import (array, dot, arccos, clip)
-from numpy.linalg import norm
-import math
-import cv2 as cv
 def center_of_4points(points):
 	(x1,y1), (x2,y2), (x3,y3), (x4, y4) = points
 	xi = ((x1*y2-y1*x2)*(x3-x4) - (x1-x2)*(x3*y4-y3*x4))/((x1-x2)*(y3-y4)-(y1-y2)*(x3-x4))
@@ -65,7 +60,7 @@ def window_to_slice(window):
 	return window_slice
 def draw_points(img, points, color = (0,0,255), radius=2, thickness=-1):
 	for point in points:
-		cv.circle(img , point, radius, color, thickness)
+		cv2.circle(img , point, radius, color, thickness)
 def get_point_coords(points):
 	x1 = points[0]
 	y1 = points[0 + 5]
