@@ -9,7 +9,9 @@ from numpy.linalg import norm
 
 import config
 # import util
-from face_detection_mtcnn import detect_face
+from util import preprocess_image
+from face_detection_mtcnn import detect_face, detect_face_all_directions
+
 MIN_SIZE = config.FACE_MIN_SIZE
 MAX_SIZE = config.FACE_MAX_SIZE
 
@@ -19,16 +21,17 @@ MIN_FACE_DIRECTION_LOW = 8
 MIN_FACE_DIRECTION_RIGHT_LEFT = 40
 MIN_FACE_DIRECTION_DICT = {0: MIN_FACE_DIRECTION_CENTER, 1: MIN_FACE_DIRECTION_LOW, 3: MIN_FACE_DIRECTION_UP}
 DEBUG = False
+
 def center_of_4points(points):
 	(x1,y1), (x2,y2), (x3,y3), (x4, y4) = points
 	xi = ((x1*y2-y1*x2)*(x3-x4) - (x1-x2)*(x3*y4-y3*x4))/((x1-x2)*(y3-y4)-(y1-y2)*(x3-x4))
 	yi = ((x1*y2-y1*x2)*(y3-y4) - (y1-y2)*(x3*y4-y3*x4))/((x1-x2)*(y3-y4)-(y1-y2)*(x3-x4))
 	return xi, yi
+
+
 def calculate_angle_vector_and_vertical_vector(vector):
 	x, y = vector
 	vertical_vector = np.array([0, 1])
-	# vertical_vector = np.array([1, 0])
-
 	vector = np.array(vector)
 	u, v = vertical_vector, vector
 	c = dot(u,v)/norm(u)/norm(v) 
@@ -36,12 +39,16 @@ def calculate_angle_vector_and_vertical_vector(vector):
 	if x < 0:
 		angle = 2*math.pi - angle 
 	return angle
+
+
 def add_padding_to_img(img, padding):
 	width, height = _resolution = get_resolution(img)
 	padding_width, padding_height = width + 2*padding, height + 2*padding
 	padding_img = create_img((padding_width, padding_height))
 	padding_img[padding: height + padding, padding: width + padding] = img
 	return padding_img
+
+
 def create_img(img_resolution, is_value_is_zero = True):
 	width, height = img_resolution
 	if is_value_is_zero:
@@ -49,18 +56,28 @@ def create_img(img_resolution, is_value_is_zero = True):
 	else:
 		img = np.ones((height,width,3), np.uint8)
 	return img
+
+
 def get_resolution(img):
 	resolution = _weight, _height = img.shape[1::-1]
 	return resolution
+
+
 def cut_window(img, window):
 	return img.copy()[window_to_slice(window)]
+
+
 def window_to_slice(window):
 	topleft_x, topleft_y, w, h = window
 	window_slice = slice(topleft_y, topleft_y+h), slice(topleft_x,topleft_x+w)
 	return window_slice
+
+	
 def draw_points(img, points, color = (0,0,255), radius=2, thickness=-1):
 	for point in points:
 		cv2.circle(img , point, radius, color, thickness)
+
+
 def get_point_coords(points):
 	x1 = points[0]
 	y1 = points[0 + 5]
@@ -156,6 +173,8 @@ def check_false_condition(region_number, four_drawed_region_counter):
 		if four_drawed_region_counter[3] < MIN_FACE_DIRECTION_UP:
 			return True
 		return False
+
+
 def get_require_direction(indir):
 	base_folder = indir[:indir.rfind('/')]
 	indir_name = indir[:indir.rfind('/')]
@@ -172,7 +191,6 @@ def get_require_direction(indir):
 		os.system("rm -rf " + tmp_test_outdir)
 		os.system("mkdir " + tmp_test_outdir)
 
-	
 	four_drawed_region_counter = [0]*5
 	four_drawed_region_files = dict()
 	for i in range(5):
@@ -182,13 +200,36 @@ def get_require_direction(indir):
 		vecto_length_each_region[i] = []
 	list_images_file = glob.glob(os.path.join(indir, '*/*.jpg')) + glob.glob(os.path.join(indir, '*.jpg'))
 	ignore_img_count = 0
+	rotation_angle = None
 	
+	new_file_count = 0
 	for image_file in list_images_file:
+		filename = os.path.split(image_file)[-1]
+		filename = filename[:filename.rfind('.')]
+		postfix = filename.split('_')
+		if len(postfix) >= 3 and postfix[-1] == 'processed':
+			direction = int(postfix[-3])
+			vector_length = float(postfix[-2])
+			four_drawed_region_counter[direction] += 1
+			four_drawed_region_files[direction].append(image_file)
+			vecto_length_each_region[direction].append(vector_length)
+			continue
+		else:
+			new_file_count += 1
+		
 		img = cv2.imread(image_file)
-		first_img = img.copy()
-		img = add_padding_to_img(img, 50)
-		img = cv2.flip(img, 1)
-		location, points = detect_face(img, MIN_SIZE, MAX_SIZE)
+		padding_img = add_padding_to_img(img, 50)
+		if rotation_angle is None:
+			location, points, angle = detect_face_all_directions(padding_img, MIN_SIZE, MAX_SIZE)
+			rotation_angle = angle
+			if rotation_angle is None:
+				continue
+			img = preprocess_image(img, rotation_angle=rotation_angle)
+		else:
+			img = preprocess_image(img, rotation_angle=rotation_angle)
+			location, points = detect_face(padding_img, MIN_SIZE, MAX_SIZE)
+		cv2.imwrite(image_file, img)
+
 		if len(location) > 0:
 			
 			max_size = -1
@@ -205,8 +246,6 @@ def get_require_direction(indir):
 			face = img[t:b, l:r]
 			if face.shape[0] > 0 and face.shape[1] > 0:
 				
-				# is_good = util.is_good(face, points[:, best_index])
-				# if is_good:
 				# (x1,y1), (x2,y2), (x3,y3), (x4, y4), (x_nose, y_nose) = util.get_point_coords(points[:, best_index])
 				(x1,y1), (x2,y2), (x3,y3), (x4, y4), (x_nose, y_nose) = get_point_coords(points[:, best_index])
 				
@@ -229,13 +268,16 @@ def get_require_direction(indir):
 			print(image_file)
 			ignore_img_count += 1
 	print 'file ignore = ', ignore_img_count
+	print 'new file =', new_file_count
 	print 'file consider = ', len(list_images_file) - ignore_img_count
 
 
 	final_four_drawed_region_files = dict()
 	for i in range(5):
 		final_four_drawed_region_files[i] = []
-
+	final_vecto_length_each_region = dict()
+	for i in range(5):
+		final_vecto_length_each_region[i] = []
 	
 	require_direction = []
 	for i in [0, 1, 3]:
@@ -252,8 +294,9 @@ def get_require_direction(indir):
 		file_and_vector_length = sorted(file_and_vector_length, key=lambda element:element[1], reverse=reverse)
 		if len(file_and_vector_length) > 0:
 			for image_file_and_vector_length in file_and_vector_length[:end_index]:
-				image_file = image_file_and_vector_length[0]
+				image_file, vector_length = image_file_and_vector_length
 				final_four_drawed_region_files[i].append(image_file)
+				final_vecto_length_each_region[i].append(vector_length)
 	
 
 	if four_drawed_region_counter[2] < four_drawed_region_counter[4]:
@@ -264,6 +307,7 @@ def get_require_direction(indir):
 		for i in [2,4]:
 			for image_file in four_drawed_region_files[i]:
 				final_four_drawed_region_files[i].append(image_file)
+				final_vecto_length_each_region[i].append(vector_length)
 		require_direction.append(lower)
 	else:
 		file_and_vector_length = [[f, vector_length] for f, vector_length in zip(four_drawed_region_files[upper], vecto_length_each_region[upper])]
@@ -271,18 +315,21 @@ def get_require_direction(indir):
 		if MIN_FACE_DIRECTION_RIGHT_LEFT > four_drawed_region_counter[lower]:
 			for image_file in four_drawed_region_files[lower]:
 				final_four_drawed_region_files[lower].append(image_file)
+				final_vecto_length_each_region[i].append(vector_length)
 			
 			if len(file_and_vector_length) > 0:
 				for image_file_and_vector_length in file_and_vector_length[:min(MIN_FACE_DIRECTION_RIGHT_LEFT - four_drawed_region_counter[lower] + 8, four_drawed_region_counter[upper])]:
-					image_file = image_file_and_vector_length[0]
+					image_file, vector_length = image_file_and_vector_length
 					final_four_drawed_region_files[upper].append(image_file)
+					final_vecto_length_each_region[upper].append(vector_length)
 	
 		else:
 			for i in [2,4]:
 				if len(file_and_vector_length) > 0:
 					for image_file_and_vector_length in file_and_vector_length[:min(MIN_FACE_DIRECTION_RIGHT_LEFT//2 + 4, four_drawed_region_counter[i])]:
-						image_file = image_file_and_vector_length[0]
-						final_four_drawed_region_files[i].append(image_file)	
+						image_file, vector_length = image_file_and_vector_length
+						final_four_drawed_region_files[i].append(image_file)
+						final_vecto_length_each_region[i].append(vector_length)	
 
 	image_number = 0
 	for i in range(5):
@@ -290,16 +337,16 @@ def get_require_direction(indir):
 		image_number += len(final_four_drawed_region_files[i])
 	print 'image_number = ', image_number
 
-	print indir
-	print outdir
 	for i in range(5):
-		for image_file in final_four_drawed_region_files[i]:
+		for image_file, vector_length in zip(final_four_drawed_region_files[i], final_vecto_length_each_region[i]):
 			basename = os.path.basename(image_file)
 			basename = basename[:basename.rfind('.')]
-			write_file = os.path.join(outdir, basename  + '_' +str(i) +'.jpg')
+			postfix = basename.split('_')
+			if len(postfix) >= 3 and postfix[-1] == 'processed':
+				write_file = os.path.join(outdir, basename + '.jpg')
+			else:
+				write_file = os.path.join(outdir, basename  + '_' +str(i) + '_' + str(vector_length)[:min(5, len(str(vector_length)))] + '_processed' +'.jpg')
 			img = cv2.imread(image_file)
-			if np.all(first_img == img):
-				print '============'
 			cv2.imwrite(write_file ,img)
 
 	if DEBUG:
@@ -309,55 +356,6 @@ def get_require_direction(indir):
 				basename = basename[:basename.rfind('.')]
 				os.rename(os.path.join(test_outdir, basename  + '_' +str(i) +'.jpg'), os.path.join(test_outdir, basename  + '_' +str(i) +'x.jpg'))
 
-
-	
-
-
-	'''
-
-	remain_region_files = []
-	remain_vector_length = []
-
-	for i in range(5):
-		for f, vector_length in zip(four_drawed_region_files[i], vecto_length_each_region[i]):
-			if f not in final_four_drawed_region_files[i]:
-				remain_region_files.append(f)
-				remain_vector_length.append(f)
-
-	add_final_four_drawed_region_files = []
-	file_and_vector_length = [[f, vector_length] for f, vector_length in zip(remain_region_files, remain_vector_length)]
-	file_and_vector_length = sorted(file_and_vector_length, key=lambda element:element[1], reverse=True)
-	if len(file_and_vector_length) > 0:
-		for image_file_and_vector_length in file_and_vector_length[:min(80 - image_number, len(file_and_vector_length))]:
-			image_file = image_file_and_vector_length[0]
-			add_final_four_drawed_region_files.append(image_file)
-
-	for image_file in add_final_four_drawed_region_files:
-		basename = os.path.basename(image_file)
-		basename = basename[:basename.rfind('.')]
-		write_file = os.path.join(outdir, basename  + '_' +str(i) +'.jpg')
-		img = cv2.imread(image_file)
-		cv2.imwrite(write_file ,img)
-	#	new_write_file = glob.glob(os.path.join(test_outdir, basename) + '*')[0]
-	# 	not_extend_write_file = new_write_file[:new_write_file.rfind('.')]
-	# 	os.rename(new_write_file, not_extend_write_file +'o.jpg')
-
-	for i in range(5):
-		not_satify_set = set(four_drawed_region_files[i]) - set(final_four_drawed_region_files[i]) - set(add_final_four_drawed_region_files)
-		for test_image_file in not_satify_set:
-			basename = os.path.basename(test_image_file)
-			basename = basename[:basename.rfind('.')]
-			# new_write_file = glob.glob(os.path.join(test_outdir, basename) + '*')[0]
-			# writefile_basename = os.path.basename(new_write_file)
-			# writefile_basename = writefile_basename[:writefile_basename.rfind('x.')]
-			# os.remove(os.path.join(tmp_test_outdir, writefile_basename)  +'.jpg')
-	
-	print 'added image number = ', len(add_final_four_drawed_region_files) 
-	print 'final image_number = ', image_number + len(add_final_four_drawed_region_files) 
-	
-	'''
-	
-	
 	os.system("rm -rf " + indir)
 	os.rename(outdir, indir)
 	return require_direction
