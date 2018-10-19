@@ -18,8 +18,9 @@ MAX_SIZE = config.FACE_MAX_SIZE
 MIN_FACE_DIRECTION_CENTER = 10
 MIN_FACE_DIRECTION_UP = 8
 MIN_FACE_DIRECTION_LOW = 8
-MIN_FACE_DIRECTION_RIGHT_LEFT = 40
-MIN_FACE_DIRECTION_DICT = {0: MIN_FACE_DIRECTION_CENTER, 1: MIN_FACE_DIRECTION_LOW, 3: MIN_FACE_DIRECTION_UP}
+MIN_FACE_DIRECTION_RIGHT = 15
+MIN_FACE_DIRECTION_LEFT = 15
+MIN_FACE_DIRECTION_DICT = {0: MIN_FACE_DIRECTION_CENTER, 1: MIN_FACE_DIRECTION_LOW, 2: MIN_FACE_DIRECTION_RIGHT, 3: MIN_FACE_DIRECTION_UP, 4: MIN_FACE_DIRECTION_LEFT}
 DEBUG = False
 
 def center_of_4points(points):
@@ -157,22 +158,9 @@ def evaluate_region_direction(face_location, (x1,y1), (x2,y2), (x3,y3), (x4, y4)
 
 
 def check_false_condition(region_number, four_drawed_region_counter):
-	if region_number == 0:
-		if four_drawed_region_counter[0] < MIN_FACE_DIRECTION_CENTER:
-			return True
-		return False
-	elif region_number == 1:
-		if four_drawed_region_counter[1] < MIN_FACE_DIRECTION_LOW:
-			return True
-		return False
-	elif region_number == 2 or region_number == 4:
-		if four_drawed_region_counter[2] + four_drawed_region_counter[4] < MIN_FACE_DIRECTION_RIGHT_LEFT:
-			return True
-		return False
-	elif region_number == 3:
-		if four_drawed_region_counter[3] < MIN_FACE_DIRECTION_UP:
-			return True
-		return False
+	if four_drawed_region_counter[region_number] < MIN_FACE_DIRECTION_DICT[region_number]:
+		return True
+	return False
 
 
 def get_require_direction(indir):
@@ -280,7 +268,7 @@ def get_require_direction(indir):
 		final_vecto_length_each_region[i] = []
 	
 	require_direction = []
-	for i in [0, 1, 3]:
+	for i in [0, 1, 2, 3, 4]:
 		if check_false_condition(i, four_drawed_region_counter):
 			require_direction.append(i)
 			end_index = four_drawed_region_counter[i]
@@ -298,39 +286,6 @@ def get_require_direction(indir):
 				final_four_drawed_region_files[i].append(image_file)
 				final_vecto_length_each_region[i].append(vector_length)
 	
-
-	if four_drawed_region_counter[2] < four_drawed_region_counter[4]:
-		lower, upper = 2, 4
-	else:
-		lower, upper = 4, 2
-	if check_false_condition(2, four_drawed_region_counter):
-		for i in [2,4]:
-			for image_file in four_drawed_region_files[i]:
-				final_four_drawed_region_files[i].append(image_file)
-				final_vecto_length_each_region[i].append(vector_length)
-		require_direction.append(lower)
-	else:
-		file_and_vector_length = [[f, vector_length] for f, vector_length in zip(four_drawed_region_files[upper], vecto_length_each_region[upper])]
-		file_and_vector_length = sorted(file_and_vector_length, key=lambda element:element[1], reverse=True)
-		if MIN_FACE_DIRECTION_RIGHT_LEFT > four_drawed_region_counter[lower]:
-			for image_file in four_drawed_region_files[lower]:
-				final_four_drawed_region_files[lower].append(image_file)
-				final_vecto_length_each_region[i].append(vector_length)
-			
-			if len(file_and_vector_length) > 0:
-				for image_file_and_vector_length in file_and_vector_length[:min(MIN_FACE_DIRECTION_RIGHT_LEFT - four_drawed_region_counter[lower] + 8, four_drawed_region_counter[upper])]:
-					image_file, vector_length = image_file_and_vector_length
-					final_four_drawed_region_files[upper].append(image_file)
-					final_vecto_length_each_region[upper].append(vector_length)
-	
-		else:
-			for i in [2,4]:
-				if len(file_and_vector_length) > 0:
-					for image_file_and_vector_length in file_and_vector_length[:min(MIN_FACE_DIRECTION_RIGHT_LEFT//2 + 4, four_drawed_region_counter[i])]:
-						image_file, vector_length = image_file_and_vector_length
-						final_four_drawed_region_files[i].append(image_file)
-						final_vecto_length_each_region[i].append(vector_length)	
-
 	image_number = 0
 	for i in range(5):
 		print 'Huong ' + str(i) + ': ', four_drawed_region_counter[i], len(final_four_drawed_region_files[i])
@@ -356,6 +311,55 @@ def get_require_direction(indir):
 				basename = basename[:basename.rfind('.')]
 				os.rename(os.path.join(test_outdir, basename  + '_' +str(i) +'.jpg'), os.path.join(test_outdir, basename  + '_' +str(i) +'x.jpg'))
 
+
+	
+
+
+	'''
+
+	remain_region_files = []
+	remain_vector_length = []
+
+	for i in range(5):
+		for f, vector_length in zip(four_drawed_region_files[i], vecto_length_each_region[i]):
+			if f not in final_four_drawed_region_files[i]:
+				remain_region_files.append(f)
+				remain_vector_length.append(f)
+
+	add_final_four_drawed_region_files = []
+	file_and_vector_length = [[f, vector_length] for f, vector_length in zip(remain_region_files, remain_vector_length)]
+	file_and_vector_length = sorted(file_and_vector_length, key=lambda element:element[1], reverse=True)
+	if len(file_and_vector_length) > 0:
+		for image_file_and_vector_length in file_and_vector_length[:min(80 - image_number, len(file_and_vector_length))]:
+			image_file = image_file_and_vector_length[0]
+			add_final_four_drawed_region_files.append(image_file)
+
+	for image_file in add_final_four_drawed_region_files:
+		basename = os.path.basename(image_file)
+		basename = basename[:basename.rfind('.')]
+		write_file = os.path.join(outdir, basename  + '_' +str(i) +'.jpg')
+		img = cv2.imread(image_file)
+		cv2.imwrite(write_file ,img)
+	#	new_write_file = glob.glob(os.path.join(test_outdir, basename) + '*')[0]
+	# 	not_extend_write_file = new_write_file[:new_write_file.rfind('.')]
+	# 	os.rename(new_write_file, not_extend_write_file +'o.jpg')
+
+	for i in range(5):
+		not_satify_set = set(four_drawed_region_files[i]) - set(final_four_drawed_region_files[i]) - set(add_final_four_drawed_region_files)
+		for test_image_file in not_satify_set:
+			basename = os.path.basename(test_image_file)
+			basename = basename[:basename.rfind('.')]
+			# new_write_file = glob.glob(os.path.join(test_outdir, basename) + '*')[0]
+			# writefile_basename = os.path.basename(new_write_file)
+			# writefile_basename = writefile_basename[:writefile_basename.rfind('x.')]
+			# os.remove(os.path.join(tmp_test_outdir, writefile_basename)  +'.jpg')
+	
+	print 'added image number = ', len(add_final_four_drawed_region_files) 
+	print 'final image_number = ', image_number + len(add_final_four_drawed_region_files) 
+	
+	'''
+	
+	
 	os.system("rm -rf " + indir)
 	os.rename(outdir, indir)
 	return require_direction
