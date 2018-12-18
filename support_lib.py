@@ -1,6 +1,6 @@
 
 '''
-window = (topleft_x, topleft_y, w, h)
+window = (left, top, w, h)
 box = ((center_x, center_y), (a, b), angle) // or rect
 ((0.0, 0.0), (0.0, 0.0), 0.0)
 (-angle) is angle of vecto of a is created by center to right and Ox
@@ -44,13 +44,17 @@ import random
 from matplotlib import pyplot as plt
 from numpy import (array, dot, arccos, clip)
 from numpy.linalg import norm
+
+
+
 DEBUG = False
+VISION_SIZE = '480x270'
 STANDARD_SIZE = '960x540'
 STANDARD_AREA = 960*540
 STANDARD_AREA_DICT = {'1': 1024*576, '2': 960*540, '3': 640*360}
 global global_colors
-# global_colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (0, 255, 255), (255, 0, 255)]
-global_colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255)]
+global_colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0), (0, 255, 255), (255, 0, 255)]
+# global_colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255)]
 global global_color_index
 global_color_index = 0
 def points_to_box(points):
@@ -66,16 +70,19 @@ def box_to_window(box):
 	return points_to_window(points)
 	
 def window_to_two_points(window):
-	topleft_x, topleft_y, w, h = window
-	topleft = [topleft_x, topleft_y]
-	bottomright = [topleft_x + w, topleft_y +h]
+	left, top, w, h = window
+	topleft = [left, top]
+	bottomright = [left + w, top +h]
 	return [topleft, bottomright]
+def window_to_unit(window):
+	left, top, w, h = window
+	unit = (_center_x, _center_y), (_w, _h) = (left + w//2, top + h//2), (w, h)
+	return unit
 def two_points_to_window(points):
 	topleft, bottomright = points
-	print('topleft, bottomright = ', topleft, bottomright)
-	topleft_x, topleft_y = topleft
-	w, h = bottomright[0] - topleft_x, bottomright[1] - topleft_y
-	return (topleft_x, topleft_y, w, h)
+	left, top = topleft
+	w, h = bottomright[0] - left, bottomright[1] - top
+	return (left, top, w, h)
 
 # def box_to_box_with_a_bigger_than_b(box):
 # 	(center_x, center_y), (a, b), angle = box
@@ -106,7 +113,7 @@ def box_to_img(img, box, is_w_bigger_than_h = True):
 	(center_x, center_y), (a, b), angle = box
 	(new_w, new_h) = (int(a), int(b)) if a>b  else (int(b), int(a))
 	bounding_window = box_to_window(box)
-	_topleft_x, _topleft_y, w, h = bounding_window
+	_left, _top, w, h = bounding_window
 	simple_cut_img_w, simple_cut_img_h = max(new_w, w), max(new_h, h)
 	padding = - int(min(center_x - simple_cut_img_w, img_width - center_x - 
 			simple_cut_img_w, center_y - simple_cut_img_h, 
@@ -151,7 +158,7 @@ def contours_to_boxs(contours):
 def boxs_to_points_array(boxs):
 	return [box_to_points(box) for box in boxs]
 # def window_to_img(img, window):
-# 	topleft_x, topleft_y, w, h = window
+# 	left, top, w, h = window
 # 	cut_img
 
 def boxs_to_imgs(img, boxs, is_w_bigger_than_h = True):
@@ -163,8 +170,8 @@ def convert_coord_for_point(o_point, point):
 	new_point = o_x + x, o_y +y
 	return new_point
 def convert_minus_h_window(minus_h_window):
-	topleft_x, topleft_y, w, h = minus_h_window
-	window = topleft_x, topleft_y + h , w, -h
+	left, top, w, h = minus_h_window
+	window = left, top + h , w, -h
 	return window
 
 def convert_minus_h_windows(minus_h_windows):
@@ -175,36 +182,36 @@ def convert_minus_h_windows(minus_h_windows):
 	return windows
 def convert_coord_for_window(o_point, window):
 	o_x, o_y = o_point
-	topleft_x, topleft_y, w, h = window
-	new_window = o_x + topleft_x, o_y + topleft_y, w, h
+	left, top, w, h = window
+	new_window = o_x + left, o_y + top, w, h
 	return  new_window
 
 def add_padding_window(resolution, window, width_padding_rate, height_padding_rate):
-	topleft_x, topleft_y, w, h = window
-	bottomright_x, bottomright_y = topleft_x + w, topleft_y + h
+	left, top, w, h = window
+	bottomright_x, bottomright_y = left + w, top + h
 	width, height = resolution
 	padding_width, padding_height = int(w*width_padding_rate), int(h*height_padding_rate)
 	delta_w, delta_h = padding_width - w, padding_height - h
-	if topleft_x - delta_w//2 < 0:
-		topleft_x = 0
+	if left - delta_w//2 < 0:
+		left = 0
 	else:
-		topleft_x -= delta_w//2
+		left -= delta_w//2
 	if bottomright_x + delta_w//2 > width:
 		bottomright_x = width
 	else:
 		bottomright_x += delta_w//2
-	if topleft_y - delta_h//2 < 0:
-		topleft_y = 0
+	if top - delta_h//2 < 0:
+		top = 0
 	else:
-		topleft_y -= delta_h//2
+		top -= delta_h//2
 	if bottomright_y + delta_h//2 > height:
 		bottomright_y = height
 	else:
 		bottomright_y += delta_h//2
-	new_window = topleft_x, topleft_y, bottomright_x - topleft_x, bottomright_y - topleft_y
+	new_window = left, top, bottomright_x - left, bottomright_y - top
 	return new_window
 # draw
-def draw_windows(img, windows, color, thickness):
+def draw_windows(img, windows, color=(0, 255, 0), thickness=1):
 	for window in windows:
 		bx, by, bw, bh = window
 		cv.rectangle(img, (bx, by), (bx+bw, by+bh), color, thickness)
@@ -252,6 +259,17 @@ def get_img_area(img):
 def get_center(image):
 	w, h = image.shape[:2]
 	return (w//2, h//2)
+
+def resize_img(img, cvt_area):
+    width, height = _img_revolution = img.shape[1::-1]
+    area = width*height
+    ratio = math.sqrt(1.0*cvt_area/area)
+    cvt_width = int(width*ratio)
+    cvt_height = int(height*ratio)
+    resize_shape = (cvt_width, cvt_height)
+    resized_img = cv.resize(img, resize_shape)
+    return resized_img
+	
 def cut_window(img, window):
 	if DEBUG:
 		print('window = ', window)
@@ -259,6 +277,25 @@ def cut_window(img, window):
 def get_resolution(img):
 	resolution = _weight, _height = img.shape[1::-1]
 	return resolution
+def get_size_area(size):
+	w, h = size
+	area = w*h
+	return area
+def size_to_w_and_h(size):
+	return list(map(lambda element: int(element), size.split('x')))
+
+def get_resize_ratio(size,stardard_area):
+	size_area = get_size_area(size)
+	ratio = math.sqrt(1.0*stardard_area/size_area)
+	return ratio
+def get_resize_slice_step(size,stardard_area, min_step=None):
+	ratio = get_resize_ratio(size,stardard_area)
+	if min_step is not None:
+		step = max(int(1/ratio), min_step)
+	else:
+		step = int(1/ratio)
+	w_slice_step, h_slice_step = step, step
+	return w_slice_step, h_slice_step
 def create_img(img_resolution, is_value_is_zero = True):
 	width, height = img_resolution
 	if is_value_is_zero:
@@ -266,21 +303,8 @@ def create_img(img_resolution, is_value_is_zero = True):
 	else:
 		img = np.ones((height,width,3), np.uint8)
 	return img
-# def create_video(imgs_folder):
-# 	from glob import glob
-# 	file_paths = glob(imgs_folder+'/*')
-# 	fist_img = cv.imread(file_paths[0])
-# 	fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-# 	video = cv2.VideoWriter('video.mp4',fourcc, 15.0, get_resolution(fist_img))
-# 	img=[]
-# 	for fn in file_paths:
-# 		img = cv.imread(fn)
 def get_name_file_without_ext_from_path(path):
-	end = path.rfind('.')
-	if end == -1:
-		name_file = path[path.rfind('/')+1:]
-	else:
-		name_file = path[path.rfind('/')+1: end]
+	name_file = path[path.rfind('/')+1: path.rfind('.')]
 	return name_file
 def box_transform_by_resolution(box, des_resolution, source_resolution):
 	srs_width, src_height = source_resolution
@@ -310,11 +334,6 @@ def get_diff_angle_between_two_boxs(box1, box2):
 	(_, _), (_, _), angle1 = box1
 	(_, _), (_, _), angle2 = box2
 	return math.sqrt(angle1 -angle2)
-def make_sure_folder_create(folder):
-	try:
-		os.stat(folder)
-	except:
-		os.mkdir(folder)
 def write_imgs(folder, img_name, imgs):
 	try:
 		os.stat(folder)
@@ -393,12 +412,12 @@ def convert_points_by_rotation_matrix(points, matrix):
 		print('new_points after change dtype to int = ',new_points)
 	return new_points
 def window_overlaping_area(window1, window2):
-	topleft_x1, topleft_y1, w1, h1 = window1
-	topleft_x2, topleft_y2, w2, h2 = window2
-	bottomright_x1, bottomright_y1 = topleft_x1 + w1, topleft_y1 + h1
-	bottomright_x2, bottomright_y2 = topleft_x2 + w2, topleft_y2 + h2
-	x_overlap = max(0, min(bottomright_x1, bottomright_x2)-max(topleft_x1, topleft_x2))
-	y_overlap = max(0, min(bottomright_y1, bottomright_y2)-max(topleft_y1, topleft_y2))
+	left1, top1, w1, h1 = window1
+	left2, top2, w2, h2 = window2
+	bottomright_x1, bottomright_y1 = left1 + w1, top1 + h1
+	bottomright_x2, bottomright_y2 = left2 + w2, top2 + h2
+	x_overlap = max(0, min(bottomright_x1, bottomright_x2)-max(left1, left2))
+	y_overlap = max(0, min(bottomright_y1, bottomright_y2)-max(top1, top2))
 	overlap_area = x_overlap * y_overlap
 	return overlap_area
 def cal_box_overlaping_area_ratio(box1, box2):
@@ -439,6 +458,11 @@ def cal_box_overlaping_area_ratio(box1, box2):
 
 	return rate
 
+def is_overlap(window1, window2):
+	overlap_area = window_overlaping_area(window1, window2)
+	if overlap_area > 0:
+		return True
+	return False
 
 def check_rotate_90(rect_boxs, is_w_bigger_than_h = True):
 	count = 0
@@ -459,14 +483,6 @@ def check_rotate_90(rect_boxs, is_w_bigger_than_h = True):
 	return True
 
 # numpy
-def plot_points(x_ys, (xlabel, ylabel), size, color='g', show=True):
-	
-	for x,y in x_ys:
-		plt.scatter(x, y, size, c=color, alpha=0.5)
-	plt.xlabel(xlabel)
-	plt.ylabel(ylabel)
-	if show:
-		plt.show()
 def index_to_numpy_point(index, shape):
 	_l_dim1, l_dim2 = shape
 	dim1 = index//l_dim2
@@ -485,13 +501,22 @@ def index_to_point(index, shape):
 	numpy_point = index_to_numpy_point(index, shape)
 	point = numpy_point_to_point(numpy_point)
 	return point
-def window_to_slice(window):
-	topleft_x, topleft_y, w, h = window
-	window_slice = slice(topleft_y, topleft_y+h), slice(topleft_x,topleft_x+w)
+def window_to_slice(window, slice_step=None):
+	left, top, w, h = window
+	if slice_step is None:
+		window_slice = slice(top, top+h), slice(left,left+w)
+	else:
+		w_slice_step, h_slice_step = slice_step
+		window_slice = slice(top, top+h, h_slice_step), slice(left,left+w, w_slice_step)
 	return window_slice
-def np_where_to_points(y_x_array):
+# def np_where_to_points(y_x_array):
+# 	points = []
+# 	for y,x in zip(y_x_array[0], y_x_array[1]):
+# 		points.append((x,y))
+# 	return points
+def np_where_to_points(x_y_array):
 	points = []
-	for y,x in zip(y_x_array[0], y_x_array[1]):
+	for x,y in zip(x_y_array[0], x_y_array[1]):
 		points.append((x,y))
 	return points
 def convert_coord_np_where_points(y_x_array, o_point):
@@ -528,8 +553,13 @@ def pb_random_point_from_count_array(count):
 	return point
 def distance_between_two_points(a, b):
 	return math.sqrt(sum((a - b)**2 for a, b in zip(a, b)))
-
-# 
+def distance_between_two_windows(window1, window2):
+	_unit1 = center1, (w1, h1)= window_to_unit(window1)
+	_unit2 = center2, (w2, h2)= window_to_unit(window2)
+	center_distance = distance_between_two_points(center1, center2)
+	simple_distance = int(center_distance) + abs(w1//2-w2//2) + abs(h1//2-h2//2)
+	distance = 2*simple_distance/3/(math.sqrt(get_window_area(window1))+math.sqrt(get_window_area(window2)))
+	return distance
 def arrays_to_dict_array(key1, values1, key2, values2):
 	array = []
 	for value1, value2 in zip(values1, values2):
@@ -541,24 +571,41 @@ def arrays_to_dict_array(key1, values1, key2, values2):
 def window_text_dicts_to_font_size(text, letter_windows, standard_font):
 	h_font_sizes = []
 	for letter, letter_window in zip(text, letter_windows):
-		_topleft_x, _topleft_y, _w, h = letter_window
+		_left, _top, _w, h = letter_window
 		(_standard_font_width, standard_font_baseline), (_offset_x_standard_font, _offset_y_standard_font) = standard_font.font.getsize(letter)
-
+		if standard_font_baseline == 0:
+			continue
 		h_font_size = int(12.0/(standard_font_baseline)*h)
-		print('h_font_size = ', h_font_size)
 		h_font_sizes.append(h_font_size)
-	if len(h_font_sizes) == 1:
-		median_h_font_size = h_font_sizes[0]
-	else:
-		median_h_font_size = int(np.median(h_font_sizes))
+	if not h_font_sizes:
+		return 1
+	median_h_font_size = int(np.median(h_font_sizes))
 	return median_h_font_size
-def size_to_resolution(size):
-	w_str, h_str =  tuple(size.split('x'))
-	w, h = int(w_str), int(h_str)
-	return (w,h)
-def size_to_area(size):
-	w, h = size_to_resolution(size)
-	return w*h
+
+# floodFill
+
+def window_to_floodFill_mask(window):
+	left, top, w, h = window
+	floodFill_mask = np.zeros((h+2, w+2), np.uint8)
+	return floodFill_mask
+def none_margin_mask_to_mask(none_margin_mask_to_mask):
+	w, h = get_resolution(none_margin_mask_to_mask)
+	floodFill_mask = np.empty((h+2, w+2), np.uint8)
+	floodFill_mask[1:-1,1:-1][:] = none_margin_mask_to_mask
+	return floodFill_mask
+
+# def cut_window_in_window(dst_window , src_window):
+# 	dst_lefttop, dst_rightbottom = window_to_two_points(dst_window)
+# 	src_lefttop, src_rightbottom = window_to_two_points(src_window)
+# 	if dst_lefttop is 
+
+# 
+def check_meaningful_letters(letters):
+	for letter in letters:
+		if not letter.isspace() and letter != '~' and letter != '':
+			return True
+	return False
+
 def center_of_4points(points):
 	(x1,y1), (x2,y2), (x3,y3), (x4, y4) = points
 	xi = ((x1*y2-y1*x2)*(x3-x4) - (x1-x2)*(x3*y4-y3*x4))/((x1-x2)*(y3-y4)-(y1-y2)*(x3-x4))
@@ -575,11 +622,7 @@ def calculate_angle_vector_and_vertical_vector(vector):
 	angle = arccos(clip(c, -1, 1))
 	if x < 0:
 		angle = 2*math.pi - angle 
+	if angle == 2*math.pi:
+		angle = 0
 	return angle
-# pytorch
-def torch_img_to_np_img(torch_img):
-	chanels, w, h = torch_img.shape
-	np_img= torch_img.data.numpy().copy()
-	# np_img.shape = h, w, chanels 
-	np_img = np.transpose(np_img, (1, 2, 0))
-	return np_img
+
