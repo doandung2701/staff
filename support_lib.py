@@ -29,6 +29,7 @@ draw:
 numpy:
 '''
 # Python 2/3 compatibility
+from __future__ import print_function, division
 import sys
 PY3 = sys.version_info[0] == 3
 if PY3:
@@ -277,6 +278,32 @@ def draw_np_where_points(img, y_x_array, color = (0,0,255)):
 	draw_points(img, points)
 
 
+def draw_information(frame, showing_window_name=None, windows=None, recognition_strs=None, infor_dict=None, window_color=(0, 255, 0), thickness=1, full_screen=None):
+	standard_resolution = 960, 540
+	infor_window = (20, 50, 200, 200)
+	resolution = _frame_w, _frame_h = get_resolution(frame)
+	
+	infor_l, infor_t, infor_w, infor_h = infor_window = convert_windows([infor_window], standard_resolution, resolution)[0]
+	if windows:
+		draw_windows(frame, windows, color=window_color, thickness=thickness)
+	if recognition_strs:
+		for window, recognition_str in zip(windows, recognition_strs):
+			l, t, _w, _h = window
+			cv.putText(frame, recognition_str, (l, t - 5), cv.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2)
+	if infor_dict:
+		n_infor = len(infor_dict)
+		distance = infor_h/n_infor
+		for i, (key, value) in enumerate(infor_dict.items()):
+			item_t = infor_t + int(i*distance)
+			cv.putText(frame, str(key) + ': ' + str(value), (infor_l, item_t), cv.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
+	if full_screen is None:
+		return
+	elif full_screen == True:
+		cv.namedWindow(showing_window_name, cv.WND_PROP_FULLSCREEN)
+		cv.setWindowProperty(showing_window_name,cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
+	cv.imshow(showing_window_name, frame)
+
+
 # basic img
 def get_img_area(img):
 	height, width, _channels = img.shape
@@ -308,6 +335,42 @@ def cut_window(img, window):
 def get_resolution(img):
 	resolution = _weight, _height = img.shape[1::-1]
 	return resolution
+
+
+def get_new_resolution(resolution, proposal_width=None, new_area=None):
+	w, h = resolution
+	if proposal_width:
+		new_width = min(proposal_width, w)
+		ratio = float(w) / new_width
+	elif new_area:
+		area = w*h
+		ratio = math.sqrt(1.0*new_area/area)
+		new_width = int(w*ratio)
+	else:
+		print("Use proposal_width or new_area as parameter!")
+		exit()
+	new_height = int(h*ratio)
+	new_resolution = new_width, new_height
+	return new_resolution
+
+
+def resize_img(img, proposal_width=None, new_area=None):
+	resolution = get_resolution(img)
+	new_width, _ = new_resolution = get_new_resolution(resolution, proposal_width=proposal_width, new_area=new_area)
+	resized_img = imutils.resize(img, width=new_width)
+	return resized_img, new_resolution
+
+
+def convert_windows(windows, source_resolution, des_resolution, ):
+	des_w, des_h = des_resolution
+	source_w, source_h = source_resolution
+	w_ratio, h_ratio = float(des_w) / source_w, float(des_h)/source_h
+	new_windows = []
+	for window in windows:
+		l, t, w, h = window
+		new_window = int(l*w_ratio), int(t*h_ratio), int(w*w_ratio), int(h*h_ratio)
+		new_windows.append(new_window)
+	return new_windows
 
 
 def get_size_area(size):
