@@ -62,6 +62,36 @@ while (True?){
 }
 end;
 
+
+#### get thing 
+Begin;
+potential_window, mask = grow_region(consciousness.picture, seed_point, threshold=eye_quality);
+potential_thing = Thing(potential_window, mask=mask, consciousness.picture);
+if (! check_satify_condition(potential_thing)==True?){
+	return False, potential_thing;
+}
+is_exist = update_new_thing(potential_thing);
+if (! is_exist==True?){
+	return True, potential_thing;
+}
+return False, potential_thing;
+
+
+########
+Begin;
+potential_window, mask = sl.grow_region(self.brain.consciousness.picture.copy(), self.eye.eye_status.seed_point, threshold=self.eye.eye_quality);
+potential_thing = Thing(potential_window, mask=mask, picture=self.brain.consciousness.picture);
+if (! Thing.check_satify_condition(potential_thing)==True?){
+	return False, potential_thing;
+}
+is_exist = self.update_new_thing(potential_thing);
+if (! is_exist==True?){
+	return True, potential_thing;
+}
+return False, potential_thing;
+
+
+
 ##################################### No need!
 Main function;
 is_find_child = False;
