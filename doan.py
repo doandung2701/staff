@@ -1,3 +1,33 @@
+#### Right
+model = App('')
+is_find_child = False
+WHILE True
+	model.eye.imread()
+	IF not is_find_child
+		IF model.brain.things not empty
+	        model.brain.consider_thing = model.brain.things.pop()
+		    model.brain.eye_status.alpha = model.brain.consider_thing
+		        .get_needed_alpha()
+            model.brain.reset_history(model.brain.consider_thing)
+		    is_find_child = True
+		ELSE
+			break
+		ENDIF
+	ELSE
+	    find_seed_ret, model.brain.eye_status.seed_point = model.brain.
+	        consider_thing.find_seed(model.brain.consciousness.consider_matrix)
+	    IF find_seed_ret==True
+	        get_thing_ret, model.brain.focus_thing = model.get_thing()
+	        IF get_thing_ret==True
+				model.brain.add_thing(model.brain.focus_thing, relation='child')
+	        ENDIF
+	        model.brain.mark_consider(model.brain.focus_thing)
+	    ELSE
+	        is_find_child = False
+	    ENDIF
+	ENDIF
+ENDWHILE
+#####
 Main function;
 is_find_child = False;
 while (True?){
