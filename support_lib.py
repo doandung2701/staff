@@ -62,6 +62,8 @@ global_color_index = 0
 
 def points_to_box(points):
 	return cv.minAreaRect(points)
+
+
 def box_to_points(box):
 	points = cv.boxPoints(box)
 	points = np.int0(points)
@@ -278,10 +280,10 @@ def draw_np_where_points(img, y_x_array, color = (0,0,255)):
 	draw_points(img, points)
 
 
-def draw_information(frame, showing_window_name=None, windows=None, recognition_strs=None, infor_dict=None, window_color=(0, 255, 0), thickness=1, full_screen=None):
+def draw_information(frame, showing_window_name=None, windows=None, recognition_strs=None, infor_dict=None, window_color=(0, 255, 0), thickness=1, full_screen=False, lang='eng'):
 	standard_resolution = 960, 540
 	infor_window = (20, 50, 200, 200)
-	resolution = _frame_w, _frame_h = get_resolution(frame)
+	resolution = _frame_w, frame_h = get_resolution(frame)
 	
 	infor_l, infor_t, infor_w, infor_h = infor_window = convert_windows([infor_window], standard_resolution, resolution)[0]
 	if windows:
@@ -289,19 +291,91 @@ def draw_information(frame, showing_window_name=None, windows=None, recognition_
 	if recognition_strs:
 		for window, recognition_str in zip(windows, recognition_strs):
 			l, t, _w, _h = window
-			cv.putText(frame, recognition_str, (l, t - 5), cv.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2)
+			if lang == 'vie':
+				draw_text(frame, recognition_str, window, color=(0, 0, 255))
+			elif lang == 'eng':
+				cv.putText(frame, recognition_str, (l, t - 5), cv.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2)
+			else:
+				print('Language to draw is not accepted!')
+				exit()
 	if infor_dict:
 		n_infor = len(infor_dict)
-		distance = infor_h/n_infor
+		distance = min(infor_h/n_infor, frame_h/10)
 		for i, (key, value) in enumerate(infor_dict.items()):
 			item_t = infor_t + int(i*distance)
 			cv.putText(frame, str(key) + ': ' + str(value), (infor_l, item_t), cv.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2)
-	if full_screen is None:
+			
+	if showing_window_name is None:
 		return
 	elif full_screen == True:
 		cv.namedWindow(showing_window_name, cv.WND_PROP_FULLSCREEN)
 		cv.setWindowProperty(showing_window_name,cv.WND_PROP_FULLSCREEN,cv.WINDOW_FULLSCREEN)
 	cv.imshow(showing_window_name, frame)
+
+
+from PIL import Image,ImageFont, ImageDraw
+def draw_text(img, text, window, fontpath="vni-full-standard/font-times-new-roman.ttf", color=(0, 255, 0)):
+	n_line = len(text.split('\n'))
+	l, t, w, h = window
+	font_size = int(12*h/(n_line*10))
+	font = ImageFont.truetype(fontpath, font_size)
+	pil_img = Image.fromarray(img)
+	draw = ImageDraw.Draw(pil_img)
+	b,g,r,a = *color, 0
+	draw.text((l, t),  text, font = font, fill = (b, g, r, a))
+	img[...] = np.array(pil_img)
+
+
+
+# video
+video_extentions = ['mp4', 'avi']
+img_extentions = ['jpeg', 'jpg', 'png']
+def is_video_type(video_uri):
+	for video_extention in video_extentions:
+		if video_uri.endswith(video_extention):
+			return True
+	return False
+
+
+def is_img_type(video_uri):
+	for img_extention in img_extentions:
+		if '.' + img_extention in video_uri:
+			return True
+	return False
+
+	
+def create_stream_video(video_uri, queueSize=8, fps=15):
+	try:
+		video_uri = int(video_uri)
+	except:
+		pass
+	uri_type = None
+	
+	if isinstance(video_uri, int) or video_uri.startswith('rtsp'):
+		uri_type = 'camera'
+	if uri_type is None:
+		if is_video_type(video_uri):
+			uri_type = 'video'
+	if uri_type is None:
+		if is_img_type(video_uri):
+			uri_type = 'image'
+	if uri_type is None:
+		print('Video uri is not accepted!')
+		exit()
+	if uri_type == 'image':
+		import video
+		camera = video.create_capture(video_uri, None)
+	else:
+		import videostream
+		if uri_type == 'video':
+			camera = videostream.QueuedStream(video_uri, fps=fps).start()
+		elif uri_type == 'camera':
+			camera = videostream.QueuedStream(video_uri, queueSize=queueSize).start()
+		else:
+			print('Something wrong when create camera!')
+			exit()
+	return camera
+
 
 
 # basic img
@@ -315,15 +389,15 @@ def get_center(image):
 	return (w//2, h//2)
 
 
-def resize_img(img, cvt_area):
-    width, height = _img_revolution = img.shape[1::-1]
-    area = width*height
-    ratio = math.sqrt(1.0*cvt_area/area)
-    cvt_width = int(width*ratio)
-    cvt_height = int(height*ratio)
-    resize_shape = (cvt_width, cvt_height)
-    resized_img = cv.resize(img, resize_shape)
-    return resized_img
+# def resize_img(img, cvt_area):
+# 	width, height = _img_revolution = img.shape[1::-1]
+# 	area = width*height
+# 	ratio = math.sqrt(1.0*cvt_area/area)
+# 	cvt_width = int(width*ratio)
+# 	cvt_height = int(height*ratio)
+# 	resize_shape = (cvt_width, cvt_height)
+# 	resized_img = cv.resize(img, resize_shape)
+# 	return resized_img
 	
 
 def cut_window(img, window):
@@ -361,7 +435,7 @@ def resize_img(img, proposal_width=None, new_area=None):
 	return resized_img, new_resolution
 
 
-def convert_windows(windows, source_resolution, des_resolution, ):
+def convert_windows(windows, source_resolution, des_resolution):
 	des_w, des_h = des_resolution
 	source_w, source_h = source_resolution
 	w_ratio, h_ratio = float(des_w) / source_w, float(des_h)/source_h
@@ -371,6 +445,19 @@ def convert_windows(windows, source_resolution, des_resolution, ):
 		new_window = int(l*w_ratio), int(t*h_ratio), int(w*w_ratio), int(h*h_ratio)
 		new_windows.append(new_window)
 	return new_windows
+
+
+def check_window_in_img(resolution, window):
+	img_w, img_h = resolution
+	l, t, w, h = window
+	r, b = l + w, t + h
+	for x in [l, r]:
+		if x < 0 or x > img_w:
+			return False
+	for y in [t, b]:
+		if y < 0 or y > img_h:
+			return False
+	return True
 
 
 def get_size_area(size):
@@ -399,12 +486,16 @@ def get_resize_slice_step(size,stardard_area, min_step=None):
 	return w_slice_step, h_slice_step
 
 
-def create_img(img_resolution, is_value_is_zero = True):
+def create_img(img_resolution, color=0):
 	width, height = img_resolution
-	if is_value_is_zero:
-		img = np.zeros((height,width,3), np.uint8)
-	else:
-		img = np.ones((height,width,3), np.uint8)
+	img = np.full((height,width,3), color, dtype=np.uint8)
+	return img
+
+
+def mask_to_img(mask, color=255, background_color=0):
+	resolution = get_resolution(mask)
+	img = create_img(resolution, background_color)
+	img[mask==1] = color
 	return img
 
 
@@ -488,6 +579,27 @@ def morphloEx(image, shape = cv.MORPH_ELLIPSE ,shape_size = (3,3), op = cv.MORPH
 	structure = cv.getStructuringElement(shape, shape_size)
 	new_img = cv.morphologyEx(image, op, structure, iterations)
 	return new_img
+
+
+# advance img
+def compare_two_masks(mask1, mask2, proposal_size=20):
+	size =  min(min(mask1.shape + mask2.shape), proposal_size)
+	standard_resolution = size, size
+	resized_mask1 = cv.resize(mask1, standard_resolution)
+	resized_mask2 = cv.resize(mask2, standard_resolution)
+	similar_points = np_boolean_array_to_points(resized_mask1==resized_mask2)
+	similar_value = len(similar_points)/size**2
+	return similar_value
+
+
+def grow_region(img, seed_pt, threshold=30):
+	w, h = get_resolution(img)
+	lab_img = cv.cvtColor(img, cv.COLOR_BGR2LAB)
+	low = high = threshold 
+	floodFill_mask = np.zeros((h+2, w+2), np.uint8)
+	region_window = floodFill_return_window(lab_img, floodFill_mask, seed_pt,low, high)
+	region_mask = floodFill_mask[1:-1, 1:-1][window_to_slice(region_window)]
+	return region_window, region_mask
 
 
 # rotate
@@ -658,17 +770,23 @@ def window_to_slice(window, slice_step=None):
 	return window_slice
 
 
-# def np_where_to_points(y_x_array):
+def np_where_to_points(y_x_array):
+	points = []
+	for y,x in zip(y_x_array[0], y_x_array[1]):
+		points.append((x,y))
+	return points
+
+
+# def np_where_to_points(x_y_array):
 # 	points = []
-# 	for y,x in zip(y_x_array[0], y_x_array[1]):
+# 	for x,y in zip(x_y_array[0], x_y_array[1]):
 # 		points.append((x,y))
 # 	return points
 
 
-def np_where_to_points(x_y_array):
-	points = []
-	for x,y in zip(x_y_array[0], x_y_array[1]):
-		points.append((x,y))
+def np_boolean_array_to_points(np_boolean_array):
+	np_points = list(zip(*np.where(np_boolean_array)))
+	points = list(map(numpy_point_to_point, np_points))
 	return points
 
 
@@ -686,6 +804,29 @@ def random_pick_return_index(probabilities):
 		cumulative_probability += item_probability
 		if x < cumulative_probability: break
 	return i
+
+
+def probability_random_point(probabilities, mask=None, reverse_matrix=False):
+	if np.all(mask==0):
+		return None
+	if reverse_matrix:
+		probabilities = np.max(probabilities) + 1 - probabilities 
+		probabilities = probabilities/np.sum(probabilities)
+	if mask is None:
+		w, h = get_resolution(probabilities)
+		mask = np.ones(h, w)
+	np_where_points = np.where(mask==1)
+	points = np_where_to_points(np_where_points)
+	if not points:
+		print('No point satify!')
+		return None
+	point_probabilities = []
+	for x, y in points:
+		probability = probabilities[y,x]
+		point_probabilities.append(probability)
+	randomed_index = random_pick_return_index(point_probabilities)
+	randomed_point = points[randomed_index]
+	return randomed_point
 
 
 def pb_random_point_from_count_array(count):
@@ -719,6 +860,25 @@ def distance_between_two_windows(window1, window2):
 	simple_distance = int(center_distance) + abs(w1//2-w2//2) + abs(h1//2-h2//2)
 	distance = 2*simple_distance/3/(math.sqrt(get_window_area(window1))+math.sqrt(get_window_area(window2)))
 	return distance
+
+
+def set_value_for_array(np_array, window, mask, value, operation=None):
+	focus_np_array = np_array[window_to_slice(window)]
+	if not operation:
+		focus_np_array[mask==1] = value
+		return
+	elif operation == '+':
+		focus_np_array[mask==1] += value
+	elif operation == '-':
+		focus_np_array[mask==1] -= value
+	elif operation == '*':
+		focus_np_array[mask==1] *= value
+	elif operation == '/':
+		focus_np_array[mask==1] /= value
+	else:
+		print('Operation is not accepted!')
+		exit()
+
 
 
 def arrays_to_dict_array(key1, values1, key2, values2):
@@ -759,6 +919,33 @@ def none_margin_mask_to_mask(none_margin_mask_to_mask):
 	floodFill_mask[1:-1,1:-1][:] = none_margin_mask_to_mask
 	return floodFill_mask
 
+
+def floodFill_return_window(img, floodFill_mask, seed_pt, low, high, color = (255, 255, 255), flags = cv.FLOODFILL_FIXED_RANGE):
+    hsv = cv.cvtColor(img, cv.COLOR_BGR2LAB)
+    cv.floodFill(hsv, floodFill_mask, seed_pt, (255, 255, 255), (low,low,low), (low,low,low), flags)
+    dim2, dim1 = seed_pt
+    floodFill_mask[1:-1, 1:-1][dim1, dim2] = 1
+    none_margins_mask = floodFill_mask[1:-1, 1:-1]
+    pixelpoints = cv.findNonZero(none_margins_mask)
+    window = points_to_window(pixelpoints)
+    return window
+
+
+# ocr
+import pytesseract
+def image_to_string(img, lang='vie'):
+	img = Image.fromarray(cv.cvtColor(img, cv.COLOR_BGR2RGB))
+	if lang == 'eng':
+		# config = ("-l eng ")
+		config = ("-l eng --oem 1 --psm 7")
+		text = pytesseract.image_to_string(img, config=config)
+	elif lang == 'vie':
+		config = ("-l vie --oem 3 --psm 6")
+		text = pytesseract.image_to_string(img, config=config)	
+	else:
+		print('Language is not accepted!')
+		exit()
+	return text
 
 # 
 def check_meaningful_letters(letters):
