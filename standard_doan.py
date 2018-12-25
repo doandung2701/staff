@@ -1,3 +1,67 @@
+# vip main function flow chart
+Start;
+O(P) = O_0(P_0), I = I_0 , alpha = g(P_0);
+push O in S;
+is_find_child = False;
+while (True?){
+  Read E, V = H(E, I, alpha);
+	if (! is_find_child?) {
+		if (S != Ø?){
+		  O(P) = pop S;
+		  alpha = g(P);
+		  K = Ø , Q = P;
+			is_find_child = True;
+		}
+		else{
+			break;
+		}
+	}
+	else{
+	   if (Q != Ø?){
+	    I’ = r(Q);
+	    P’ = F(V, I’) - K;
+	    if ((P' big enough) & (P' and P") diffenrent enough for all P" in S  ){
+				push P' in S;
+	    }
+	    K = K U P’, Q = Q – P’;
+	  }
+	  else{
+	    is_find_child = False;
+	  }
+	}
+}
+end;
+# vip main function psuedocode
+O(P) = O_0(P_0), I = I_0 , alpha = g(P_0)
+push O in S
+is_find_child = False
+WHILE True
+    Read E, V = H(E, I, alpha);
+	IF not is_find_child
+		IF S != Ø
+		    O(P) = pop S;
+		    alpha = g(P);
+		    K = Ø , Q = P;
+			is_find_child = True;
+		ELSE
+			break;
+		ENDIF
+	ELSE
+	    IF Q != Ø
+	        I’ = r(Q);
+	        P’ = F(V, I’) - K;
+	        IF (P' big enough) & (P' and P") diffenrent enough for all P" in S
+			    push P' in S;
+	        ENDIF
+	        K = K U P’, Q = Q – P’;
+	    ELSE
+	        is_find_child = False;
+	    ENDIF
+	 ENDIF
+ENDWHILE
+
+
+###########################No need
 #vip main function flow chart 
 Start;
 init thing, seed_point, alpha, consider_matrix;
