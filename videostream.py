@@ -3,9 +3,8 @@ from threading import Thread
 import sys
 is_py2 = sys.version[0] == '2'
 if is_py2:
-    import Queue as Queue
+    import Queue
 else:
-    print('R')
     from queue import Queue
 import time
 import cv2
@@ -22,6 +21,10 @@ class QueuedStream:
     def __init__(self, uri, queueSize=8, fps=15):
         '''init
         fps: frame per second for offline file, 0 for live stream'''
+        try:
+            uri = int(uri)
+        except:
+            pass
 
         self.fps = fps
         if len(str(uri))==0 or uri==0:
