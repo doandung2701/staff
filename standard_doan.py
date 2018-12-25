@@ -62,3 +62,28 @@ WHILE True
         ENDIF
 	ENDIF
 ENDWHILE
+
+# vip get thing flow chart
+Start;
+potential_window, mask = grow_region(picture, seed_point);
+potential_thing = Thing(potential_window, mask=mask);
+if (! check_satify_condition(potential_thing)==True?){
+	return False, potential_thing;
+}
+is_exist = update_new_thing(potential_thing);
+if (! is_exist==True?){
+	return True, potential_thing;
+}
+return False, potential_thing;
+# vip update new thing chart
+Start;
+is_exist = False;
+for (thing = next(all_things) ;all_things not empty? ; next(all_things)){
+	is_near, is_similar = compare_with_new_thing(thing, potential_thing);
+	if (is_near and is_similar?){
+		update_status(thing, potential_thing);
+		is_exist = True;
+		break;
+	}
+}
+return is_exist;
