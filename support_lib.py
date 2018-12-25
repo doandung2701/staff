@@ -13,7 +13,7 @@ box <-> points -> window <-> two points:
 	points -> window: cv.boundingRect(points) voi points la np.array
 	box -> window: box->points->window
 
-	window -> two points: two_points = window_to_two_points(window)
+	window -> two points: two_points = Y_COORDo_two_points(window)
 	two points -> window: window = two_points_to_window(two_points)
 
 	boxs = contours_to_boxs(contours)
@@ -79,14 +79,14 @@ def box_to_window(box):
 	return points_to_window(points)
 	
 
-def window_to_two_points(window):
+def Y_COORDo_two_points(window):
 	left, top, w, h = window
 	topleft = [left, top]
 	bottomright = [left + w, top +h]
 	return [topleft, bottomright]
 
 
-def window_to_unit(window):
+def Y_COORDo_unit(window):
 	left, top, w, h = window
 	unit = (_center_x, _center_y), (_w, _h) = (left + w//2, top + h//2), (w, h)
 	return unit
@@ -280,21 +280,20 @@ def draw_np_where_points(img, y_x_array, color = (0,0,255)):
 	draw_points(img, points)
 
 
-def draw_information(frame, showing_window_name=None, windows=None, recognition_strs=None, infor_dict=None, window_color=(0, 255, 0), thickness=1, full_screen=False, lang='eng'):
+def draw_information(frame, showing_window_name=None, recognitions = None, infor_dict=None, window_color=(0, 255, 0), thickness=1, full_screen=False, lang='eng'):
 	standard_resolution = 960, 540
 	infor_window = (20, 50, 200, 200)
 	resolution = _frame_w, frame_h = get_resolution(frame)
 	
 	infor_l, infor_t, infor_w, infor_h = infor_window = convert_windows([infor_window], standard_resolution, resolution)[0]
-	if windows:
-		draw_windows(frame, windows, color=window_color, thickness=thickness)
-	if recognition_strs:
-		for window, recognition_str in zip(windows, recognition_strs):
-			l, t, _w, _h = window
+	if recognitions:
+		for recognition in recognitions:
+			draw_windows(frame, [recognition.window], color=recognition.color, thickness=recognition.thickness)
+			l, t, _w, _h = recognition.window
 			if lang == 'vie':
-				draw_text(frame, recognition_str, window, color=(0, 0, 255))
+				draw_text(frame, recognition.strg, recognition.window, color=(0, 0, 255))
 			elif lang == 'eng':
-				cv.putText(frame, recognition_str, (l, t - 5), cv.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2)
+				cv.putText(frame, recognition.strg, (l, t - 5), cv.FONT_HERSHEY_SIMPLEX, 2, (0, 0, 255), 2)
 			else:
 				print('Language to draw is not accepted!')
 				exit()
@@ -403,7 +402,7 @@ def get_center(image):
 def cut_window(img, window):
 	if DEBUG:
 		print('window = ', window)
-	return img.copy()[window_to_slice(window)]
+	return img.copy()[Y_COORDo_slice(window)]
 
 
 def get_resolution(img):
@@ -588,7 +587,7 @@ def compare_two_masks(mask1, mask2, proposal_size=20):
 	resized_mask1 = cv.resize(mask1, standard_resolution)
 	resized_mask2 = cv.resize(mask2, standard_resolution)
 	similar_points = np_boolean_array_to_points(resized_mask1==resized_mask2)
-	similar_value = len(similar_points)/size**2
+	similar_value = (2*len(similar_points)+1)/(np.count_nonzero(resized_mask1)+np.count_nonzero(resized_mask2)+1)
 	return similar_value
 
 
@@ -598,7 +597,7 @@ def grow_region(img, seed_pt, threshold=30):
 	low = high = threshold 
 	floodFill_mask = np.zeros((h+2, w+2), np.uint8)
 	region_window = floodFill_return_window(lab_img, floodFill_mask, seed_pt,low, high)
-	region_mask = floodFill_mask[1:-1, 1:-1][window_to_slice(region_window)]
+	region_mask = floodFill_mask[1:-1, 1:-1][Y_COORDo_slice(region_window)]
 	return region_window, region_mask
 
 
@@ -674,7 +673,7 @@ def cal_box_overlaping_area_ratio(box1, box2):
 	two_boxs_window = points_to_window(two_boxs_points)
 	if False:
 		print('two_boxs_window = ', two_boxs_window)
-	topleft, bottomright = _two_points = window_to_two_points(two_boxs_window)
+	topleft, bottomright = _two_points = Y_COORDo_two_points(two_boxs_window)
 	if False:
 		print('topleft, bottomright = ', topleft, bottomright)
 	img_resolution = tuple(bottomright)
@@ -760,7 +759,7 @@ def index_to_point(index, shape):
 	return point
 
 
-def window_to_slice(window, slice_step=None):
+def Y_COORDo_slice(window, slice_step=None):
 	left, top, w, h = window
 	if slice_step is None:
 		window_slice = slice(top, top+h), slice(left,left+w)
@@ -854,16 +853,16 @@ def distance_between_two_points(a, b):
 
 
 def distance_between_two_windows(window1, window2):
-	_unit1 = center1, (w1, h1)= window_to_unit(window1)
-	_unit2 = center2, (w2, h2)= window_to_unit(window2)
+	_unit1 = center1, (w1, h1)= Y_COORDo_unit(window1)
+	_unit2 = center2, (w2, h2)= Y_COORDo_unit(window2)
 	center_distance = distance_between_two_points(center1, center2)
-	simple_distance = int(center_distance) + abs(w1//2-w2//2) + abs(h1//2-h2//2)
-	distance = 2*simple_distance/3/(math.sqrt(get_window_area(window1))+math.sqrt(get_window_area(window2)))
+	simple_distance = (int(center_distance) + abs(w1//2-w2//2) + abs(h1//2-h2//2))/3
+	distance = 2*simple_distance/(math.sqrt(get_window_area(window1))+math.sqrt(get_window_area(window2)))
 	return distance
 
 
 def set_value_for_array(np_array, window, mask, value, operation=None):
-	focus_np_array = np_array[window_to_slice(window)]
+	focus_np_array = np_array[Y_COORDo_slice(window)]
 	if not operation:
 		focus_np_array[mask==1] = value
 		return
@@ -891,7 +890,7 @@ def arrays_to_dict_array(key1, values1, key2, values2):
 	return array
 
 
-def window_text_dicts_to_font_size(text, letter_windows, standard_font):
+def Y_COORDext_dicts_to_font_size(text, letter_windows, standard_font):
 	h_font_sizes = []
 	for letter, letter_window in zip(text, letter_windows):
 		_left, _top, _w, h = letter_window
@@ -907,7 +906,7 @@ def window_text_dicts_to_font_size(text, letter_windows, standard_font):
 
 
 # floodFill
-def window_to_floodFill_mask(window):
+def Y_COORDo_floodFill_mask(window):
 	left, top, w, h = window
 	floodFill_mask = np.zeros((h+2, w+2), np.uint8)
 	return floodFill_mask
@@ -940,12 +939,19 @@ def image_to_string(img, lang='vie'):
 		config = ("-l eng --oem 1 --psm 7")
 		text = pytesseract.image_to_string(img, config=config)
 	elif lang == 'vie':
-		config = ("-l vie --oem 3 --psm 6")
+		# config = ("-l vie --oem 3 --psm 6")
+		config = ("-l vie --oem 3 --psm 7")
 		text = pytesseract.image_to_string(img, config=config)	
 	else:
 		print('Language is not accepted!')
 		exit()
 	return text
+
+
+# important function
+def copy(ob):
+	import copy
+	return copy.deepcopy(ob)
 
 # 
 def check_meaningful_letters(letters):
@@ -976,4 +982,17 @@ def calculate_angle_vector_and_vertical_vector(vector):
 	if angle == 2*math.pi:
 		angle = 0
 	return angle
+
+
+
+def string_to_int(number):
+    return int(number)
+
+
+def text_to_window(f):
+	return tuple(map(utils.string_to_int, f.readlines()[0].split(',')))
+
+
+def Y_COORDo_text(window):
+	 return ', '.join(map(str, window))
 
