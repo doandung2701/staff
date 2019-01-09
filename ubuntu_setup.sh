@@ -1,5 +1,6 @@
 sudo apt update
 sudo apt upgrade
+sudo apt install curl
 sudo apt-get install terminator
 sudo apt install virtualenv
 sudo apt install net-tools
