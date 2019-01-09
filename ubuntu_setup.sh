@@ -9,8 +9,10 @@ sudo apt install python3-pip
 sudo apt install simplescreenrecorder
 
 
+sudo apt-get install python3-tk
 sudo apt-get install tesseract-ocr
 sudo apt-get install tesseract-ocr-vie
+sudo apt-get install scrot
 
 
 sudo apt-get install ibus-unikey
