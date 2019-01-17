@@ -11,7 +11,6 @@ sudo apt-get install openssh-server
 sudo apt-get install git-core
 sudo apt install python3-pip
 sudo apt-get install python3-dev
-sudo apt-get install twine
 sudo apt install simplescreenrecorder
 
 
