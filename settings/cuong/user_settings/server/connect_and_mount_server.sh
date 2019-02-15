@@ -7,7 +7,7 @@ then
     server='10.198.54.231'
 fi
 url=$username'@'$server
-local_folder=$username'GPU'
+local_folder=$username$server
 
 sudo umount /home/cuong/Desktop/$local_folder
 mkdir /home/cuong/Desktop/$local_folder
