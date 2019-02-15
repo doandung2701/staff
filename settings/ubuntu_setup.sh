@@ -6,6 +6,7 @@ sudo apt install gcc
 sudo apt install g++
 sudo apt-get install terminator
 sudo apt install virtualenv
+sudo apt-get install sshfs
 sudo apt install net-tools
 sudo apt-get install openssh-server
 sudo apt-get install git-core
