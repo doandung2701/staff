@@ -2,11 +2,17 @@ alias gp3='source ~/mypython/computer_vision/p3env/bin/activate'
 alias gp2='source ~/mypython/computer_vision/p2env/bin/activate'
 alias C231M='~/user_settings/server/connect_and_mount_server.sh'
 alias C231='~/user_settings/server/connect_server.sh'
+alias C240M='server=10.198.54.240 ~/user_settings/server/connect_and_mount_server.sh'
+alias C240='server=10.198.54.240 ~/user_settings/server/connect_server.sh'
 alias T231M='username=thaonp2 ~/user_settings/server/connect_and_mount_server.sh'
+<<<<<<< HEAD
 alias T231M='username=thaonp2 ~/user_settings/server/connect_server.sh'
 alias z_install='~/user_settings/speech/setup.sh'
 alias z='
 cd ~/user_settings/speech/mydeepspeech; ./record_and_to_text.sh'
+=======
+alias T231='username=thaonp2 ~/user_settings/server/connect_server.sh'
+>>>>>>> 6246c7adbad37dad566fc94fb97edb1bd39ad0e4
 export GPU0='10.198.54.240'
 export GPU1='10.198.54.231'
 export github='http://github.com/cuongvomanh'

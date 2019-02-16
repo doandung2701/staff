@@ -2,5 +2,10 @@ if [$username == ''];
 then
     username='cuongvm'
 fi
-server=$username'@10.198.54.231'
-ssh $server
+if [$server == ''];
+then
+    server='10.198.54.231'
+fi
+url=$username'@'$server
+echo $url
+ssh $url
