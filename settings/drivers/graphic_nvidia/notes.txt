@@ -1,0 +1,42 @@
+Following the guide: http://abhay.harpale.net/blog/linux/nvidia-gtx-1080-installation-on-ubuntu-16-04-lts/, But you shouldn't  use the driver given in the guide (version 367.35).
+Download latest driver from offical page: https://www.geforce.com/drivers
+The current version is 396.18, https://www.geforce.com/drivers/results/132530
+
+In very last steps, instead of runing ./NVIDIA-Linux-x86_64-367.35.run, we have configure appropriate gcc version (the required verions will be mentioned during installization). For example with the aforementioned driver: CC=gcc-5 ./NVIDIA-Linux-x86_64-396.18.run
+
+=====================
+For high performance computing:
+Install cuda and cuDNN from run files, if asked during installization, you shouldn't upgrade nvidia driver which will break cuda and probably being mismatch with tensorflow requirements
+sudo sh cuda_9.0.176_384.81_linux.run
+DO NOT install driver while installing cuda.
+
+remember to set environemnt variables in /etc/profile:
+export PATH=$PATH:/usr/local/cuda-9.0/bin${PATH:+:${PATH}}
+export LD_LIBRARY_PATH=/usr/local/cuda-9.0/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+
+
+For cuDNN:
+# Unzip the archive
+tar -xzvf cudnn-9.0-linux-x64-v7.tgz
+# Copy files
+sudo cp cuda/include/cudnn.h /usr/local/cuda-9.0/include
+sudo cp cuda/lib64/libcudnn* /usr/local/cuda-9.0/lib64
+sudo chmod a+r /usr/local/cuda-9.0/include/cudnn.h
+sudo chmod a+r /usr/local/cuda-9.0/lib64/libcudnn*
+
+The cudnn dev is not required
+======================General notes
+The version of drivers, cuda and so on are not our choice, with pre-built packages, tensorflow requires specific version, and we have to instal those ones, otherwises we might have to build and install from source
+
+======================testing
+After finishing, run python test_gpu.py to see whether computation was done on GPU
+
+==================================================NEW MACHINE============#
+==================================================NEW MACHINE============#
+For install nvidia driver, follow this to get a tone of required things kernel-source, libc etc.
+https://askubuntu.com/questions/61396/how-do-i-install-the-nvidia-drivers
+
+Follow this for cuda, check part cuda only:
+https://askubuntu.com/questions/967332/how-can-i-install-cuda-9-on-ubuntu-17-10
+
+Install cuda and cudnn following instruction above
