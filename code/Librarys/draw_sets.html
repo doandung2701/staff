@@ -1,0 +1,38 @@
+<html>
+  <head>
+      <script src="https://cdn.anychart.com/releases/v8/js/anychart-core.min.js"></script>
+      <script src="https://cdn.anychart.com/releases/v8/js/anychart-venn.min.js"></script>
+  </head>
+
+  <body>
+    <div id="container" style="width: 500px; height: 400px;">
+
+    </div>
+  </body>
+
+  <script>
+    anychart.onDocumentLoad(function () {
+    
+    // create data
+    var data = [
+        {x: "A", value: 500},
+        {x: "B", value: 100},
+        {x: "C", value: 100},
+        {x: "A&B", value: 20},
+        {x: "A&C", value: 20},
+        {x: "B&C", value: 20},
+        {x: "A&B&C", value: 20}
+    ];
+
+    // create a chart and set the data
+    chart = anychart.venn(data);
+
+    // set chart title
+    chart.title("Top 5 pancake fillings");
+    // set the container element 
+    chart.container("container");
+    // initiate chart display
+    chart.draw();
+  });
+  </script>
+</html>
