@@ -1,0 +1,57 @@
+<html>
+  <head>
+      <script src="https://cdn.anychart.com/releases/v8/js/anychart-core.min.js"></script>
+      <script src="https://cdn.anychart.com/releases/v8/js/anychart-venn.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <div id="container" style="width: 500px; height: 400px;">
+
+    </div>
+  </body>
+
+  <script>
+    anychart.onDocumentLoad(function () {
+    
+    // create data
+    console.log("Cuong");
+    $.getJSON( "data.json", function( raw_json ) {
+      console.log( "JSON Data: " + raw_json );
+      var obj = JSON.parse(raw_json);
+      console.log("Hello " + obj.folder1);
+
+      var data = []
+      for (key in obj){
+        console.log(key + ': ' + obj[key]);
+        data.push({x:key, value:obj[key]});
+      }
+      console.log(data);
+      // var data = [
+      //     {x: "A", value: 500},
+      //     {x: "B", value: 100},
+      //     {x: "C", value: 100},
+      //     {x: "D", value: 100},
+      //     {x: "A&B", value: 20},
+      //     {x: "A&C", value: 20},
+      //     {x: "B&C", value: 20},
+      //     {x: "A&B&C", value: 0},
+      //     {x: "A&D", value: 10},
+      //     {x: "D&C", value: 10},
+      //     {x: "A&C&D", value: 10}
+      // ];
+
+      //create a chart and set the data
+      chart = anychart.venn(data);
+
+      // set chart title
+      chart.title("Top 5 pancake fillings");
+      // set the container element 
+      chart.container("container");
+      // initiate chart display
+      chart.draw();
+    });
+    
+  });
+  </script>
+</html>
