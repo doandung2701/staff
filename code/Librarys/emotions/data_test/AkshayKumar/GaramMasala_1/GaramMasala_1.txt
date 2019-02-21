@@ -1,0 +1,4 @@
+
+GaramMasala_PareshRaval_AkshayKumar	058.jpg	AkshayKumar_1.jpg	231	130	46	59	GaramMasala	2005	AkshayKumar	MALE	NEUTRAL	NONE	MEDIUM	MIDDLE	LEFT	PARTIAL
+GaramMasala_PareshRaval_AkshayKumar	230.jpg	AkshayKumar_2.jpg	220	129	99	131	GaramMasala	2005	AkshayKumar	MALE	NEUTRAL	GLASSES	MEDIUM	MIDDLE	FRONTAL	PARTIAL
+GaramMasala_PareshRaval_AkshayKumar	254.jpg	AkshayKumar_3.jpg	174	116	105	131	GaramMasala	2005	AkshayKumar	MALE	NEUTRAL	NONE	MEDIUM	MIDDLE	RIGHT	PARTIAL
