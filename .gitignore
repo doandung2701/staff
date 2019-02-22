@@ -1,3 +1,6 @@
 settings/cuong/user_settings/speech/mydeepspeech
 code/Librarys/compare/node_modules
 *.pyc
+code/Librarys/compare/data.json
+code/Librarys/emotions/folder
+code/Librarys/emotions/outdir
