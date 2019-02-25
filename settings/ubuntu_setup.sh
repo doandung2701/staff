@@ -13,6 +13,7 @@ sudo apt-get install git-core
 sudo apt install python3-pip
 python3 -m pip install --user --upgrade twine
 sudo apt-get install python3-dev
+sudo apt install 2to3
 sudo apt install simplescreenrecorder
 
 
