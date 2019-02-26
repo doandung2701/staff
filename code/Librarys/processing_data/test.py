@@ -1,12 +1,10 @@
 import os
 def main(folder):
-    for root, subFolder, files in os.walk(folder):
+    for root, subFolders, files in os.walk(os.path.expanduser(folder)):
         print('#Root:',root)
-        print('#subFolder:',subFolder)
-        # print('#files:',files)
         for item in files:
             if item.endswith(".jpg") :
-                fileNamePath = str(os.path.join(root,subFolder,item))
+                fileNamePath = str(os.path.join(root,item))
                 print(fileNamePath)
 
 
