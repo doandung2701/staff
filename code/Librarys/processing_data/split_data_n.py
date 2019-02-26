@@ -71,5 +71,6 @@ if __name__=='__main__':
 	ap = argparse.ArgumentParser()
 	ap.add_argument("--indir", help="indir")
 	ap.add_argument("--outdir", help="outdir")
+	ap.add_argument("--n_fold", help="n_fold")
 	args= vars(ap.parse_args())
-	split_data(args["indir"], args["outdir"])
+	split_data(args["indir"], args["outdir"], args["n_fold"])
