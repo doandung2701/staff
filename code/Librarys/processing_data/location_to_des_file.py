@@ -31,14 +31,16 @@ def location_to_des(indir, outdir):
 					print('line=', line)
 					colums = line.split(' ')
 					print('colums: ', colums)
-					if len(colums) > 5:
+					if len(colums) == 6:
 						if colums[0] in img_file_names:
 							img_file_path = os.path.join(root, colums[0])
 							img = cv2.imread(img_file_path)
 							H, W, _ = img.shape
-							print('colums[1:] = ', colums[1:])
+							print('colums[1:] = ', colums[1:6])
 							l, t, w, h = map(sl.string_to_int,colums[2:])
-							location_of_file_name[colums[0]] = [l/W, t/H, (l+w)/W, t/H, (l+w)/W, (t+h)/H, l/W, (t+h)/H]
+							# location_of_file_name[colums[0]] = [4, l/W, t/H, (l+w)/W, t/H, (l+w)/W, (t+h)/H, l/W, (t+h)/H]
+							location_of_file_name[colums[0]] = [4, l/W, t/H, (l+w)/W, t/H, (l+w)/W, (t+h)/H, , (t+h)/H]
+					
 		new_root = os.path.join(outdir, root_part_path)
 		try:
 			os.mkdir(new_root)
@@ -49,10 +51,12 @@ def location_to_des(indir, outdir):
 			core_file_name = os.path.splitext(img_file_name)[0]
 			print('core_file_name: ', core_file_name)
 			with open(os.path.join(new_root, core_file_name + '.txt'), 'w+') as f:
-				print('location_of_file_name[img_file_name] = ', location_of_file_name[img_file_name])
-				location_strg = ','.join([img_file_name] + [str(e)[:8] for e in location_of_file_name[img_file_name]]) + ',,'
-				print('location_strg: ', location_strg)
-				f.write(location_strg)
+				try:
+					print('location_of_file_name[img_file_name] = ', location_of_file_name[img_file_name])
+					location_strg = ','.join([str(e)[:8] for e in location_of_file_name[img_file_name]]) + ',,'
+					print('location_strg: ', location_strg)
+					f.write(location_strg)
+				except: pass
 		
 
 
