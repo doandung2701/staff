@@ -38,8 +38,7 @@ def location_to_des(indir, outdir):
 							H, W, _ = img.shape
 							print('colums[1:] = ', colums[1:6])
 							l, t, w, h = map(sl.string_to_int,colums[2:])
-							# location_of_file_name[colums[0]] = [4, l/W, t/H, (l+w)/W, t/H, (l+w)/W, (t+h)/H, l/W, (t+h)/H]
-							location_of_file_name[colums[0]] = [4, l/W, t/H, (l+w)/W, t/H, (l+w)/W, (t+h)/H, , (t+h)/H]
+							location_of_file_name[colums[0]] = [4, l/W, (l+w)/W, (l+w)/W, l/W, t/H, t/H, (t+h)/H, (t+h)/H]
 					
 		new_root = os.path.join(outdir, root_part_path)
 		try:
