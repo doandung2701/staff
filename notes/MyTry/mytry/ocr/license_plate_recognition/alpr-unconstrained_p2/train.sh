@@ -1,0 +1,1 @@
+python train-detector.py --model models/eccv-model-scracth --name 20192702-1822 --train-dir data/datasets/n_splited_and_convert_packing_data/fold_0_split/fold_0/car_long/  --output-dir models/20192702-1822 -op Adam -lr .001 -its 100000 -bs 32
