@@ -94,3 +94,5 @@ if __name__=='__main__':
     cv2.waitKey(0)
 
 #python transform_example.py --image images/example_01.png --coords "[(73, 239), (356, 117), (475, 265), (187, 443)]"
+#python affine_transform.py --image getperspective_transform_01.jpg --coords "[(73, 239), (356, 117), (475, 265), (187, 443)]"
+
