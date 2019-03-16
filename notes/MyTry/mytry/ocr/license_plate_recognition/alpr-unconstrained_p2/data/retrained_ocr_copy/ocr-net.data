@@ -1,0 +1,5 @@
+classes=33
+train=data/retrained_ocr_copy/train.txt 
+valid=data/retrained_ocr_copy/test.txt
+names=data/retrained_ocr_copy/ocr-net.names
+backup=data/retrained_ocr_copy/20191203-1009

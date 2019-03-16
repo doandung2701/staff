@@ -1,6 +1,6 @@
 from __future__ import division
 import os, glob, cv2, random
-def edit_des_file(indir, preddir):
+def main(indir, preddir):
 	print("##Evaluate function")
 	indir = os.path.expanduser(indir)
 	preddir = os.path.expanduser(preddir)
@@ -40,6 +40,7 @@ def edit_des_file(indir, preddir):
 				print(lines)
 				# actual_strgs = []
 				for line in lines:
+					line = line.replace("-", "")
 					print('line=', line)
 					colums = line.split(',')
 					raw_strg = colums[9]
@@ -47,11 +48,12 @@ def edit_des_file(indir, preddir):
 					# actual_strgs.append(actual_strg)
 					if actual_strg in pred_strgs_of_img[des_bfile_name]:
 						correct_count += 1
-						print(actual_strg + ' in ' + str(pred_strgs_of_img[des_bfile_name]))
+						print('True ' + des_bfile_name + ': ' + actual_strg + ' in ' + str(pred_strgs_of_img[des_bfile_name]))
 					else:
-						false_reports.append(actual_strg + ' not in ' + str(pred_strgs_of_img[des_bfile_name]))
+						false_reports.append('False ' + des_bfile_name + ': ' + actual_strg + ' not in ' + str(pred_strgs_of_img[des_bfile_name]))
 					n_lp += 1
 		acc = correct_count/n_lp
+		print('correct_count/n_lp = ' + str(correct_count) + '/' + str(n_lp))
 		print('acc = ', acc)
 		print('false_report: ')
 		for false_report in false_reports:
@@ -65,4 +67,4 @@ if __name__=='__main__':
 	ap.add_argument("--indir", help="indir")
 	ap.add_argument("--preddir", help="preddir")
 	args= vars(ap.parse_args())
-	edit_des_file(args["indir"], args["preddir"])
+	main(args["indir"], args["preddir"])

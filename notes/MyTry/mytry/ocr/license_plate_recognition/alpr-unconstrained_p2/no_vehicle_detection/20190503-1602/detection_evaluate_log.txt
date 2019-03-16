@@ -1,0 +1,810 @@
+##Evaluate function
+('#Root:', 'data/datasets/n_splited_and_convert_parking_data/fold_0_split/fold_1/car_long/')
+('#file_names: ', ['4170.jpg', '3979.jpg', '33221.jpg', '6942.jpg', '38398.txt', '40549.jpg', '32932.jpg', '21745.txt', '3820.jpg', '32900.txt', '7342.txt', '21162.txt', '23119.txt', '24696.txt', '9257.jpg', '24696.jpg', '24954.jpg', '26066.txt', '25577.jpg', '17309.jpg', '36708.txt', '38306.txt', '6814.jpg', '12277.jpg', '4046.jpg', '41004.jpg', '34765.jpg', '17309.txt', '38306.jpg', '32900.jpg', '35089.jpg', '40962.jpg', '3816.jpg', '7638.jpg', '261.jpg', '9257.txt', '38398.jpg', '41081.txt', '36880.txt', '36414.jpg', '32932.txt', '12277.txt', '33221.txt', '24954.txt', '11477.jpg', '41004.txt', '21491.jpg', '261.txt', '40549.txt', '40962.txt', '1357.jpg', '28176.txt', '7002.txt', '21491.txt', '4046.txt', '7680.jpg', '151.jpg', '7002.jpg', '25577.txt', '3820.txt', '14004.txt', '151.txt', '5554.txt', '1357.txt', '17365.txt', '28976.txt', '7342.jpg', '21162.jpg', '14117.txt', '17365.jpg', '26066.jpg', '9447.jpg', '36880.jpg', '5554.jpg', '3979.txt', '35089.txt', '14004.jpg', '28382.txt', '23119.jpg', '34446.txt', '6814.txt', '6942.txt', '21745.jpg', '28382.jpg', '4170.txt', '36414.txt', '34765.txt', '14117.jpg', '5722.txt', '28176.jpg', '7680.txt', '28976.jpg', '3816.txt', '5722.jpg', '7638.txt', '11477.txt', '9447.txt', '36708.jpg', '41081.jpg', '34446.jpg'])
+('#root_part_path: ', '.')
+['4170.jpg', '3979.jpg', '33221.jpg', '6942.jpg', '38398.txt', '40549.jpg', '32932.jpg', '21745.txt', '3820.jpg', '32900.txt', '7342.txt', '21162.txt', '23119.txt', '24696.txt', '9257.jpg', '24696.jpg', '24954.jpg', '26066.txt', '25577.jpg', '17309.jpg', '36708.txt', '38306.txt', '6814.jpg', '12277.jpg', '4046.jpg', '41004.jpg', '34765.jpg', '17309.txt', '38306.jpg', '32900.jpg', '35089.jpg', '40962.jpg', '3816.jpg', '7638.jpg', '261.jpg', '9257.txt', '38398.jpg', '41081.txt', '36880.txt', '36414.jpg', '32932.txt', '12277.txt', '33221.txt', '24954.txt', '11477.jpg', '41004.txt', '21491.jpg', '261.txt', '40549.txt', '40962.txt', '1357.jpg', '28176.txt', '7002.txt', '21491.txt', '4046.txt', '7680.jpg', '151.jpg', '7002.jpg', '25577.txt', '3820.txt', '14004.txt', '151.txt', '5554.txt', '1357.txt', '17365.txt', '28976.txt', '7342.jpg', '21162.jpg', '14117.txt', '17365.jpg', '26066.jpg', '9447.jpg', '36880.jpg', '5554.jpg', '3979.txt', '35089.txt', '14004.jpg', '28382.txt', '23119.jpg', '34446.txt', '6814.txt', '6942.txt', '21745.jpg', '28382.jpg', '4170.txt', '36414.txt', '34765.txt', '14117.jpg', '5722.txt', '28176.jpg', '7680.txt', '28976.jpg', '3816.txt', '5722.jpg', '7638.txt', '11477.txt', '9447.txt', '36708.jpg', '41081.jpg', '34446.jpg']
+('ndes_file_names', 50)
+('bfile_name: ', '38398')
+['4,0.357143,0.572857,0.575714,0.361429,0.464394,0.439915,0.508901,0.533380,51G42861.LP1,\n']
+('line=', '4,0.357143,0.572857,0.575714,0.361429,0.464394,0.439915,0.508901,0.533380,51G42861.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./38398*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./38398_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.357143, 0.464394), (0.572857, 0.439915), (0.575714, 0.508901), (0.361429, 0.53338)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.358259, 0.461848), (0.575386, 0.434073), (0.576814, 0.510078), (0.359686, 0.537853)]])
+('np_pre_location, np_des_location = ', array([[358, 461],
+       [575, 434],
+       [576, 510],
+       [359, 537]]), array([[357, 464],
+       [572, 439],
+       [575, 508],
+       [361, 533]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9413126942531538)
+('bfile_name: ', '21745')
+['4,0.641429,0.795714,0.795714,0.642857,0.778171,0.764818,0.818227,0.831579,51G00672.LP1,\n']
+('line=', '4,0.641429,0.795714,0.795714,0.642857,0.778171,0.764818,0.818227,0.831579,51G00672.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./21745*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./21745_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.641429, 0.778171), (0.795714, 0.764818), (0.795714, 0.818227), (0.642857, 0.831579)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.642254, 0.780314), (0.796818, 0.769943), (0.795477, 0.823089), (0.640912, 0.833461)]])
+('np_pre_location, np_des_location = ', array([[642, 780],
+       [796, 769],
+       [795, 823],
+       [640, 833]]), array([[641, 778],
+       [795, 764],
+       [795, 818],
+       [642, 831]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.930884540565282)
+('bfile_name: ', '32900')
+['4,0.514286,0.715714,0.718571,0.520000,0.698058,0.678029,0.742565,0.762593,51A69172.LP1,\n']
+('line=', '4,0.514286,0.715714,0.718571,0.520000,0.698058,0.678029,0.742565,0.762593,51A69172.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./32900*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./32900_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.514286, 0.698058), (0.715714, 0.678029), (0.718571, 0.742565), (0.52, 0.762593)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.521979, 0.700029), (0.716593, 0.675495), (0.715828, 0.744574), (0.521213, 0.769107)]])
+('np_pre_location, np_des_location = ', array([[521, 700],
+       [716, 675],
+       [715, 744],
+       [521, 769]]), array([[514, 698],
+       [715, 678],
+       [718, 742],
+       [520, 762]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9514364882601721)
+('bfile_name: ', '7342')
+['4,0.364286,0.570000,0.570000,0.370000,0.337548,0.295266,0.364253,0.399859,51F13251.LP1,\n']
+('line=', '4,0.364286,0.570000,0.570000,0.370000,0.337548,0.295266,0.364253,0.399859,51F13251.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./7342*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./7342_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.364286, 0.337548), (0.57, 0.295266), (0.57, 0.364253), (0.37, 0.399859)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.365264, 0.327203), (0.571258, 0.293046), (0.571986, 0.363868), (0.365993, 0.398025)]])
+('np_pre_location, np_des_location = ', array([[365, 327],
+       [571, 293],
+       [571, 363],
+       [365, 398]]), array([[364, 337],
+       [570, 295],
+       [570, 364],
+       [370, 399]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9571381901339432)
+('bfile_name: ', '21162')
+['4,0.325714,0.548571,0.551429,0.332857,0.515578,0.479972,0.548958,0.584564,51A72110.LP1,\n']
+('line=', '4,0.325714,0.548571,0.551429,0.332857,0.515578,0.479972,0.548958,0.584564,51A72110.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./21162*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./21162_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.325714, 0.515578), (0.548571, 0.479972), (0.551429, 0.548958), (0.332857, 0.584564)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.330465, 0.516211), (0.547593, 0.481327), (0.548189, 0.549272), (0.331061, 0.584155)]])
+('np_pre_location, np_des_location = ', array([[330, 516],
+       [547, 481],
+       [548, 549],
+       [331, 584]]), array([[325, 515],
+       [548, 479],
+       [551, 548],
+       [332, 584]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9796504369538077)
+('bfile_name: ', '23119')
+['4,0.528571,0.690000,0.688571,0.528571,0.862735,0.842706,0.896115,0.916143,51G51292.LP1,\n']
+('line=', '4,0.528571,0.690000,0.688571,0.528571,0.862735,0.842706,0.896115,0.916143,51G51292.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./23119*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./23119_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.528571, 0.862735), (0.69, 0.842706), (0.688571, 0.896115), (0.528571, 0.916143)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.528995, 0.864832), (0.68721, 0.84625), (0.686277, 0.894372), (0.528062, 0.912953)]])
+('np_pre_location, np_des_location = ', array([[528, 864],
+       [687, 846],
+       [686, 894],
+       [528, 912]]), array([[528, 862],
+       [690, 842],
+       [688, 896],
+       [528, 916]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9286285257508279)
+('bfile_name: ', '24696')
+['4,0.480000,0.664286,0.665714,0.484286,0.526704,0.502225,0.575662,0.597916,51F61712.LP1,\n']
+('line=', '4,0.480000,0.664286,0.665714,0.484286,0.526704,0.502225,0.575662,0.597916,51F61712.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./24696*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./24696_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.48, 0.526704), (0.664286, 0.502225), (0.665714, 0.575662), (0.484286, 0.597916)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.48334, 0.527158), (0.662989, 0.510443), (0.662411, 0.576483), (0.482762, 0.593198)]])
+('np_pre_location, np_des_location = ', array([[483, 527],
+       [662, 510],
+       [662, 576],
+       [482, 593]]), array([[480, 526],
+       [664, 502],
+       [665, 575],
+       [484, 597]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9413623199307932)
+('bfile_name: ', '26066')
+['4,0.465714,0.684286,0.687143,0.470000,0.773720,0.740339,0.813777,0.849382,51G31691.LP1,\n']
+('line=', '4,0.465714,0.684286,0.687143,0.470000,0.773720,0.740339,0.813777,0.849382,51G31691.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./26066*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./26066_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.465714, 0.77372), (0.684286, 0.740339), (0.687143, 0.813777), (0.47, 0.849382)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.467921, 0.773514), (0.685628, 0.741167), (0.685906, 0.815825), (0.4682, 0.848171)]])
+('np_pre_location, np_des_location = ', array([[467, 773],
+       [685, 741],
+       [685, 815],
+       [468, 848]]), array([[465, 773],
+       [684, 740],
+       [687, 813],
+       [470, 849]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9804602939500968)
+('bfile_name: ', '36708')
+['4,0.421429,0.642857,0.642857,0.422857,0.475521,0.437690,0.504451,0.548958,51F07973.LP1,\n']
+('line=', '4,0.421429,0.642857,0.642857,0.422857,0.475521,0.437690,0.504451,0.548958,51F07973.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./36708*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./36708_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.421429, 0.475521), (0.642857, 0.43769), (0.642857, 0.504451), (0.422857, 0.548958)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.420175, 0.473926), (0.642872, 0.435547), (0.645611, 0.512352), (0.422914, 0.550731)]])
+('np_pre_location, np_des_location = ', array([[420, 473],
+       [642, 435],
+       [645, 512],
+       [422, 550]]), array([[421, 475],
+       [642, 437],
+       [642, 504],
+       [422, 548]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9765263482626132)
+('bfile_name: ', '38306')
+['4,0.254286,0.451429,0.454286,0.258571,0.183998,0.168421,0.230731,0.250759,51C03183.LP1,\n']
+('line=', '4,0.254286,0.451429,0.454286,0.258571,0.183998,0.168421,0.230731,0.250759,51C03183.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./38306*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./38306_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.254286, 0.183998), (0.451429, 0.168421), (0.454286, 0.230731), (0.258571, 0.250759)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.255803, 0.184724), (0.451769, 0.161963), (0.455793, 0.231646), (0.259827, 0.254407)]])
+('np_pre_location, np_des_location = ', array([[255, 184],
+       [451, 161],
+       [455, 231],
+       [259, 254]]), array([[254, 183],
+       [451, 168],
+       [454, 230],
+       [258, 250]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9565777237284498)
+('bfile_name: ', '17309')
+['4,0.471429,0.657143,0.657143,0.474286,0.546733,0.540057,0.604592,0.617944,56S4698.LP1,\n']
+('line=', '4,0.471429,0.657143,0.657143,0.474286,0.546733,0.540057,0.604592,0.617944,56S4698.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./17309*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./17309_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.471429, 0.546733), (0.657143, 0.540057), (0.657143, 0.604592), (0.474286, 0.617944)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.476704, 0.543879), (0.66039, 0.543644), (0.660756, 0.612841), (0.47707, 0.613075)]])
+('np_pre_location, np_des_location = ', array([[476, 543],
+       [660, 543],
+       [660, 612],
+       [477, 613]]), array([[471, 546],
+       [657, 540],
+       [657, 604],
+       [474, 617]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9562728334149373)
+('bfile_name: ', '9257')
+['4,0.461429,0.661429,0.660000,0.464286,0.764818,0.755917,0.818227,0.833805,51F59011.LP1,\n']
+('line=', '4,0.461429,0.661429,0.660000,0.464286,0.764818,0.755917,0.818227,0.833805,51F59011.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./9257*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./9257_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.461429, 0.764818), (0.661429, 0.755917), (0.66, 0.818227), (0.464286, 0.833805)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.462233, 0.765844), (0.664172, 0.752678), (0.664129, 0.823369), (0.462191, 0.836535)]])
+('np_pre_location, np_des_location = ', array([[462, 765],
+       [664, 752],
+       [664, 823],
+       [462, 836]]), array([[461, 764],
+       [661, 755],
+       [660, 818],
+       [464, 833]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9682337115855552)
+('bfile_name: ', '41081')
+['4,0.515714,0.711429,0.711429,0.515714,0.742565,0.720311,0.789298,0.811551,51G51332.LP1,\n']
+('line=', '4,0.515714,0.711429,0.711429,0.515714,0.742565,0.720311,0.789298,0.811551,51G51332.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./41081*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./41081_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.515714, 0.742565), (0.711429, 0.720311), (0.711429, 0.789298), (0.515714, 0.811551)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.519968, 0.746123), (0.711515, 0.726039), (0.708754, 0.790737), (0.517206, 0.810821)]])
+('np_pre_location, np_des_location = ', array([[519, 746],
+       [711, 726],
+       [708, 790],
+       [517, 810]]), array([[515, 742],
+       [711, 720],
+       [711, 789],
+       [515, 811]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.946423378889212)
+('bfile_name: ', '36880')
+['4,0.375714,0.590000,0.591429,0.380000,0.426563,0.395408,0.459943,0.491099,51F63034.LP1,\n']
+('line=', '4,0.375714,0.590000,0.591429,0.380000,0.426563,0.395408,0.459943,0.491099,51F63034.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./36880*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./36880_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.375714, 0.426563), (0.59, 0.395408), (0.591429, 0.459943), (0.38, 0.491099)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.376596, 0.429736), (0.588188, 0.397759), (0.590572, 0.460823), (0.37898, 0.492799)]])
+('np_pre_location, np_des_location = ', array([[376, 429],
+       [588, 397],
+       [590, 460],
+       [378, 492]]), array([[375, 426],
+       [590, 395],
+       [591, 459],
+       [380, 491]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9594618025453411)
+('bfile_name: ', '32932')
+['4,0.565714,0.761429,0.761429,0.565714,0.646874,0.609043,0.682480,0.715860,61A22959.LP1,\n']
+('line=', '4,0.565714,0.761429,0.761429,0.565714,0.646874,0.609043,0.682480,0.715860,61A22959.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./32932*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./32932_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.565714, 0.646874), (0.761429, 0.609043), (0.761429, 0.68248), (0.565714, 0.71586)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.568605, 0.643695), (0.76237, 0.607307), (0.761173, 0.681792), (0.567408, 0.71818)]])
+('np_pre_location, np_des_location = ', array([[568, 643],
+       [762, 607],
+       [761, 681],
+       [567, 718]]), array([[565, 646],
+       [761, 609],
+       [761, 682],
+       [565, 715]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9744739454889024)
+('bfile_name: ', '12277')
+['4,0.478571,0.581429,0.582857,0.477143,0.658001,0.653550,0.722537,0.726987,0209.LP1.O,\n']
+('line=', '4,0.478571,0.581429,0.582857,0.477143,0.658001,0.653550,0.722537,0.726987,0209.LP1.O,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./12277*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./12277_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.478571, 0.658001), (0.581429, 0.65355), (0.582857, 0.722537), (0.477143, 0.726987)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.475824, 0.652958), (0.58459, 0.652966), (0.584807, 0.725745), (0.476041, 0.725737)]])
+('np_pre_location, np_des_location = ', array([[475, 652],
+       [584, 652],
+       [584, 725],
+       [476, 725]]), array([[478, 658],
+       [581, 653],
+       [582, 722],
+       [477, 726]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9532095901005414)
+('bfile_name: ', '33221')
+['4,0.438571,0.621429,0.620000,0.440000,0.553409,0.551183,0.606818,0.617944,51F15585.LP1,\n']
+('line=', '4,0.438571,0.621429,0.620000,0.440000,0.553409,0.551183,0.606818,0.617944,51F15585.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./33221*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./33221_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.438571, 0.553409), (0.621429, 0.551183), (0.62, 0.606818), (0.44, 0.617944)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.438608, 0.550556), (0.621403, 0.547643), (0.621188, 0.613696), (0.438392, 0.616609)]])
+('np_pre_location, np_des_location = ', array([[438, 550],
+       [621, 547],
+       [621, 613],
+       [438, 616]]), array([[438, 553],
+       [621, 551],
+       [620, 606],
+       [440, 617]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9781461322777503)
+('bfile_name: ', '24954')
+['4,0.560000,0.755714,0.754286,0.562857,0.682480,0.644649,0.706959,0.749241,51A89714.LP1,\n']
+('line=', '4,0.560000,0.755714,0.754286,0.562857,0.682480,0.644649,0.706959,0.749241,51A89714.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./24954*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./24954_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.56, 0.68248), (0.755714, 0.644649), (0.754286, 0.706959), (0.562857, 0.749241)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.56, 0.679689), (0.754246, 0.645525), (0.753602, 0.714901), (0.559356, 0.749065)]])
+('np_pre_location, np_des_location = ', array([[560, 679],
+       [754, 645],
+       [753, 714],
+       [559, 749]]), array([[560, 682],
+       [755, 644],
+       [754, 706],
+       [562, 749]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9692130678846623)
+('bfile_name: ', '41004')
+['4,0.444286,0.647143,0.648571,0.448571,0.802650,0.778171,0.838256,0.864960,51F24403.LP1,\n']
+('line=', '4,0.444286,0.647143,0.648571,0.448571,0.802650,0.778171,0.838256,0.864960,51F24403.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./41004*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./41004_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.444286, 0.80265), (0.647143, 0.778171), (0.648571, 0.838256), (0.448571, 0.86496)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.447292, 0.79954), (0.651685, 0.777519), (0.651633, 0.840332), (0.44724, 0.862353)]])
+('np_pre_location, np_des_location = ', array([[447, 799],
+       [651, 777],
+       [651, 840],
+       [447, 862]]), array([[444, 802],
+       [647, 778],
+       [648, 838],
+       [448, 864]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9689640971884242)
+('bfile_name: ', '261')
+['4,0.361429,0.525714,0.524286,0.364286,0.873861,0.860509,0.913918,0.929496,51F07973.LP1,\n']
+('line=', '4,0.361429,0.525714,0.524286,0.364286,0.873861,0.860509,0.913918,0.929496,51F07973.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./261*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./261_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.361429, 0.873861), (0.525714, 0.860509), (0.524286, 0.913918), (0.364286, 0.929496)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.364279, 0.873785), (0.529826, 0.860077), (0.525928, 0.916821), (0.360381, 0.930529)]])
+('np_pre_location, np_des_location = ', array([[364, 873],
+       [529, 860],
+       [525, 916],
+       [360, 930]]), array([[361, 873],
+       [525, 860],
+       [524, 913],
+       [364, 929]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9667689161554193)
+('bfile_name: ', '40549')
+['4,0.444286,0.625714,0.624286,0.444286,0.515578,0.511127,0.568986,0.575662,51F06948.LP1,\n']
+('line=', '4,0.444286,0.625714,0.624286,0.444286,0.515578,0.511127,0.568986,0.575662,51F06948.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./40549*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./40549_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.444286, 0.515578), (0.625714, 0.511127), (0.624286, 0.568986), (0.444286, 0.575662)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.443007, 0.512894), (0.626988, 0.512052), (0.627401, 0.575896), (0.443421, 0.576738)]])
+('np_pre_location, np_des_location = ', array([[443, 512],
+       [626, 512],
+       [627, 575],
+       [443, 576]]), array([[444, 515],
+       [625, 511],
+       [624, 568],
+       [444, 575]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9529100299466169)
+('bfile_name: ', '40962')
+['4,0.488571,0.677143,0.678571,0.490000,0.611268,0.593465,0.653550,0.678029,51F44614.LP1,\n']
+('line=', '4,0.488571,0.677143,0.678571,0.490000,0.611268,0.593465,0.653550,0.678029,51F44614.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./40962*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./40962_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.488571, 0.611268), (0.677143, 0.593465), (0.678571, 0.65355), (0.49, 0.678029)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.488428, 0.610078), (0.681056, 0.585561), (0.680886, 0.652997), (0.488258, 0.677513)]])
+('np_pre_location, np_des_location = ', array([[488, 610],
+       [681, 585],
+       [680, 652],
+       [488, 677]]), array([[488, 611],
+       [677, 593],
+       [678, 653],
+       [490, 678]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9155222329448445)
+('bfile_name: ', '28176')
+['4,0.432857,0.651429,0.652857,0.438571,0.577888,0.548958,0.622395,0.651325,51F22029.LP1,\n']
+('line=', '4,0.432857,0.651429,0.652857,0.438571,0.577888,0.548958,0.622395,0.651325,51F22029.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./28176*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./28176_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.432857, 0.577888), (0.651429, 0.548958), (0.652857, 0.622395), (0.438571, 0.651325)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.434829, 0.573026), (0.651042, 0.544224), (0.654661, 0.625649), (0.438447, 0.65445)]])
+('np_pre_location, np_des_location = ', array([[434, 573],
+       [651, 544],
+       [654, 625],
+       [438, 654]]), array([[432, 577],
+       [651, 548],
+       [652, 622],
+       [438, 651]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9526859968532254)
+('bfile_name: ', '7002')
+['4,0.400000,0.622857,0.624286,0.404286,0.511127,0.468845,0.544507,0.584564,51G51332.LP1,\n']
+('line=', '4,0.400000,0.622857,0.624286,0.404286,0.511127,0.468845,0.544507,0.584564,51G51332.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./7002*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./7002_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.4, 0.511127), (0.622857, 0.468845), (0.624286, 0.544507), (0.404286, 0.584564)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.400268, 0.510803), (0.621898, 0.473172), (0.624805, 0.546989), (0.403174, 0.58462)]])
+('np_pre_location, np_des_location = ', array([[400, 510],
+       [621, 473],
+       [624, 546],
+       [403, 584]]), array([[400, 511],
+       [622, 468],
+       [624, 544],
+       [404, 584]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9570302568014238)
+('bfile_name: ', '21491')
+['4,0.561429,0.727143,0.725714,0.561429,0.893890,0.878312,0.936172,0.947298,51F59011.LP1,\n']
+('line=', '4,0.561429,0.727143,0.725714,0.561429,0.893890,0.878312,0.936172,0.947298,51F59011.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./21491*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./21491_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.561429, 0.89389), (0.727143, 0.878312), (0.725714, 0.936172), (0.561429, 0.947298)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.563777, 0.890853), (0.729893, 0.885446), (0.729417, 0.942991), (0.563301, 0.948398)]])
+('np_pre_location, np_des_location = ', array([[563, 890],
+       [729, 885],
+       [729, 942],
+       [563, 948]]), array([[561, 893],
+       [727, 878],
+       [725, 936],
+       [561, 947]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9238152975649186)
+('bfile_name: ', '4046')
+['4,0.345714,0.542857,0.541429,0.347143,0.682480,0.662452,0.729213,0.751466,51F22261.LP1,\n']
+('line=', '4,0.345714,0.542857,0.541429,0.347143,0.682480,0.662452,0.729213,0.751466,51F22261.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./4046*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./4046_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.345714, 0.68248), (0.542857, 0.662452), (0.541429, 0.729213), (0.347143, 0.751466)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.346235, 0.682436), (0.542605, 0.663308), (0.542628, 0.7297), (0.346258, 0.748828)]])
+('np_pre_location, np_des_location = ', array([[346, 682],
+       [542, 663],
+       [542, 729],
+       [346, 748]]), array([[345, 682],
+       [542, 662],
+       [541, 729],
+       [347, 751]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9756692743845546)
+('bfile_name: ', '25577')
+['4,0.518571,0.708571,0.704286,0.521429,0.617944,0.604592,0.669128,0.682480,51G00672.LP1,\n']
+('line=', '4,0.518571,0.708571,0.704286,0.521429,0.617944,0.604592,0.669128,0.682480,51G00672.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./25577*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./25577_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.518571, 0.617944), (0.708571, 0.604592), (0.704286, 0.669128), (0.521429, 0.68248)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.523558, 0.617242), (0.70891, 0.607455), (0.705236, 0.672833), (0.519885, 0.68262)]])
+('np_pre_location, np_des_location = ', array([[523, 617],
+       [708, 607],
+       [705, 672],
+       [519, 682]]), array([[518, 617],
+       [708, 604],
+       [704, 669],
+       [521, 682]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9717223650385605)
+('bfile_name: ', '3820')
+['4,0.272857,0.478571,0.482857,0.278571,0.604592,0.580113,0.644649,0.673579,51B21666.LP1,\n']
+('line=', '4,0.272857,0.478571,0.482857,0.278571,0.604592,0.580113,0.644649,0.673579,51B21666.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./3820*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./3820_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.272857, 0.604592), (0.478571, 0.580113), (0.482857, 0.644649), (0.278571, 0.673579)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.275047, 0.603146), (0.480328, 0.580296), (0.480724, 0.652332), (0.275443, 0.675183)]])
+('np_pre_location, np_des_location = ', array([[275, 603],
+       [480, 580],
+       [480, 652],
+       [275, 675]]), array([[272, 604],
+       [478, 580],
+       [482, 644],
+       [278, 673]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9706153037075993)
+('bfile_name: ', '14004')
+['4,0.331429,0.550000,0.554286,0.334286,0.444366,0.413211,0.482197,0.517803,51G31691.LP1,\n']
+('line=', '4,0.331429,0.550000,0.554286,0.334286,0.444366,0.413211,0.482197,0.517803,51G31691.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./14004*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./14004_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.331429, 0.444366), (0.55, 0.413211), (0.554286, 0.482197), (0.334286, 0.517803)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.332933, 0.44128), (0.552225, 0.412428), (0.555971, 0.487466), (0.336679, 0.516318)]])
+('np_pre_location, np_des_location = ', array([[332, 441],
+       [552, 412],
+       [555, 487],
+       [336, 516]]), array([[331, 444],
+       [550, 413],
+       [554, 482],
+       [334, 517]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9715542521994135)
+('bfile_name: ', '151')
+['4,0.637143,0.795714,0.797143,0.640000,0.869411,0.851608,0.902791,0.922819,51F59881.LP1,\n']
+('line=', '4,0.637143,0.795714,0.797143,0.640000,0.869411,0.851608,0.902791,0.922819,51F59881.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./151*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./151_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.637143, 0.869411), (0.795714, 0.851608), (0.797143, 0.902791), (0.64, 0.922819)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.642026, 0.869527), (0.797646, 0.852724), (0.795218, 0.905045), (0.639599, 0.921848)]])
+('np_pre_location, np_des_location = ', array([[642, 869],
+       [797, 852],
+       [795, 905],
+       [639, 921]]), array([[637, 869],
+       [795, 851],
+       [797, 902],
+       [640, 922]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9805500425290615)
+('bfile_name: ', '5554')
+['4,0.288571,0.482857,0.484286,0.292857,0.749241,0.724762,0.784847,0.811551,51G37307.LP1,\n']
+('line=', '4,0.288571,0.482857,0.484286,0.292857,0.749241,0.724762,0.784847,0.811551,51G37307.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./5554*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./5554_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.288571, 0.749241), (0.482857, 0.724762), (0.484286, 0.784847), (0.292857, 0.811551)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.28809, 0.746752), (0.483226, 0.72269), (0.485017, 0.788679), (0.289881, 0.812741)]])
+('np_pre_location, np_des_location = ', array([[288, 746],
+       [483, 722],
+       [485, 788],
+       [289, 812]]), array([[288, 749],
+       [482, 724],
+       [484, 784],
+       [292, 811]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9598811292719168)
+('bfile_name: ', '1357')
+['4,0.551429,0.718571,0.717143,0.554286,0.869411,0.860509,0.907242,0.922819,51G49160.LP1,\n']
+('line=', '4,0.551429,0.718571,0.717143,0.554286,0.869411,0.860509,0.907242,0.922819,51G49160.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./1357*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./1357_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.551429, 0.869411), (0.718571, 0.860509), (0.717143, 0.907242), (0.554286, 0.922819)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.552734, 0.870244), (0.717534, 0.85828), (0.716972, 0.914176), (0.552171, 0.92614)]])
+('np_pre_location, np_des_location = ', array([[552, 870],
+       [717, 858],
+       [716, 914],
+       [552, 926]]), array([[551, 869],
+       [718, 860],
+       [717, 907],
+       [554, 922]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9652822151224707)
+('bfile_name: ', '17365')
+['4,0.462857,0.647143,0.645714,0.467143,0.597916,0.586789,0.653550,0.662452,51A69172.LP1,\n']
+('line=', '4,0.462857,0.647143,0.645714,0.467143,0.597916,0.586789,0.653550,0.662452,51A69172.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./17365*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./17365_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.462857, 0.597916), (0.647143, 0.586789), (0.645714, 0.65355), (0.467143, 0.662452)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.465173, 0.600861), (0.647105, 0.589001), (0.645845, 0.654077), (0.463912, 0.665937)]])
+('np_pre_location, np_des_location = ', array([[465, 600],
+       [647, 589],
+       [645, 654],
+       [463, 665]]), array([[462, 597],
+       [647, 586],
+       [645, 653],
+       [467, 662]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.960337552742616)
+('bfile_name: ', '28976')
+['4,0.442857,0.648571,0.650000,0.447143,0.350901,0.315295,0.395408,0.433239,51G51008.LP1,\n']
+('line=', '4,0.442857,0.648571,0.650000,0.447143,0.350901,0.315295,0.395408,0.433239,51G51008.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./28976*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./28976_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.442857, 0.350901), (0.648571, 0.315295), (0.65, 0.395408), (0.447143, 0.433239)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.445297, 0.354347), (0.649105, 0.315814), (0.652102, 0.395082), (0.448294, 0.433615)]])
+('np_pre_location, np_des_location = ', array([[445, 354],
+       [649, 315],
+       [652, 395],
+       [448, 433]]), array([[442, 350],
+       [648, 315],
+       [650, 395],
+       [447, 433]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9719975456016066)
+('bfile_name: ', '14117')
+['4,0.667143,0.815714,0.814286,0.667143,0.764818,0.744790,0.795974,0.816002,60A35981.LP1,\n']
+('line=', '4,0.667143,0.815714,0.814286,0.667143,0.764818,0.744790,0.795974,0.816002,60A35981.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./14117*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./14117_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.667143, 0.764818), (0.815714, 0.74479), (0.814286, 0.795974), (0.667143, 0.816002)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.670413, 0.766033), (0.816465, 0.745233), (0.814108, 0.794386), (0.668056, 0.815186)]])
+('np_pre_location, np_des_location = ', array([[670, 766],
+       [816, 745],
+       [814, 794],
+       [668, 815]]), array([[667, 764],
+       [815, 744],
+       [814, 795],
+       [667, 816]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9520235191092763)
+('bfile_name: ', '3979')
+['4,0.498571,0.692857,0.692857,0.501429,0.700283,0.682480,0.747016,0.769269,51G51332.LP1,\n']
+('line=', '4,0.498571,0.692857,0.692857,0.501429,0.700283,0.682480,0.747016,0.769269,51G51332.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./3979*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./3979_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.498571, 0.700283), (0.692857, 0.68248), (0.692857, 0.747016), (0.501429, 0.769269)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.502114, 0.706172), (0.690513, 0.686096), (0.689711, 0.74928), (0.501312, 0.769356)]])
+('np_pre_location, np_des_location = ', array([[502, 706],
+       [690, 686],
+       [689, 749],
+       [501, 769]]), array([[498, 700],
+       [692, 682],
+       [692, 747],
+       [501, 769]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9466350318231461)
+('bfile_name: ', '35089')
+['4,0.452857,0.614286,0.614286,0.454286,0.379830,0.375380,0.428788,0.437690,51G10096.LP1,\n']
+('line=', '4,0.452857,0.614286,0.614286,0.454286,0.379830,0.375380,0.428788,0.437690,51G10096.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./35089*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./35089_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.452857, 0.37983), (0.614286, 0.37538), (0.614286, 0.428788), (0.454286, 0.43769)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.455923, 0.380535), (0.61706, 0.375052), (0.616862, 0.43435), (0.455725, 0.439833)]])
+('np_pre_location, np_des_location = ', array([[455, 380],
+       [617, 375],
+       [616, 434],
+       [455, 439]]), array([[452, 379],
+       [614, 375],
+       [614, 428],
+       [454, 437]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9449621582659733)
+('bfile_name: ', '28382')
+['4,0.421429,0.637143,0.635714,0.424286,0.488873,0.446591,0.511127,0.555634,51F59881.LP1,\n']
+('line=', '4,0.421429,0.637143,0.635714,0.424286,0.488873,0.446591,0.511127,0.555634,51F59881.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./28382*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./28382_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.421429, 0.488873), (0.637143, 0.446591), (0.635714, 0.511127), (0.424286, 0.555634)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.423335, 0.486182), (0.633291, 0.442072), (0.635704, 0.511354), (0.425748, 0.555464)]])
+('np_pre_location, np_des_location = ', array([[423, 486],
+       [633, 442],
+       [635, 511],
+       [425, 555]]), array([[421, 488],
+       [637, 446],
+       [635, 511],
+       [424, 555]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9615088034956947)
+('bfile_name: ', '34446')
+['4,0.480000,0.672857,0.677143,0.482857,0.589015,0.568986,0.635747,0.660226,51F31118.LP1,\n']
+('line=', '4,0.480000,0.672857,0.677143,0.482857,0.589015,0.568986,0.635747,0.660226,51F31118.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./34446*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./34446_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.48, 0.589015), (0.672857, 0.568986), (0.677143, 0.635747), (0.482857, 0.660226)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.479747, 0.589591), (0.674561, 0.566263), (0.675691, 0.638646), (0.480877, 0.661974)]])
+('np_pre_location, np_des_location = ', array([[479, 589],
+       [674, 566],
+       [675, 638],
+       [480, 661]]), array([[480, 589],
+       [672, 568],
+       [677, 635],
+       [482, 660]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9785436959335195)
+('bfile_name: ', '6814')
+['4,0.451429,0.662857,0.661429,0.454286,0.406535,0.366478,0.433239,0.473296,51F63034.LP1,\n']
+('line=', '4,0.451429,0.662857,0.661429,0.454286,0.406535,0.366478,0.433239,0.473296,51F63034.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./6814*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./6814_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.451429, 0.406535), (0.662857, 0.366478), (0.661429, 0.433239), (0.454286, 0.473296)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.454079, 0.407804), (0.661526, 0.371411), (0.660497, 0.437866), (0.453049, 0.474259)]])
+('np_pre_location, np_des_location = ', array([[454, 407],
+       [661, 371],
+       [660, 437],
+       [453, 474]]), array([[451, 406],
+       [662, 366],
+       [661, 433],
+       [454, 473]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9523145843703335)
+('bfile_name: ', '6942')
+['4,0.357143,0.554286,0.557143,0.360000,0.348675,0.317520,0.375380,0.417661,51F24403.LP1,\n']
+('line=', '4,0.357143,0.554286,0.557143,0.360000,0.348675,0.317520,0.375380,0.417661,51F24403.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./6942*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./6942_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.357143, 0.348675), (0.554286, 0.31752), (0.557143, 0.37538), (0.36, 0.417661)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.360849, 0.352269), (0.557277, 0.320907), (0.557982, 0.382878), (0.361554, 0.41424)]])
+('np_pre_location, np_des_location = ', array([[360, 352],
+       [557, 320],
+       [557, 382],
+       [361, 414]]), array([[357, 348],
+       [554, 317],
+       [557, 375],
+       [360, 417]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9312161568857017)
+('bfile_name: ', '4170')
+['4,0.264286,0.468571,0.470000,0.264286,0.804875,0.775945,0.844932,0.873861,51G51936.LP1.O,\n']
+('line=', '4,0.264286,0.468571,0.470000,0.264286,0.804875,0.775945,0.844932,0.873861,51G51936.LP1.O,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./4170*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./4170_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.264286, 0.804875), (0.468571, 0.775945), (0.47, 0.844932), (0.264286, 0.873861)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.267337, 0.80394), (0.470654, 0.774361), (0.47121, 0.849186), (0.267893, 0.878766)]])
+('np_pre_location, np_des_location = ', array([[267, 803],
+       [470, 774],
+       [471, 849],
+       [267, 878]]), array([[264, 804],
+       [468, 775],
+       [470, 844],
+       [264, 873]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9518771440479625)
+('bfile_name: ', '36414')
+['4,0.297143,0.515714,0.517143,0.304286,0.226280,0.188449,0.266337,0.297492,51C59323.LP1,\n']
+('line=', '4,0.297143,0.515714,0.517143,0.304286,0.226280,0.188449,0.266337,0.297492,51C59323.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./36414*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./36414_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.297143, 0.22628), (0.515714, 0.188449), (0.517143, 0.266337), (0.304286, 0.297492)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.298046, 0.222301), (0.515876, 0.188884), (0.519987, 0.266639), (0.302157, 0.300056)]])
+('np_pre_location, np_des_location = ', array([[298, 222],
+       [515, 188],
+       [519, 266],
+       [302, 300]]), array([[297, 226],
+       [515, 188],
+       [517, 266],
+       [304, 297]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9741246390625438)
+('bfile_name: ', '34765')
+['4,0.441429,0.638571,0.638571,0.444286,0.713635,0.702508,0.767044,0.784847,51A85325.LP1,\n']
+('line=', '4,0.441429,0.638571,0.638571,0.444286,0.713635,0.702508,0.767044,0.784847,51A85325.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./34765*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./34765_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.441429, 0.713635), (0.638571, 0.702508), (0.638571, 0.767044), (0.444286, 0.784847)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.445726, 0.712178), (0.642184, 0.706205), (0.639697, 0.774796), (0.44324, 0.780769)]])
+('np_pre_location, np_des_location = ', array([[445, 712],
+       [642, 706],
+       [639, 774],
+       [443, 780]]), array([[441, 713],
+       [638, 702],
+       [638, 767],
+       [444, 784]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9695520257005176)
+('bfile_name: ', '5722')
+['4,0.254286,0.455714,0.455714,0.258571,0.695832,0.671353,0.742565,0.767044,51A72078.LP1,\n']
+('line=', '4,0.254286,0.455714,0.455714,0.258571,0.695832,0.671353,0.742565,0.767044,51A72078.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./5722*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./5722_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.254286, 0.695832), (0.455714, 0.671353), (0.455714, 0.742565), (0.258571, 0.767044)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.257888, 0.69632), (0.457844, 0.673558), (0.457907, 0.744148), (0.257951, 0.76691)]])
+('np_pre_location, np_des_location = ', array([[257, 696],
+       [457, 673],
+       [457, 744],
+       [257, 766]]), array([[254, 695],
+       [455, 671],
+       [455, 742],
+       [258, 767]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9844364405379507)
+('bfile_name: ', '7680')
+['4,0.411429,0.630000,0.628571,0.414286,0.464394,0.426563,0.495549,0.535606,51F21255.LP1,\n']
+('line=', '4,0.411429,0.630000,0.628571,0.414286,0.464394,0.426563,0.495549,0.535606,51F21255.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./7680*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./7680_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.411429, 0.464394), (0.63, 0.426563), (0.628571, 0.495549), (0.414286, 0.535606)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.411878, 0.462108), (0.631266, 0.425491), (0.631505, 0.496787), (0.412118, 0.533404)]])
+('np_pre_location, np_des_location = ', array([[411, 462],
+       [631, 425],
+       [631, 496],
+       [412, 533]]), array([[411, 464],
+       [630, 426],
+       [628, 495],
+       [414, 535]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9773190927637105)
+('bfile_name: ', '3816')
+['4,0.284286,0.485714,0.487143,0.288571,0.749241,0.724762,0.789298,0.820453,51F49142.LP1,\n']
+('line=', '4,0.284286,0.485714,0.487143,0.288571,0.749241,0.724762,0.789298,0.820453,51F49142.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./3816*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./3816_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.284286, 0.749241), (0.485714, 0.724762), (0.487143, 0.789298), (0.288571, 0.820453)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.285004, 0.750361), (0.485947, 0.721081), (0.488095, 0.792305), (0.287152, 0.821585)]])
+('np_pre_location, np_des_location = ', array([[285, 750],
+       [485, 721],
+       [488, 792],
+       [287, 821]]), array([[284, 749],
+       [485, 724],
+       [487, 789],
+       [288, 820]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9746284042164067)
+('bfile_name: ', '7638')
+['4,0.224286,0.432857,0.440000,0.230000,0.344224,0.324196,0.390957,0.408760,51F98466.LP1,\n']
+('line=', '4,0.224286,0.432857,0.440000,0.230000,0.344224,0.324196,0.390957,0.408760,51F98466.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./7638*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./7638_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.224286, 0.344224), (0.432857, 0.324196), (0.44, 0.390957), (0.23, 0.40876)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.225499, 0.341218), (0.438325, 0.327038), (0.442564, 0.396581), (0.229738, 0.410761)]])
+('np_pre_location, np_des_location = ', array([[225, 341],
+       [438, 327],
+       [442, 396],
+       [229, 410]]), array([[224, 344],
+       [432, 324],
+       [440, 390],
+       [230, 408]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.956767621708173)
+('bfile_name: ', '11477')
+['4,0.644286,0.807143,0.802857,0.641429,0.864960,0.849382,0.909467,0.922819,51G49539.LP1,\n']
+('line=', '4,0.644286,0.807143,0.802857,0.641429,0.864960,0.849382,0.909467,0.922819,51G49539.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./11477*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./11477_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.644286, 0.86496), (0.807143, 0.849382), (0.802857, 0.909467), (0.641429, 0.922819)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.645032, 0.865676), (0.804139, 0.851495), (0.802482, 0.904212), (0.643375, 0.918393)]])
+('np_pre_location, np_des_location = ', array([[645, 865],
+       [804, 851],
+       [802, 904],
+       [643, 918]]), array([[644, 864],
+       [807, 849],
+       [802, 909],
+       [641, 922]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.923536070803746)
+('bfile_name: ', '9447')
+['4,0.494286,0.695714,0.694286,0.495714,0.718086,0.702508,0.769269,0.782621,51F21255.LP1,\n']
+('line=', '4,0.494286,0.695714,0.694286,0.495714,0.718086,0.702508,0.769269,0.782621,51F21255.LP1,\n')
+('os.path.join(preddir, root_part_path, bfile_name + "*car_lp.txt") = ', 'tmp/output/./9447*car_lp.txt')
+('pre_file_paths: ', ['tmp/output/./9447_0car_lp.txt'])
+('location_of_bfile_name[bfile_name]: ', [[(0.494286, 0.718086), (0.695714, 0.702508), (0.694286, 0.769269), (0.495714, 0.782621)]])
+('pred_location_of_bfile_name[bfile_name]: ', [[(0.497443, 0.715922), (0.69769, 0.705888), (0.692449, 0.774043), (0.492202, 0.784076)]])
+('np_pre_location, np_des_location = ', array([[497, 715],
+       [697, 705],
+       [692, 774],
+       [492, 784]]), array([[494, 718],
+       [695, 702],
+       [694, 769],
+       [495, 782]]))
+('np_pre_location.dtype, np_des_location.dtype = ', dtype('int64'), dtype('int64'))
+('ratio = ', 0.9547478004837183)
+('\nthreshold: ', 0.7)
+('correct_count, n_lp: ', 50, 50)
+('correct_count/n_lp = ', 1.0)
+false_report: 

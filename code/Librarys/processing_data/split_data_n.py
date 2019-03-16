@@ -11,7 +11,8 @@ def split_data(indir, outdir, n_fold=10):
 	fold_dirs = [os.path.join(outdir, 'fold_' + str(e)) for e in range(n_fold)]
 	for fold_dir in fold_dirs:
 		os.mkdir(fold_dir)
-
+	
+	print('indir: ', indir)
 	for root, _, file_names in os.walk(indir):
 		print('#Root:',root)
 		print('#file_names: ', file_names)
