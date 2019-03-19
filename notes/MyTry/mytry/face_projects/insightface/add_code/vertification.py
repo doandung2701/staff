@@ -5,6 +5,7 @@ from __future__ import print_function
 import os
 import argparse
 import sys
+sys.path.append('.')
 import numpy as np
 from scipy import misc
 from sklearn.model_selection import KFold
@@ -154,7 +155,9 @@ def test(data_set, mx_model, batch_size, data_extra = None, label_shape = None):
 if __name__=='__main__':
 	import argparse
 	parser = argparse.ArgumentParser(description='do verification')
-	parser.add_argument('--model', default='../model/softmax,50', help='path to load model.')
+	parser.add_argument('--data-dir', help='data-dir')
+        parser.add_argument('--target', default='lfw,cfp_ff,cfp_fp,agedb_30', help='test targets.')
+        parser.add_argument('--model', default='../model/softmax,50', help='path to load model.')
 	parser.add_argument('--batch-size', default=32, type=int, help='')
 	parser.add_argument('--gpu', default=0, type=int, help='gpu id')
 
@@ -165,10 +168,10 @@ if __name__=='__main__':
 	args = parser.parse_args()
 
 	prop = face_image.load_property(args.data_dir)
-    image_size = prop.image_size
-    print('image_size', image_size)
+        image_size = prop.image_size
+        print('image_size', image_size)
 	ctx = mx.gpu(args.gpu)
-    nets = []
+        nets = []
 
 	vec = args.model.split(',')
 	prefix = args.model.split(',')[0]

@@ -43,7 +43,7 @@ def main(indir, outdir, des_file_path):
 	for idx in idxs:
 		mkdir(join(outdir, str(idx)))
 		for i, img_name in enumerate(idx2img_names[idx]):
-			system('cp ' + join(indir, img_name) + ' ' + join(outdir, str(idx), '%04d' % int(i) + '.png'))
+			system('cp ' + join(indir, img_name) + ' ' + join(outdir, str(idx), str(idx) + '_%04d' % int(i) + '.jpg'))
 
 
 	#         actual_strg = raw_strg.split('.')[0]
