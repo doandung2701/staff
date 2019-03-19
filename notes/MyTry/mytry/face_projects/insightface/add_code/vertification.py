@@ -23,15 +23,19 @@ import face_image
 
 
 def evaluate(embeddings, issame_list):
-
+	assert(embeddings1.shape[0] == embeddings2.shape[0])
+	assert(embeddings1.shape[1] == embeddings2.shape[1])
+	nrof_pairs = min(len(actual_issame), embeddings1.shape[0])
 	thresholds = np.arange(0, 4, 0.01)
+	nrof_thresholds = len(thresholds)
 	embeddings1 = embeddings[0::2]
 	embeddings2 = embeddings[1::2]
 
-	n_train_set, n_test_set = 6000, 17091*1000
-	train_set, test_set = list(range(n_train_set)), list(range(n_test_set))
+	# n_train_set, n_test_set = 6000, 17091*1000
+	# n_train_set = 6000, 17091*1000
+	train_set = list(range(nrof_pairs))
 	print('train_set', train_set)
-	print('test_set', test_set)
+	# print('test_set', test_set)
 
 	if pca==0:
 	  diff = np.subtract(embeddings1, embeddings2)
@@ -44,9 +48,13 @@ def evaluate(embeddings, issame_list):
 		_, _, acc_train[threshold_idx] = calculate_accuracy(threshold, dist[train_set], actual_issame[train_set])
 	best_threshold_index = np.argmax(acc_train)
 	print('threshold', thresholds[best_threshold_index])
-	for threshold_idx, threshold in enumerate(thresholds):
-		tprs[fold_idx,threshold_idx], fprs[fold_idx,threshold_idx], _ = calculate_accuracy(threshold, dist[test_set], actual_issame[test_set])
-	_, _, accuracy[fold_idx] = calculate_accuracy(thresholds[best_threshold_index], dist[test_set], actual_issame[test_set])
+
+	# predict_issame = np.less(dist[test_set], thresholds[best_threshold_index])
+
+
+	# for threshold_idx, threshold in enumerate(thresholds):
+	# 	tprs[fold_idx,threshold_idx], fprs[fold_idx,threshold_idx], _ = calculate_accuracy(threshold, dist[test_set], actual_issame[test_set])
+	# _, _, accuracy[fold_idx] = calculate_accuracy(thresholds[best_threshold_index], dist[test_set], actual_issame[test_set])
 
 def load_bin(path, image_size):
   bins, issame_list = pickle.load(open(path, 'rb'))
@@ -72,7 +80,7 @@ def load_bin(path, image_size):
   return (data_list, issame_list)
 
 
-def test(data_set, mx_model, batch_size, nfolds=10, data_extra = None, label_shape = None):
+def test(data_set, mx_model, batch_size, data_extra = None, label_shape = None):
 	print('testing verification..')
 	data_list = data_set[0]
 	issame_list = data_set[1]
@@ -152,6 +160,12 @@ if __name__=='__main__':
 	# ap.add_argument("--des_file_path", help="des_file_path")
 	# args= vars(ap.parse_args())
 	args = parser.parse_args()
+
+	prop = face_image.load_property(args.data_dir)
+  image_size = prop.image_size
+  print('image_size', image_size)
+	ctx = mx.gpu(args.gpu)
+  nets = []
 
 	vec = args.model.split(',')
 	prefix = args.model.split(',')[0]
