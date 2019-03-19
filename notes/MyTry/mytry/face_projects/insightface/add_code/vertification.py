@@ -155,6 +155,8 @@ if __name__=='__main__':
 	parser = argparse.ArgumentParser(description='do verification')
 	parser.add_argument('--model', default='../model/softmax,50', help='path to load model.')
 	parser.add_argument('--batch-size', default=32, type=int, help='')
+	parser.add_argument('--gpu', default=0, type=int, help='gpu id')
+
 	# ap.add_argument("--indir", help="indir")
 	# ap.add_argument("--outdir", help="outdir")
 	# ap.add_argument("--des_file_path", help="des_file_path")
