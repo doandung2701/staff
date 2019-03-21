@@ -54,7 +54,7 @@ class FaceModel:
     model.set_params(arg_params, aux_params)
     self.model = model
     # mtcnn_path = os.path.join(os.path.dirname(__file__), 'mtcnn-model')
-    mtcnn_path = os.path.join('mtcnn-model')
+    mtcnn_path = os.path.join('deploy','mtcnn-model')
     detector = MtcnnDetector(model_folder=mtcnn_path, ctx=ctx, num_worker=1, accurate_landmark = True, threshold=[0.0,0.0,0.2])
     self.detector = detector
 
