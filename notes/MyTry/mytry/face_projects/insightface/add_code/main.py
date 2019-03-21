@@ -24,7 +24,8 @@ def identify(data, ide_model, vector_dir):
 			with open(emb_path, 'wb') as f:
 				pickle.dump(emb_path, f)
 		else:
-			_emb = pickle.load(emb_path)
+			with open(emb_path, 'rb') as f:
+				_emb = pickle.load(f)
 		_label = ide_model.identify(_emb)
 		if _label == -1:
 			_label = 1000
