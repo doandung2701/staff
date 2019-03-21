@@ -1,9 +1,12 @@
 from os.path import split, splitext, join, exists
 from identification import IdentifyModel
-from data import load_data
+from data import load_data, get_config
+from face_embedding import FaceModel
 import cv2, pickle
 
 def identify(data, ide_model, vector_dir):
+	args = get_config()
+	face_model = FaceModel(args)
 	labels = []
 	for name, paths in data.items():
 		path = paths[0]
@@ -13,7 +16,7 @@ def identify(data, ide_model, vector_dir):
 		emb_path = join(vector_dir, name, bfile_name + '.pkl')
 		if not exists(emb_path):
 			_img = cv2.imread(path)
-			_emb = FaceModel.get_feature([_img])[0]
+			_emb = face_model.get_feature([_img])[0]
 			with open(emb_path, 'wb') as f:
 				pickle.dump(emb_path, f)
 		else:

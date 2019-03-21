@@ -16,6 +16,15 @@ def file_idx(file_name):
 	idx = es[-1]
 	return idx
 
+def get_config():
+	args = edict()
+	args.model = 'models/model-r100-ii/model,0000'
+	args.det = 'deploy/mtcnn-model'
+	args.threshold = 0.87
+	args.image_size = '112,112'
+	args.gpu = 0
+	return args
+
 def load_data(data_dir):
 	name2file = {}
 	person_dirs = listdir(data_dir)
@@ -29,6 +38,7 @@ def load_data(data_dir):
 def load_emb_data(data_dir, vector_dir=None):
 	data = load_data(data_dir)
 	print('load_data: ', data)
+	args = get_config()
 	emb_data = {}
 	for name, file_names in data.items():
 		_embs = []
@@ -39,14 +49,8 @@ def load_emb_data(data_dir, vector_dir=None):
 				_img = cv2.imread(join(data_dir, name, file_name))
 				_img = cv2.resize(_img, (112,112))
 				_img = mx.nd.array(_img)
-				args = edict()
-				args.model = 'models/model-r100-ii/model,0000'
-				args.det = 'deploy/mtcnn-model'
-				args.threshold = 0.87
-				args.image_size = '112,112'
-				args.gpu = 0
 				face_model = FaceModel(args)
-				_emb = face_model.get_feature(_img)
+				_emb = face_model.get_feature([_img])[0]
 				with open(emb_path, 'wb') as f:
 					pickle.dump(emb_path, f)
 			else:
