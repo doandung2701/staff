@@ -1,6 +1,6 @@
 import sys
 sys.path.append('./deploy')
-sys.path.append('/home/cuongvm/MySetting/staff/notes/MyTry/mytry/face_projects/insightface/add_code')
+# sys.path.append('/home/cuongvm/MySetting/staff/notes/MyTry/mytry/face_projects/insightface/add_code')
 
 import random
 from os import listdir
