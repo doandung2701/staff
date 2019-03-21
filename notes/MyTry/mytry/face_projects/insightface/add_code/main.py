@@ -3,7 +3,7 @@ from os.path import split, splitext, join, exists
 from identification import IdentifyModel
 from data import load_data, get_config
 from face_embedding import FaceModel
-import cv2, pickle
+import cv2, pickle, cPickle
 
 def identify(data, ide_model, vector_dir, k, output):
 	args = get_config()
@@ -72,7 +72,7 @@ if __name__=='__main__':
 	data = {name: [join(args['data_dir'], name, f) for f in files] for name, files in name2file.items()}
 	
 	with open(args['model_path'], 'rb') as f:
-		ide_model = pickle.load(f)
+		ide_model = cPickle.load(f)
 
 	ide_model.set_threshold(args['threshold'])
 	ide_model.set_n_top_candidate(args['k'])

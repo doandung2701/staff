@@ -1,4 +1,5 @@
 import pickle
+import cPickle
 from os.path import join
 from data import load_emb_data
 from identification import IdentifyModel
@@ -25,6 +26,6 @@ if __name__=='__main__':
 
 	ide = train(emb_data)
 	with open(args['model_path'], 'wb') as f:
-		pickle.dump(ide, f)
+		cPickle.dump(ide, f)
 
 	
