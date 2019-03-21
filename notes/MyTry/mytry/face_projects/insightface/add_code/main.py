@@ -9,7 +9,7 @@ def identify(data, ide_model, vector_dir, k, output):
 	args = get_config()
 	face_model = FaceModel(args)
 	top_5s = []
-	for name, paths in data.items():
+	for name, paths in data.items()[:10]:
 		path = paths[0]
 		file_name = split(path)[1]
 		print('file_name: ', file_name)
