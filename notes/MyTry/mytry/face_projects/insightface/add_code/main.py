@@ -47,7 +47,7 @@ def identify(data, ide_model, vector_dir, k, output):
 	
 	with open(output, 'w') as f:
 		f.write('image,label\n')
-		for i, (top_5 ,(name, paths)) in enumerate(zip(data.items(),top_5s)):
+		for i, ((name, paths), top_5) in enumerate(zip(data.items(),top_5s)):
 			path = paths[0]
 			file_name = split(path)[1]
 			bfile_name = splitext(file_name)[0]
