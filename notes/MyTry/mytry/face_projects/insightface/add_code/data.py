@@ -53,7 +53,7 @@ def load_emb_data(data_dir, vector_dir=None):
 				_img = cv2.resize(_img, (112,112))
 				_emb = face_model.get_feature(_img)
 				with open(emb_path, 'wb') as f:
-					pickle.dump(emb_path, f)
+					pickle.dump(_emb, f)
 			else:
 				with open(emb_path, 'rb') as f:
 					_emb = pickle.load(f)
