@@ -21,6 +21,8 @@ def get_config():
 	args.threshold = 0.87
 	args.image_size = '112,112'
 	args.gpu = 0
+	args.ga_model = ''
+	args.flip = 0
 	return args
 
 def load_data(data_dir):
