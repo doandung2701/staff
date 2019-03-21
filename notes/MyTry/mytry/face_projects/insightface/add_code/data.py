@@ -39,6 +39,7 @@ def load_emb_data(data_dir, vector_dir=None):
 	data = load_data(data_dir)
 	print('load_data: ', data)
 	args = get_config()
+	face_model = FaceModel(args)
 	emb_data = {}
 	for name, file_names in data.items():
 		_embs = []
@@ -50,7 +51,6 @@ def load_emb_data(data_dir, vector_dir=None):
 			if not exists(emb_path):
 				_img = cv2.imread(join(data_dir, name, file_name))
 				_img = cv2.resize(_img, (112,112))
-				face_model = FaceModel(args)
 				_emb = face_model.get_feature(_img)
 				with open(emb_path, 'wb') as f:
 					pickle.dump(emb_path, f)

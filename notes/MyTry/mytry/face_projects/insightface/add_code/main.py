@@ -19,6 +19,7 @@ def identify(data, ide_model, vector_dir):
 			mkdir(join(vector_dir, name))
 		if not exists(emb_path):
 			_img = cv2.imread(path)
+			_img = cv2.resize(_img, (112,112))
 			_emb = face_model.get_feature(_img)
 			with open(emb_path, 'wb') as f:
 				pickle.dump(emb_path, f)
