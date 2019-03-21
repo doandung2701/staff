@@ -4,6 +4,7 @@ from utils import svm_classify, get_person_images
 import pickle
 from random import shuffle
 import numpy as np
+import cv2
 from data import get_config
 from nface_embedding import FaceModel
 
@@ -53,6 +54,8 @@ class IdentifyModel:
 		is_sames = []
 		for candidate in candidates:
 			imgs = get_person_images(candidate, self.idx2path)
+			imgs = [cv2.resize(img, (112,112)) for img in imgs]
+
 			vote = 0
 			for img in imgs:
 				x_c = self.face_model.get_feature(img)
