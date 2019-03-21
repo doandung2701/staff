@@ -45,7 +45,10 @@ if __name__=='__main__':
 
 	name2file = load_data(args['data_dir'])
 	data = {name: [join(args['data_dir'], name, f) for f in files] for name, files in name2file.items()}
-	ide_model = pickle.load(args['model_path'])
+	
+	with open(args['model_path'], 'rb') as f:
+		ide_model = pickle.load(f)
+
 	ide_model.set_threshold(args['threshold'])
 	ide_model.set_n_top_candidate(args['k'])
 	ide_model.load_idx2path(args['idx2path'])

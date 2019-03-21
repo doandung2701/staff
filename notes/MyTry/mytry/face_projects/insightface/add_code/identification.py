@@ -15,7 +15,8 @@ class IdentifyModel:
 		self.n_top_candidate = n_top_candidate
 
 	def load_idx2path(self, path):
-		self.idx2path = pickle.load(path)
+		with open(path, 'rb') as f:
+			self.idx2path = pickle.load(f)
 	
 	def fit(self, data):
 		print('data: ', data)
