@@ -55,7 +55,8 @@ def load_emb_data(data_dir, vector_dir=None):
 				with open(emb_path, 'wb') as f:
 					pickle.dump(emb_path, f)
 			else:
-				_emb = pickle.load(emb_path)
+				with open(emb_path, 'rb') as f:
+					_emb = pickle.load(f)
 			_embs.append(_emb)
 		emb_data[name] = _embs
 	return data, emb_data
