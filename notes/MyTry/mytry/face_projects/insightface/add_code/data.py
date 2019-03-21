@@ -8,6 +8,8 @@ import cv2, pickle
 from face_embedding import FaceModel
 from easydict import EasyDict as edict
 import mxnet as mx
+import argparse
+
 
 
 def file_idx(file_name):
@@ -19,7 +21,7 @@ def file_idx(file_name):
 def get_config():
 	args = edict()
 	args.model = 'models/model-r100-ii/model,0000'
-	args.det = 'deploy/mtcnn-model'
+	args.det = 0
 	args.threshold = 0.87
 	args.image_size = '112,112'
 	args.gpu = 0
