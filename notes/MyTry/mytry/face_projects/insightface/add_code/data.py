@@ -41,6 +41,7 @@ def load_emb_data(data_dir, vector_dir=None):
 				_img = mx.nd.array(_img)
 				args = edict()
 				args.model = 'models/model-r100-ii/model,0000'
+				args.det = 'deploy/mtcnn-model'
 				args.threshold = 0.87
 				args.image_size = '112,112'
 				args.gpu = 0
