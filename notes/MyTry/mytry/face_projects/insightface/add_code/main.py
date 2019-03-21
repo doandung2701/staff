@@ -5,7 +5,7 @@ from data import load_data, get_config
 from face_embedding import FaceModel
 import cv2, pickle
 
-def identify(data, ide_model, vector_dir):
+def identify(data, ide_model, vector_dir, k):
 	args = get_config()
 	face_model = FaceModel(args)
 	labels = []
@@ -26,7 +26,7 @@ def identify(data, ide_model, vector_dir):
 		else:
 			with open(emb_path, 'rb') as f:
 				_emb = pickle.load(f)
-		_label = ide_model.identify(_emb)
+		_label = ide_model.identify(_emb, k)
 		if _label == -1:
 			_label = 1000
 		labels.append(_label)
@@ -53,7 +53,7 @@ if __name__=='__main__':
 	ide_model.set_threshold(args['threshold'])
 	ide_model.set_n_top_candidate(args['k'])
 	ide_model.load_idx2path(args['idx2path'])
-	identify(data, ide_model, args['vector_dir'])
+	identify(data, ide_model, args['vector_dir'], args['k'])
 
 
 		
