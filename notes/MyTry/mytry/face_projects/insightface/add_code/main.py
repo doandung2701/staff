@@ -40,8 +40,6 @@ def identify(data, ide_model, vector_dir, k, output):
 			top_5[-1] = 1000
 		else:
 			top_5[1:] = candidates[0:-1]
-
-			top_5[1:] = candidates[0:-1]
 		top_5s.append(top_5)
 		
 	
