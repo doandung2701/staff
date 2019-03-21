@@ -52,8 +52,7 @@ class IdentifyModel:
 	def identify(self, x, n_top_candidate):
 		# x = FaceModel.get_feature()
 		probs = self._classify(x)
-		candidates = sorted(probs, reverse=True)[:self.n_top_candidate]
-
+		candidates = [e[0] for e in sorted(enumerate(probs), key=lambda x:x[1])][:self.n_top_candidate]
 		ide = self._vertificate(x, candidates)
 		return ide
 
