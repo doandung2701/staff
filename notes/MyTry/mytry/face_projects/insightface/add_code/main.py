@@ -53,6 +53,7 @@ if __name__=='__main__':
 	ide_model.set_threshold(args['threshold'])
 	ide_model.set_n_top_candidate(args['k'])
 	ide_model.load_idx2path(args['idx2path'])
+	print('ide_model.idx2path: ', ide_model.idx2path)
 	identify(data, ide_model, args['vector_dir'], args['k'])
 
 

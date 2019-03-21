@@ -4,8 +4,13 @@ from utils import svm_classify, get_person_images
 import pickle
 from random import shuffle
 import numpy as np
+from data import get_config
+from nface_embedding import FaceModel
+
 class IdentifyModel:
 	def __init__(self):
+		self.args = get_config()
+		self.face_model = FaceModel(self.args)
 		pass
 
 	def set_threshold(self,threshold):
@@ -41,12 +46,15 @@ class IdentifyModel:
 			imgs = get_person_images(candidate, self.idx2path)
 			vote = 0
 			for img in imgs:
-				x_c = FaceModel.get_feature(img)
+				x_c = self.face_model.get_feature(img)
 				dist = np.sum(np.square(x-x_c))
+				print('dist: ', dist)
 				if dist < self.threshold:
 					vote += 1
+			print('vote: ', vote)
 			if vote > len(imgs)//2:
 				idx = i
+		print('idx: ', idx)
 		return idx
 	
 	def identify(self, x, n_top_candidate):
