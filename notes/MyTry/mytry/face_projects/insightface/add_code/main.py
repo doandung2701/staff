@@ -2,7 +2,7 @@ from os import mkdir
 from os.path import split, splitext, join, exists
 from identification import IdentifyModel
 from data import load_data, get_config
-from face_embedding import FaceModel
+from nface_embedding import FaceModel
 import cv2, pickle
 
 def identify(data, ide_model, vector_dir, k, output):
