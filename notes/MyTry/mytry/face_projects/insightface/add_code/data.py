@@ -3,7 +3,7 @@ sys.path.append('./deploy')
 # sys.path.append('/home/cuongvm/MySetting/staff/notes/MyTry/mytry/face_projects/insightface/add_code')
 
 import random
-from os import listdir
+from os import listdir, mkdir
 from os.path import expanduser, join, split, splitext, exists
 from glob import glob
 import cv2, pickle
@@ -45,6 +45,8 @@ def load_emb_data(data_dir, vector_dir=None):
 		for file_name in file_names:
 			bfile_name = splitext(file_name)[0]
 			emb_path = join(vector_dir, name, bfile_name + '.pkl')
+			if not exists(join(vector_dir, name)):
+				mkdir(join(vector_dir, name))
 			if not exists(emb_path):
 				_img = cv2.imread(join(data_dir, name, file_name))
 				_img = cv2.resize(_img, (112,112))

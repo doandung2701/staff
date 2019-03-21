@@ -1,3 +1,4 @@
+from os import mkdir
 from os.path import split, splitext, join, exists
 from identification import IdentifyModel
 from data import load_data, get_config
@@ -14,9 +15,11 @@ def identify(data, ide_model, vector_dir):
 		print('file_name: ', file_name)
 		bfile_name = splitext(file_name)[0]
 		emb_path = join(vector_dir, name, bfile_name + '.pkl')
+		if not exists(join(vector_dir, name)):
+			mkdir(join(vector_dir, name))
 		if not exists(emb_path):
 			_img = cv2.imread(path)
-			_emb = face_model.get_feature([_img])[0]
+			_emb = face_model.get_feature(_img)
 			with open(emb_path, 'wb') as f:
 				pickle.dump(emb_path, f)
 		else:
