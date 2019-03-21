@@ -24,7 +24,7 @@ class IdentifyModel:
 			self.idx2path = pickle.load(f)
 	
 	def fit(self, data):
-		print('data: ', data)
+		print('len(data.items()): ', len(data.items()))
 		X, Y = [], []
 		for idx, embs in data.items():
 			for emb in embs:
@@ -32,8 +32,9 @@ class IdentifyModel:
 				Y.append(idx)
 		pairs = list(zip(X, Y))
 		shuffle(pairs)
-		print('pairs: ', pairs)
+		# print('pairs: ', pairs)
 		X, Y = zip(*pairs)
+		print('len(X), len(Y): ', len(X), len(Y))
 		self.classify_model = svm_classify(X, Y)
 	
 	def _classify(self, x):
@@ -41,8 +42,8 @@ class IdentifyModel:
 		return probs
 
 	def _vertificate(self, x, candidates):
-		idx = -1
-		for i, candidate in enumerate(candidates):
+		is_sames = []
+		for candidate in candidates:
 			imgs = get_person_images(candidate, self.idx2path)
 			vote = 0
 			for img in imgs:
@@ -53,16 +54,18 @@ class IdentifyModel:
 					vote += 1
 			print('vote: ', vote)
 			if vote > len(imgs)//2:
-				idx = i
-		print('idx: ', idx)
-		return idx
+				is_sames.append(1)
+			else:
+				is_sames.append(0)
+		print('is_sames: ', is_sames)
+		return is_sames
 	
 	def identify(self, x, n_top_candidate):
 		# x = FaceModel.get_feature()
 		probs = self._classify(x)
 		candidates = [e[0] for e in sorted(enumerate(probs), key=lambda x:x[1])][:self.n_top_candidate]
-		ide = self._vertificate(x, candidates)
-		return ide
+		is_sames = self._vertificate(x, candidates)
+		return candidates, is_sames
 
 	@staticmethod
 	def load_model(model_path):
