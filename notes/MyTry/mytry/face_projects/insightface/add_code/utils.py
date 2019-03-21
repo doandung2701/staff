@@ -9,4 +9,4 @@ def svm_classify(X, Y):
     return gs_model
 
 def get_person_images(idx, idx2path):
-    return [cv2.imread(path) for path in idx2path[idx]]
+    return [cv2.imread(path) for path in idx2path[int(idx)]]

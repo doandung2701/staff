@@ -49,6 +49,7 @@ class IdentifyModel:
 		return probs
 
 	def _vertificate(self, x, candidates):
+		print('self.idx2path: ', self.idx2path)
 		is_sames = []
 		for candidate in candidates:
 			imgs = get_person_images(candidate, self.idx2path)
