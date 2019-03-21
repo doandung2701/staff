@@ -39,11 +39,11 @@ if __name__=='__main__':
 	ap.add_argument("--vector-dir", help="vector_dir")
 	ap.add_argument("--model-path", help="model-path")
 	ap.add_argument("--idx2path", help="idx2path")
-	ap.add_argument("--threshold", help="threshold")
-	ap.add_argument("--k", help="n_top_candidate")
+	ap.add_argument("--threshold", type=float,help="threshold")
+	ap.add_argument("--k", type=int, help="n_top_candidate")
 	args= vars(ap.parse_args())
 
-	_, name2file = load_data(args['data_dir'])
+	name2file = load_data(args['data_dir'])
 	data = {name: [join(args['data_dir'], name, f) for f in files] for name, files in name2file.items()}
 	ide_model = pickle.load(args['model_path'])
 	ide_model.set_threshold(args['threshold'])
