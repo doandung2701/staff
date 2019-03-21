@@ -20,7 +20,7 @@ class IdentifyModel:
 	def fit(self, data):
 		print('data: ', data)
 		X, Y = [], []
-		for idx, embs in data:
+		for idx, embs in data.items():
 			for emb in embs:
 				X.append(emb)
 				Y.append(idx)
