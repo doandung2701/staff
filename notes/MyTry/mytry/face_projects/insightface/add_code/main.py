@@ -51,7 +51,7 @@ def identify(data, ide_model, vector_dir, k, output):
 			path = paths[0]
 			file_name = split(path)[1]
 			bfile_name = splitext(file_name)[0]
-			f.write(bfile_name + '.png,' + ' '.join(top_5))
+			f.write(bfile_name + '.png,' + ' '.join([str(e) for e in top_5]))
 			if i < len(top_5s) - 1:
 				f.write('\n')
 
