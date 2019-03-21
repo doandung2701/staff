@@ -11,7 +11,6 @@ class IdentifyModel:
 	def __init__(self):
 		self.args = get_config()
 		self.face_model = FaceModel(self.args)
-		pass
 
 	def set_threshold(self,threshold):
 		self.threshold = threshold
@@ -36,6 +35,14 @@ class IdentifyModel:
 		X, Y = zip(*pairs)
 		print('len(X), len(Y): ', len(X), len(Y))
 		self.classify_model = svm_classify(X, Y)
+
+	def dump_classify_model(self, classify_model_path):
+		with open(classify_model_path, 'wb') as f:
+			pickle.dump(self.classify_model, f)
+
+	def load_classify_model(self, classify_model_path):
+		with open(classify_model_path, 'rb') as f:
+			self.classify_model = pickle.load(f)
 	
 	def _classify(self, x):
 		probs = self.classify_model.predict_proba([x])[0]

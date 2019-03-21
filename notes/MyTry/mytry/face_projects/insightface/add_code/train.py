@@ -1,13 +1,12 @@
 import pickle
-import cPickle
 from os.path import join
 from data import load_emb_data
 from identification import IdentifyModel
 	
-def train(emb_data):
-	ide = IdentifyModel()
-	ide.fit(emb_data)
-	return ide
+# def train(emb_data):
+# 	ide = IdentifyModel()
+# 	ide.fit(emb_data)
+# 	return ide
 
 if __name__=='__main__':
 	import argparse
@@ -24,8 +23,8 @@ if __name__=='__main__':
 	with open(args['idx2path'], 'wb') as f:
 		pickle.dump(idx2path, f)
 
-	ide = train(emb_data)
-	with open(args['model_path'], 'wb') as f:
-		cPickle.dump(ide, f)
+	ide = IdentifyModel()
+	ide.fit(emb_data)
+	ide.dump_classify_model(args['model_path'])
 
 	
