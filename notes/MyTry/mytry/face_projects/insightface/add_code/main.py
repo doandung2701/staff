@@ -42,7 +42,7 @@ def identify(data, ide_model, vector_dir, k, output):
 			top_5[1:-1] = candidates[1:-1]
 		else:
 			top_5[1:] = candidates[0:-1]
-		top_5s.append(candidates)
+		top_5s.append(top_5)
 		
 	
 	with open(output, 'w') as f:
