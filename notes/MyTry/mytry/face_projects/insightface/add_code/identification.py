@@ -52,7 +52,7 @@ class IdentifyModel:
 		return idx2prob
 
 	def _vertificate(self, x, candidates):
-		pdb.traceback()
+		pdb.set_trace()
 		is_sames = []
 		for candidate in candidates:
 			imgs = get_person_images(candidate, self.idx2path)
