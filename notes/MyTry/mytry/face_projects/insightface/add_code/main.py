@@ -8,7 +8,7 @@ import cv2, pickle
 def identify(data, ide_model, vector_dir, k, output):
 	args = get_config()
 	face_model = FaceModel(args)
-	data_items = data.items()
+	data_items = data.items()[:3]
 	top_5s = []
 	for name, paths in data_items:
 		path = paths[0]
