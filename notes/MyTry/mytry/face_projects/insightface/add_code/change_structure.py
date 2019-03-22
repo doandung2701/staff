@@ -70,6 +70,6 @@ if __name__=='__main__':
 	ap = argparse.ArgumentParser()
 	ap.add_argument("--indir", help="indir")
 	ap.add_argument("--outdir", help="outdir")
-	ap.add_argument("--des_file_path", defaut='', help="des_file_path")
+	ap.add_argument("--des_file_path", default='', help="des_file_path")
 	args= vars(ap.parse_args())
 	main(args["indir"], args["outdir"], args["des_file_path"])
