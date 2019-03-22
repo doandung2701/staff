@@ -47,12 +47,12 @@ class IdentifyModel:
 			self.classify_model = pickle.load(f)
 	
 	def _classify(self, x):
-		probs = self.classify_model.predict_proba([x])[0]
+		probs = self.classify_model.decision_function([x])[0]
 		idx2prob = {self.classify_model.classes_[i]:prob for i, prob in enumerate(probs)}
 		return idx2prob
 
 	def _vertificate(self, x, candidates):
-		pdb.set_trace()
+		# pdb.set_trace()
 		is_sames = []
 		for candidate in candidates:
 			imgs = get_person_images(candidate, self.idx2path)
