@@ -7,6 +7,7 @@ import numpy as np
 import cv2
 from data import get_config
 from nface_embedding import FaceModel
+import pdb
 
 class IdentifyModel:
 	def __init__(self):
@@ -47,7 +48,8 @@ class IdentifyModel:
 	
 	def _classify(self, x):
 		probs = self.classify_model.predict_proba([x])[0]
-		return probs
+		idx2prob = {self.classify_model.classes_[i]:prob for i, prob in enumerate(probs)}
+		return idx2prob
 
 	def _vertificate(self, x, candidates):
 		is_sames = []
@@ -63,7 +65,7 @@ class IdentifyModel:
 				if dist < self.threshold:
 					vote += 1
 			print('vote: ', vote)
-			if vote > len(imgs)//2:
+			if vote > 0:
 				is_sames.append(1)
 			else:
 				is_sames.append(0)
@@ -72,8 +74,9 @@ class IdentifyModel:
 	
 	def identify(self, x, n_top_candidate):
 		# x = FaceModel.get_feature()
-		probs = self._classify(x)
-		candidates = [e[0] for e in sorted(enumerate(probs), key=lambda x:x[1], reverse=True)][:self.n_top_candidate]
+		idx2prob = self._classify(x)
+		# pdb.set_trace()
+		candidates = [e[0] for e in sorted(idx2prob.items(), key=lambda x:x[1], reverse=True)][:self.n_top_candidate]
 		print('candidates: ', candidates)
 		is_sames = self._vertificate(x, candidates)
 		return candidates, is_sames

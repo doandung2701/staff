@@ -5,6 +5,7 @@ from __future__ import print_function
 import os
 import argparse
 import sys
+sys.path.append('.')
 import numpy as np
 from scipy import misc
 from sklearn.model_selection import KFold
@@ -20,21 +21,31 @@ from mxnet import ndarray as nd
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'common'))
 import face_image
 
+def calculate_accuracy(threshold, dist, actual_issame):
+    predict_issame = np.less(dist, threshold)
+    tp = np.sum(np.logical_and(predict_issame, actual_issame))
+    fp = np.sum(np.logical_and(predict_issame, np.logical_not(actual_issame)))
+    tn = np.sum(np.logical_and(np.logical_not(predict_issame), np.logical_not(actual_issame)))
+    fn = np.sum(np.logical_and(np.logical_not(predict_issame), actual_issame))
+  
+    tpr = 0 if (tp+fn==0) else float(tp) / float(tp+fn)
+    fpr = 0 if (fp+tn==0) else float(fp) / float(fp+tn)
+    acc = float(tp+tn)/dist.size
+    return tpr, fpr, acc
 
-
-def evaluate(embeddings, issame_list):
-	thresholds = np.arange(0, 4, 0.01)
-	nrof_thresholds = len(thresholds)
+def predict(embeddings, issame_list, threshold, pca=0):
+	# thresholds = np.arange(0, 4, 0.01)
+	# nrof_thresholds = len(thresholds)
 	embeddings1 = embeddings[0::2]
 	embeddings2 = embeddings[1::2]
 	assert(embeddings1.shape[0] == embeddings2.shape[0])
 	assert(embeddings1.shape[1] == embeddings2.shape[1])
-	actual_issame = np.asarray(actual_issame)
+	actual_issame = np.asarray(issame_list)
 	nrof_pairs = min(len(actual_issame), embeddings1.shape[0])
 
 	# n_train_set, n_test_set = 6000, 17091*1000
 	# n_train_set = 6000, 17091*1000
-	train_set = list(range(nrof_pairs))
+	test_set, train_set = list(range(nrof_pairs))
 	print('train_set', train_set)
 	# print('test_set', test_set)
 
@@ -44,13 +55,14 @@ def evaluate(embeddings, issame_list):
 
 
 	# Find the best threshold for the fold
-	acc_train = np.zeros((nrof_thresholds))
-	for threshold_idx, threshold in enumerate(thresholds):
-		_, _, acc_train[threshold_idx] = calculate_accuracy(threshold, dist[train_set], actual_issame[train_set])
-	best_threshold_index = np.argmax(acc_train)
-	print('threshold', thresholds[best_threshold_index])
+	# acc_train = np.zeros((nrof_thresholds))
+	# for threshold_idx, threshold in enumerate(thresholds):
+	# 	_, _, acc_train[threshold_idx] = calculate_accuracy(threshold, dist[train_set], actual_issame[train_set])
+	# best_threshold_index = np.argmax(acc_train)
+	# print('threshold', thresholds[best_threshold_index])
 
-	# predict_issame = np.less(dist[test_set], thresholds[best_threshold_index])
+	predict_issame = np.less(dist[test_set], threshold)
+	return predict_issame
 
 
 	# for threshold_idx, threshold in enumerate(thresholds):
@@ -65,7 +77,7 @@ def load_bin(path, image_size):
   for flip in [0,1]:
     data = nd.empty((len(issame_list)*2, 3, image_size[0], image_size[1]))
     data_list.append(data)
-  for i in xrange(len(issame_list)*2):
+  for i in range(len(issame_list)*2):
     _bin = bins[i]
     img = mx.image.imdecode(_bin)
     if img.shape[1]!=image_size[0]:
@@ -94,7 +106,7 @@ def test(data_set, mx_model, batch_size, data_extra = None, label_shape = None):
 		_label = nd.ones( (batch_size,) )
 	else:
 		_label = nd.ones( label_shape )
-	for i in xrange( len(data_list) ):
+	for i in range( len(data_list) ):
 		data = data_list[i]
 		embeddings = None
 		ba = 0
@@ -136,7 +148,7 @@ def test(data_set, mx_model, batch_size, data_extra = None, label_shape = None):
 	_xnorm = 0.0
 	_xnorm_cnt = 0
 	for embed in embeddings_list:
-		for i in xrange(embed.shape[0]):
+		for i in range(embed.shape[0]):
 			_em = embed[i]
 			_norm=np.linalg.norm(_em)
 			#print(_em.shape, _norm)
@@ -148,12 +160,16 @@ def test(data_set, mx_model, batch_size, data_extra = None, label_shape = None):
 	embeddings = sklearn.preprocessing.normalize(embeddings)
 
 	print('infer time', time_consumed)
-	_, _, accuracy, val, val_std, far = evaluate(embeddings, issame_list)
+	threshold = 0.87
+	predict_issame = predict(embeddings, issame_list, threshold)
+	print('predict_issame')
 
 
 if __name__=='__main__':
 	import argparse
 	parser = argparse.ArgumentParser(description='do verification')
+	parser.add_argument('--data-dir', help='data-dir')
+	parser.add_argument('--target', default='lfw,cfp_ff,cfp_fp,agedb_30', help='test targets.')
 	parser.add_argument('--model', default='../model/softmax,50', help='path to load model.')
 	parser.add_argument('--batch-size', default=32, type=int, help='')
 	parser.add_argument('--gpu', default=0, type=int, help='gpu id')
@@ -165,10 +181,10 @@ if __name__=='__main__':
 	args = parser.parse_args()
 
 	prop = face_image.load_property(args.data_dir)
-    image_size = prop.image_size
-    print('image_size', image_size)
+	image_size = prop.image_size
+	print('image_size', image_size)
 	ctx = mx.gpu(args.gpu)
-    nets = []
+	nets = []
 
 	vec = args.model.split(',')
 	prefix = args.model.split(',')[0]
@@ -218,10 +234,10 @@ if __name__=='__main__':
 			ver_list.append(data_set)
 			ver_name_list.append(name)
 
-	for i in xrange(len(ver_list)):
+	for i in range(len(ver_list)):
 		results = []
 		for model in nets:
-			acc1, std1, acc2, std2, xnorm, embeddings_list = test(ver_list[i], model, args.batch_size)
+			test(ver_list[i], model, args.batch_size)
 			# print('[%s]XNorm: %f' % (ver_name_list[i], xnorm))
 			# print('[%s]Accuracy: %1.5f+-%1.5f' % (ver_name_list[i], acc1, std1))
 			# print('[%s]Accuracy-Flip: %1.5f+-%1.5f' % (ver_name_list[i], acc2, std2))

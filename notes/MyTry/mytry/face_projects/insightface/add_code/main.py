@@ -8,8 +8,9 @@ import cv2, pickle
 def identify(data, ide_model, vector_dir, k, output):
 	args = get_config()
 	face_model = FaceModel(args)
+	data_items = data.items()[:30]
 	top_5s = []
-	for name, paths in data.items()[:10]:
+	for name, paths in data_items:
 		path = paths[0]
 		file_name = split(path)[1]
 		print('file_name: ', file_name)
@@ -27,7 +28,7 @@ def identify(data, ide_model, vector_dir, k, output):
 			with open(emb_path, 'rb') as f:
 				_emb = pickle.load(f)
 		candidates, is_sames = ide_model.identify(_emb, k)
-		top_5 = [0,0,0,0,0]
+		top_5 = [0] * k
 		is_novelty = False
 		for i, (candidate, is_same) in enumerate(zip(candidates, is_sames)):
 			if i == 0:
@@ -38,14 +39,15 @@ def identify(data, ide_model, vector_dir, k, output):
 					is_novelty = True
 		if is_novelty == False:
 			top_5[-1] = 1000
+			top_5[1:-1] = candidates[1:-1]
 		else:
 			top_5[1:] = candidates[0:-1]
-		top_5s.append(top_5)
+		top_5s.append(candidates)
 		
 	
 	with open(output, 'w') as f:
 		f.write('image,label\n')
-		for i, ((name, paths), top_5) in enumerate(zip(data.items(),top_5s)):
+		for i, ((name, paths), top_5) in enumerate(zip(data_items,top_5s)):
 			path = paths[0]
 			file_name = split(path)[1]
 			bfile_name = splitext(file_name)[0]
