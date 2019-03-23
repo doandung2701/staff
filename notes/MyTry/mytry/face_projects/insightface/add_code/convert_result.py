@@ -15,15 +15,18 @@ def main(indir, input_path, output):
 		for line in lines[1:]:
 			colums = line.split(',')
 			img_name, result = colums[0], colums[1].rstrip()
-			pairs.append((img_name, result))
+			idx = int(img_name.split('_')[0])
+			pairs.append((idx, result))
 	n_pair = len(pairs)
 	print('n_pair: ', n_pair)
+	pairs = sorted(pairs, key= lambda x: x[0])
 
 
 
 	with open(output, 'w') as f:
 		f.write('image,label\n')
-		for i, ((img_name, result), actual_img_name) in enumerate(zip(pairs,actual_img_names)):
+		for i, ((idx, result), actual_img_name) in enumerate(zip(pairs,actual_img_names)):
+			assert i == idx
 			f.write(actual_img_name + ',' + result)
 			if i < len(actual_img_names) - 1:
 				f.write('\n')
