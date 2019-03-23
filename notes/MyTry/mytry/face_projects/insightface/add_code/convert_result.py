@@ -14,7 +14,7 @@ def main(indir, input_path, output):
 		print(lines)
 		for line in lines[1:]:
 			colums = line.split(',')
-			img_name, result = colums[0], colums[1]
+			img_name, result = colums[0], colums[1].rstrip()
 			pairs.append((img_name, result))
 	n_pair = len(pairs)
 	print('n_pair: ', n_pair)
