@@ -72,8 +72,8 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 	
 	with open(output, 'w') as f:
 		f.write('image,label\n')
-		for i, ((name, paths), top_5) in enumerate(zip(data_items,top_5s)):
-			path = paths[0]
+		for i, (test_img, top_5) in enumerate(zip(tree.test_imgs(),top_5s)):
+			path = test_emb.path
 			file_name = split(path)[1]
 			bfile_name = splitext(file_name)[0]
 			f.write(bfile_name + '.png,' + ' '.join([str(e) for e in top_5]))
@@ -95,7 +95,7 @@ if __name__=='__main__':
 	ap.add_argument("--batch-size", help="batch-size")
 	args= vars(ap.parse_args())
 
-	name2file, emb_data = load_emb_data(args['data_dir'])
+	name2file, emb_data = load_emb_data(args['data_dir'], vector_dir=args['ver_vector_dir'])
 	data = {name: [join(args['data_dir'], name, f) for f in files] for name, files in name2file.items()}
 
 	tree = Tree()

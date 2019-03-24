@@ -11,6 +11,7 @@ from nface_embedding import FaceModel
 from easydict import EasyDict as edict
 import mxnet as mx
 import argparse
+import pdb
 
 
 
@@ -62,6 +63,7 @@ def load_emb(data_dir, data, vector_dir):
 def load_emb_data(data_dir, vector_dir=None):
 	data = load_data(data_dir)
 	print('load_data: ', data)
+	# pdb.set_trace()
 	emb_data = load_emb(data_dir, data, vector_dir)
 	return data, emb_data
 
