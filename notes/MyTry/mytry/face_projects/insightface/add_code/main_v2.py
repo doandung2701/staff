@@ -54,7 +54,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 		print('Cal dist done! ', time() - start)
 
 		if not exists(split(tree_path)[0]):
-			system('mkdir -p ', split(tree_path)[0])
+			system('mkdir -p ' + split(tree_path)[0])
 		with open(tree_path, 'wb') as f:
 			pickle.dump(tree, f)
 
@@ -95,7 +95,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 		top_5s.append(top_5)
 		
 	if not exists(split(output)[0]):
-		system('mkdir -p ', split(output)[0])
+		system('mkdir -p ' + split(output)[0])
 	with open(output, 'w') as f:
 		f.write('image,label\n')
 		for i, (test_img, top_5) in enumerate(zip(tree.test_imgs(),top_5s)):
