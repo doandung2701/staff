@@ -21,7 +21,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 
 		s, e = get_slice_of_batch(n_test_img, batch_size, batch_idx)
 		_batch = tree.test_imgs()[s:e]
-		_batch = [e.emb for e in _batch]
+		_batch = [e.emb() for e in _batch]
 		bstart = time()
 		_batch_candidates = ide_model.batch_candidates(_batch)
 		print(batch_idx, time() - bstart)
