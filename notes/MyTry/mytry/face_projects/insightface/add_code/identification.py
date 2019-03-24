@@ -33,7 +33,7 @@ class Person:
 
 class TestImage(Image):
 	def __init__(self, path, emb=None):
-		super(self.__class__, self).__init__()
+		super(self.__class__, self).__init__(path, emb)
 		self._candidates = []
 		self._dists = []
 	
