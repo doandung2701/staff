@@ -6,20 +6,26 @@ from nface_embedding import FaceModel
 import cv2, pickle
 import numpy as np
 from utils import get_batch_number, get_slice_of_batch
+from time import time
 
 
 def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size):
+	print('Identifing!')
 	n_test_img = tree.len()
 	tree_candidates = []
 	n_batch = get_batch_number(n_test_img, batch_size)
+	start = time()
 	for batch_idx in range(n_batch):
 		s, e = get_slice_of_batch(n_test_img, batch_size, batch_idx)
 		_batch = tree.test_imgs()[s:e]
+		bstart = time()
 		_batch_candidates = ide_model.batch_candidates(_batch)
+		print(batch_idx, time() - bstart)
 		tree_candidates.extend(_batch_candidates)
 	tree.paste_candidate(tree_candidates)
+	print('Get candidate done! ', time() - start)
 
-
+	start = time()
 	for test_img in tree.test_imgs():
 		test_emb = test_img.emb()
 		persons = test_img.candidates()
@@ -36,7 +42,8 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 				person.append(img)
 				dist = np.sum(np.square(test_emb-img.emb))
 				person.append_dist(dist)
-
+	print('Cal dist done! ', time() - start)
+	
 	top_5s = []
 	for test_img in tree.test_imgs():
 		is_sames = []
@@ -95,8 +102,10 @@ if __name__=='__main__':
 	ap.add_argument("--batch-size", help="batch-size")
 	args= vars(ap.parse_args())
 
+	start = time()
 	name2file, emb_data = load_emb_data(args['data_dir'], vector_dir=args['ver_vector_dir'])
 	data = {name: [join(args['data_dir'], name, f) for f in files] for name, files in name2file.items()}
+	print('loaded data: ', time() - start)
 
 	tree = Tree()
 	for name, paths in data.items():
@@ -106,7 +115,7 @@ if __name__=='__main__':
 
 	ide_model = IdentifyModel()
 	ide_model.load_classify_model(args['model_path'])
-	ide_model.known_vector_dir(args['known_vector_dir'])
+	# ide_model.known_vector_dir(args['known_vector_dir'])
 	# ide_model.set_threshold(args['threshold'])
 	ide_model.set_n_top_candidate(args['k'])
 	ide_model.load_idx2path(args['idx2path'])
