@@ -9,7 +9,7 @@ from data import get_config
 from nface_embedding import FaceModel
 import pdb
 
-class Image:
+class Image(object):
 	def __init__(self, path=None, emb=None):
 		self._path = path
 		self._emb = emb
@@ -33,7 +33,7 @@ class Person:
 
 class TestImage(Image):
 	def __init__(self, path, emb=None):
-		super(Image, self).__init__(path, emb)
+		super(self.__class__, self).__init__()
 		self._candidates = []
 		self._dists = []
 	
