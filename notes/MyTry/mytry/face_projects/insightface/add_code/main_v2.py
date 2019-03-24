@@ -20,7 +20,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 	for batch_idx in range(n_batch):
 
 		s, e = get_slice_of_batch(n_test_img, batch_size, batch_idx)
-		pdb.set_trace()
+		# pdb.set_trace()
 		_batch = tree.test_imgs()[s:e]
 		_batch = [e.emb() for e in _batch]
 		bstart = time()
@@ -54,6 +54,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 	top_5s = []
 	for test_img in tree.test_imgs():
 		is_sames = []
+		person_dist = test_img.dists()
 		print('person_dist: ', person_dist)
 		for person_dist in zip(test_img.dists()):
 			vote = 0
