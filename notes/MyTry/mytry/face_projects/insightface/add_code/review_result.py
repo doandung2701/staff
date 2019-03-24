@@ -5,8 +5,7 @@ from os.path import expanduser, join, split, splitext, exists
 from glob import glob
 
 
-def main(indir, input_path, output):
-	actual_img_names = listdir(indir)
+def main(input_path, output):
 
 	pairs = []
 	with open(input_path) as f:
@@ -15,12 +14,25 @@ def main(indir, input_path, output):
 		for line in lines[1:]:
 			colums = line.split(',')
 			img_name, result = colums[0], colums[1].rstrip()
-			idx = int(img_name.split('_')[0])
-			pairs.append((idx, result))
+			result = [int(e) for e in result.split(' ')]
+			pairs.append((img_name, result))
 	n_pair = len(pairs)
 	print('n_pair: ', n_pair)
 	pairs = sorted(pairs, key= lambda x: x[0])
 
+	statis = dict()
+	for i in range(1001):
+		statis[i] = 0
+	for img, result in pairs:
+		statis[result[0]] += 1
+
+	import matplotlib
+	matplotlib.use('Agg')
+	import matplotlib.pylab as plt
+	lists = sorted(statis.items())
+	x, y = zip(*lists) # unpack a list of pairs into two tuples
+	plt.plot(x, y)
+	plt.savefig('foo.png')
 
 
 	# with open(output, 'w') as f:
@@ -35,8 +47,7 @@ def main(indir, input_path, output):
 if __name__=='__main__':
 	import argparse
 	ap = argparse.ArgumentParser()
-	ap.add_argument("--indir", help="indir")
 	ap.add_argument("--input_path", help="input_path")
 	ap.add_argument("--output_path", help="output_path")
 	args= vars(ap.parse_args())
-	main(args["indir"],args["input_path"], args["output_path"])
+	main(args["input_path"], args["output_path"])

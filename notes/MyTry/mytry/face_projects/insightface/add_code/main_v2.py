@@ -18,9 +18,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 	n_batch = get_batch_number(n_test_img, batch_size)
 	start = time()
 	for batch_idx in range(n_batch):
-
 		s, e = get_slice_of_batch(n_test_img, batch_size, batch_idx)
-		# pdb.set_trace()
 		_batch = tree.test_imgs()[s:e]
 		_batch = [e.emb() for e in _batch]
 		bstart = time()
@@ -94,7 +92,8 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 			path = test_img.path()
 			file_name = split(path)[1]
 			bfile_name = splitext(file_name)[0]
-			f.write(bfile_name + '.png,' + ' '.join([str(e) for e in top_5]))
+			name = bfile_name[:bfile_name.rfind('_')]
+			f.write(name + '.png,' + ' '.join([str(e) for e in top_5]))
 			if i < len(top_5s) - 1:
 				f.write('\n')
 
