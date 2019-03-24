@@ -36,7 +36,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 		for person in persons:
 			paths = ide_model.idx2path[str(person.idx())]
 			for path in paths:
-				img_dir, file_name = split(path)[0]
+				img_dir, file_name = split(path)
 				bfile_name = splitext(file_name)[0]
 				name = split(img_dir)[1]
 				emb_path = join(known_vector_dir, name, bfile_name + '.pkl')
