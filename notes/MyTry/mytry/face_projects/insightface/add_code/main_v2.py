@@ -120,7 +120,7 @@ if __name__=='__main__':
 	ap.add_argument("--k", type=int, help="n_top_candidate")
 	ap.add_argument("--output", help="output")
 	ap.add_argument("--batch-size", type=int, help="batch-size")
-	ap.add_argument("--tree_path", type=int, help="tree_path")
+	ap.add_argument("--tree-path", type=int, help="tree-path")
 	args= vars(ap.parse_args())
 
 	tree = Tree()
