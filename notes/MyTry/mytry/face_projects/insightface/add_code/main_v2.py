@@ -34,7 +34,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 		test_emb = test_img.emb()
 		persons = test_img.candidates()
 		for person in persons:
-			paths = ide_model.idx2path[person.idx]
+			paths = ide_model.idx2path[str(person.idx())]
 			for path in paths:
 				img_dir, file_name = split(path)[0]
 				bfile_name = splitext(file_name)[0]
