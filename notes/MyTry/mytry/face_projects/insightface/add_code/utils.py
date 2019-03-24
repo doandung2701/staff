@@ -1,5 +1,5 @@
 from sklearn import model_selection, svm
-import cv2 
+import cv2 , math
 
 def svm_classify(X, Y):
     svc = svm.SVC(probability=True, kernel='linear', class_weight='balanced')
