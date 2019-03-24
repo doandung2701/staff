@@ -5,7 +5,7 @@ from os.path import expanduser, join, split, splitext, exists
 from glob import glob
 
 
-def main(input_path, output):
+def main(input_path, output_path):
 
 	pairs = []
 	with open(input_path) as f:
@@ -32,7 +32,9 @@ def main(input_path, output):
 	lists = sorted(statis.items())
 	x, y = zip(*lists) # unpack a list of pairs into two tuples
 	plt.plot(x, y)
-	plt.savefig('foo.png')
+	if not exists(split(output_path)[0]):
+		system('mkdir -p ' + split(output_path)[0])
+	plt.savefig(output_path)
 
 
 	# with open(output, 'w') as f:

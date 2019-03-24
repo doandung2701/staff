@@ -7,7 +7,7 @@ from os import listdir, mkdir
 from os.path import expanduser, join, split, splitext, exists
 from glob import glob
 import cv2, pickle
-from nface_embedding import FaceModel
+from face_model import FaceModel
 from easydict import EasyDict as edict
 import mxnet as mx
 import argparse
@@ -38,7 +38,7 @@ def load_data(data_dir):
 
 def load_emb(data_dir, data, vector_dir):
 	args = get_config()
-	face_model = FaceModel(args)
+	fmodel = FaceModel(args)
 	emb_data = {}
 	for name, file_names in data.items():
 		_embs = []
@@ -49,8 +49,8 @@ def load_emb(data_dir, data, vector_dir):
 				mkdir(join(vector_dir, name))
 			if not exists(emb_path):
 				_img = cv2.imread(join(data_dir, name, file_name))
-				_img = cv2.resize(_img, (112,112))
-				_emb = face_model.get_feature(_img)
+				_img = fmodel.get_input(_img)
+				_emb = fmodel.get_feature(_img)
 				with open(emb_path, 'wb') as f:
 					pickle.dump(_emb, f)
 			else:

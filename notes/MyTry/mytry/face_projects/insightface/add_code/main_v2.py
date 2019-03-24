@@ -2,7 +2,7 @@ from os import mkdir, system
 from os.path import split, splitext, join, exists
 from identification import IdentifyModel, Image, TestImage, Person, Tree
 from data import load_emb_data, get_config
-from nface_embedding import FaceModel
+from face_model import FaceModel
 import cv2, pickle
 import numpy as np
 from utils import get_batch_number, get_slice_of_batch
