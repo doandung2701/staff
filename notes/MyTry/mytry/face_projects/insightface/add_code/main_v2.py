@@ -115,7 +115,7 @@ if __name__=='__main__':
 	print('loaded data: ', time() - start)
 
 	tree = Tree()
-	for name, paths in data.items()[:10]:
+	for name, paths in data.items()[:30]:
 		_emb = emb_data[name][0]
 		test_img = TestImage(paths[0], _emb)
 		tree.append(test_img) 
