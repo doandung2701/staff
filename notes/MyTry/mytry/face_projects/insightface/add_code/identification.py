@@ -129,7 +129,7 @@ class IdentifyModel:
 			self.classify_model = pickle.load(f)
 	
 	def _classify_batch(self, batch):
-		pdb.set_trace()
+		# pdb.set_trace()
 		batch_probs = self.classify_model.decision_function(batch)
 		batch_idx2prob = [{self.classify_model.classes_[i]:prob for i, prob in enumerate(probs)} for probs in batch_probs]
 		return batch_idx2prob
