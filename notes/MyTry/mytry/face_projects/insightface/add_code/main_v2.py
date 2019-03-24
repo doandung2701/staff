@@ -59,7 +59,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 			for dist in person_dist:
 				if dist < threshold:
 					vote += 1
-			print(', ', vote),
+			print vote + ', ',
 			if vote > 0:
 				is_sames.append(1)
 			else:
