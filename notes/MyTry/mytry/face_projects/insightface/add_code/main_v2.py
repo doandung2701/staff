@@ -116,6 +116,7 @@ if __name__=='__main__':
 		_emb = emb_data[name][0]
 		test_img = TestImage(paths[0], _emb)
 		tree.append(test_img) 
+	pdb.set_trace()
 
 	ide_model = IdentifyModel()
 	ide_model.load_classify_model(args['model_path'])
