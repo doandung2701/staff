@@ -87,7 +87,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 	with open(output, 'w') as f:
 		f.write('image,label\n')
 		for i, (test_img, top_5) in enumerate(zip(tree.test_imgs(),top_5s)):
-			path = test_emb.path
+			path = test_img.path()
 			file_name = split(path)[1]
 			bfile_name = splitext(file_name)[0]
 			f.write(bfile_name + '.png,' + ' '.join([str(e) for e in top_5]))

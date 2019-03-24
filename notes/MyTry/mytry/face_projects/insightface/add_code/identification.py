@@ -17,6 +17,9 @@ class Image(object):
 	def emb(self):
 		return self._emb
 
+	def path(self):
+		return self._path
+
 class Person:
 	def __init__(self, idx):
 		self._idx = idx
