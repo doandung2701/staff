@@ -35,6 +35,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 		persons = test_img.candidates()
 		for person in persons:
 			paths = ide_model.idx2path[str(person.idx())]
+			person_dist = []
 			for path in paths:
 				img_dir, file_name = split(path)
 				bfile_name = splitext(file_name)[0]
@@ -45,15 +46,16 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 				img = Image(path, _emb)
 				person.append(img)
 				dist = np.sum(np.square(test_emb-img.emb()))
-				person.append_dist(dist)
+				person_dist.append(dist)
+			test_img.append_dist(person_dist)
 	print('Cal dist done! ', time() - start)
 
 	top_5s = []
 	for test_img in tree.test_imgs():
 		is_sames = []
-		for dists in zip(test_img.dists()):
+		for person_dist in zip(test_img.dists()):
 			vote = 0
-			for dist in dists:
+			for dist in person_dist:
 				if dist < threshold:
 					vote += 1
 			print('vote: ', vote)
