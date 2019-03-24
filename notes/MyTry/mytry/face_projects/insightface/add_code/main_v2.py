@@ -56,15 +56,17 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 		is_sames = []
 		for person_dist in zip(test_img.dists()):
 			print('person_dist: ', person_dist)
+			print('vote: ')
 			vote = 0
 			for dist in person_dist:
 				if dist < threshold:
 					vote += 1
-			print str(vote) + ', ',
+			print  str(vote) + ', ',
 			if vote > 0:
 				is_sames.append(1)
 			else:
 				is_sames.append(0)
+			print()
 		print('is_sames: ', is_sames)
 
 		top_5 = [0] * k
