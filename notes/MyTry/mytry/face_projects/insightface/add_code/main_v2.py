@@ -54,7 +54,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 	top_5s = []
 	for test_img in tree.test_imgs():
 		is_sames = []
-		for person_dist in zip(test_img.dists()):
+		for person_dist in test_img.dists():
 			print('person_dist: ', person_dist)
 			print('vote: ')
 			pdb.set_trace()
