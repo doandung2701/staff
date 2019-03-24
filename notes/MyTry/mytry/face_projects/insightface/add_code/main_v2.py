@@ -52,9 +52,8 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 	print('Cal dist done! ', time() - start)
 
 	top_5s = []
-	for test_img in tree.test_imgs():
+	for test_img, person_dist in zip(tree.test_imgs(), tree.dists()):
 		is_sames = []
-		person_dist = test_img.dists()
 		print('person_dist: ', person_dist)
 		for person_dist in zip(test_img.dists()):
 			vote = 0
