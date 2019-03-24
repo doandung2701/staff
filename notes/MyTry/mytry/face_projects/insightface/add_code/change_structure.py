@@ -4,7 +4,7 @@ from os.path import expanduser, join, split, splitext, exists
 from glob import glob
 
 
-def main(indir, outdir, des_file_path):
+def main(indir, outdir, des_file_path, oneperperson):
 	indir = expanduser(indir)
 	outdir = expanduser(outdir)
 
@@ -25,7 +25,10 @@ def main(indir, outdir, des_file_path):
 		print('n_pair: ', n_pair)
 	else:
 		img_names = listdir(indir)
-		pairs = [(img_name, i) for i, img_name in enumerate(img_names)]
+		if oneperperson == True:
+			pairs = [(img_name, splitext(img_name)[0]) for _, img_name in enumerate(img_names)]
+		else:
+			pairs = [(img_name, i) for i, img_name in enumerate(img_names)]
 
 
 	idxs = set([idx for _, idx in pairs])
@@ -35,7 +38,7 @@ def main(indir, outdir, des_file_path):
 
 	n_kpeople = len(idxs)
 	print('n_kpeople: ', n_kpeople)
-	assert idxs == list(range(n_kpeople))
+	# assert idxs == list(range(n_kpeople))
 
 	idx2img_names = dict()
 	for idx in idxs:
@@ -71,5 +74,6 @@ if __name__=='__main__':
 	ap.add_argument("--indir", help="indir")
 	ap.add_argument("--outdir", help="outdir")
 	ap.add_argument("--des_file_path", default='', help="des_file_path")
+	ap.add_argument("--oneperperson", type=bool, help="oneperperson")
 	args= vars(ap.parse_args())
-	main(args["indir"], args["outdir"], args["des_file_path"])
+	main(args["indir"], args["outdir"], args["des_file_path"], args['oneperperson'])

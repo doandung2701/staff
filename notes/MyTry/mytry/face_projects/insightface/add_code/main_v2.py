@@ -26,7 +26,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 		_batch_candidates = ide_model.batch_candidates(_batch)
 		print(batch_idx, time() - bstart)
 		tree_candidates.extend(_batch_candidates)
-	tree.paste_candidate(tree_candidates)
+	tree.paste_candidate_idx(tree_candidates)
 	print('Get candidate done! ', time() - start)
 
 	start = time()
@@ -112,7 +112,7 @@ if __name__=='__main__':
 	print('loaded data: ', time() - start)
 
 	tree = Tree()
-	for name, paths in data.items():
+	for name, paths in data.items()[:10]:
 		_emb = emb_data[name][0]
 		test_img = TestImage(paths[0], _emb)
 		tree.append(test_img) 

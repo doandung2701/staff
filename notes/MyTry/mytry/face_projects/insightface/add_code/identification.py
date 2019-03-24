@@ -138,6 +138,8 @@ class IdentifyModel:
 			_candidates = [e[0] for e in sorted(idx2prob.items(), key=lambda x:x[1], reverse=True)][:self.n_top_candidate]
 			batch_candidates.append(_candidates)
 		return batch_candidates
+	
+
 
 
 	# def identify_batch(self, batch):
