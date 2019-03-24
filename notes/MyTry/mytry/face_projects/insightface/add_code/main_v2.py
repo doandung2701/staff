@@ -7,15 +7,18 @@ import cv2, pickle
 import numpy as np
 from utils import get_batch_number, get_slice_of_batch
 from time import time
+import pdb
 
 
 def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size):
 	print('Identifing!')
 	n_test_img = tree.len()
 	tree_candidates = []
+	pdb.set_trace()
 	n_batch = get_batch_number(n_test_img, batch_size)
 	start = time()
 	for batch_idx in range(n_batch):
+
 		s, e = get_slice_of_batch(n_test_img, batch_size, batch_idx)
 		_batch = tree.test_imgs()[s:e]
 		bstart = time()
