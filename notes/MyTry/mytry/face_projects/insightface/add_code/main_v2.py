@@ -53,12 +53,13 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 	top_5s = []
 	for test_img in tree.test_imgs():
 		is_sames = []
+		print('person_dist: ', person_dist)
 		for person_dist in zip(test_img.dists()):
 			vote = 0
 			for dist in person_dist:
 				if dist < threshold:
 					vote += 1
-			print('vote: ', vote)
+			print(', ', vote, end=' ')
 			if vote > 0:
 				is_sames.append(1)
 			else:
@@ -74,7 +75,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 				else:
 					top_5[i] = 1000
 					is_novelty = True
-		candidate_idxs = [person.idx() for person in test_emb.candidates()]
+		candidate_idxs = [person.idx() for person in test_img.candidates()]
 		if is_novelty == False:
 			top_5[-1] = 1000
 			top_5[1:-1] = candidate_idxs[1:-1]
