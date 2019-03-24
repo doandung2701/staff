@@ -43,7 +43,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 				dist = np.sum(np.square(test_emb-img.emb))
 				person.append_dist(dist)
 	print('Cal dist done! ', time() - start)
-	
+
 	top_5s = []
 	for test_img in tree.test_imgs():
 		is_sames = []
@@ -99,7 +99,7 @@ if __name__=='__main__':
 	ap.add_argument("--threshold", type=float,help="threshold")
 	ap.add_argument("--k", type=int, help="n_top_candidate")
 	ap.add_argument("--output", help="output")
-	ap.add_argument("--batch-size", help="batch-size")
+	ap.add_argument("--batch-size", type=int, help="batch-size")
 	args= vars(ap.parse_args())
 
 	start = time()
