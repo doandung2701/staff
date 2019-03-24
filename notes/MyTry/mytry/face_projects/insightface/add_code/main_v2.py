@@ -57,7 +57,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 		for person_dist in test_img.dists():
 			print('person_dist: ', person_dist)
 			print('vote: ')
-			pdb.set_trace()
+			# pdb.set_trace()
 			vote = 0
 			for dist in person_dist:
 				if dist < threshold:
