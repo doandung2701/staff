@@ -14,7 +14,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 	print('Identifing!')
 	n_test_img = tree.len()
 	tree_candidates = []
-	pdb.set_trace()
+	# pdb.set_trace()
 	n_batch = get_batch_number(n_test_img, batch_size)
 	start = time()
 	for batch_idx in range(n_batch):
