@@ -44,7 +44,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 					_emb = pickle.load(f)
 				img = Image(path, _emb)
 				person.append(img)
-				dist = np.sum(np.square(test_emb-img.emb))
+				dist = np.sum(np.square(test_emb-img.emb()))
 				person.append_dist(dist)
 	print('Cal dist done! ', time() - start)
 
