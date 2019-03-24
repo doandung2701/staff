@@ -35,9 +35,7 @@ def load_data(data_dir):
 			name2file[person_dir].append(person_file)
 	return name2file
 
-def load_emb_data(data_dir, vector_dir=None):
-	data = load_data(data_dir)
-	print('load_data: ', data)
+def load_emb(data_dir, data, vector_dir):
 	args = get_config()
 	face_model = FaceModel(args)
 	emb_data = {}
@@ -59,5 +57,11 @@ def load_emb_data(data_dir, vector_dir=None):
 					_emb = pickle.load(f)
 			_embs.append(_emb)
 		emb_data[name] = _embs
+	return emb_data
+
+def load_emb_data(data_dir, vector_dir=None):
+	data = load_data(data_dir)
+	print('load_data: ', data)
+	emb_data = load_emb(data_dir, data, vector_dir)
 	return data, emb_data
 
