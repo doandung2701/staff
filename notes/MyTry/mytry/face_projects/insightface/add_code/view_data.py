@@ -73,7 +73,11 @@ if __name__=='__main__':
 			img2dist[_r].append(dist_pair[0])
 		print('name: ', name)
 		for img in sorted(imgs, key=lambda x:img2n[x], reverse=True):
-			print(img + ' :' + str(img2dist[img]))
+			if len(img2dist[img]) == len(name2file[name]) - 1:
+				should_delete = '-> Shoud delete! OK'
+			else:
+				should_delete = '-> Shoud delete?'
+			print(img + ' :' + str(img2dist[img]) + should_delete)
 
 
 
