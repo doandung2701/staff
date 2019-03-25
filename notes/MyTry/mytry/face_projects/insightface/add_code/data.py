@@ -49,7 +49,7 @@ def load_emb(data_dir, data, vector_dir):
 				mkdir(join(vector_dir, name))
 			if not exists(emb_path):
 				_img = cv2.imread(join(data_dir, name, file_name))
-				# _img = fmodel.get_input(_img)
+				_img = fmodel.get_input(_img)
 				_emb = fmodel.get_feature(_img)
 				with open(emb_path, 'wb') as f:
 					pickle.dump(_emb, f)
