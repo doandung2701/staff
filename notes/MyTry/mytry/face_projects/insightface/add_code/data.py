@@ -49,7 +49,11 @@ def load_emb(data_dir, data, vector_dir):
 				mkdir(join(vector_dir, name))
 			if not exists(emb_path):
 				_img = cv2.imread(join(data_dir, name, file_name))
-				_img = fmodel.get_input(_img)
+				i_input = fmodel.get_input(_img)
+				if i_input is not None:
+					_img = i_input
+				else:
+					_img = cv2.resize(_img, (112,112))
 				_emb = fmodel.get_feature(_img)
 				with open(emb_path, 'wb') as f:
 					pickle.dump(_emb, f)
