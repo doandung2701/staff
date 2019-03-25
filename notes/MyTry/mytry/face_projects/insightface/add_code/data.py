@@ -40,6 +40,8 @@ def load_emb(data_dir, data, vector_dir):
 	args = get_config()
 	fmodel = FaceModel(args)
 	emb_data = {}
+	pdb.set_trace()
+
 	for name, file_names in data.items():
 		_embs = []
 		for file_name in file_names:
