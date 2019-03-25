@@ -71,12 +71,14 @@ class FaceModel:
   def get_input(self, face_img):
     ret = self.detector.detect_face(face_img, det_type = self.args.det)
     if ret is None:
-      return None
-    bbox, points = ret
-    if bbox.shape[0]==0:
-      return None
-    bbox = bbox[0,0:4]
-    points = points[0,:].reshape((2,5)).T
+      bbox, points = None, None
+    else:
+      bbox, points = ret
+      if bbox.shape[0]==0:
+        bbox, points = None, None
+      else:
+        bbox = bbox[0,0:4]
+        points = points[0,:].reshape((2,5)).T
     #print(bbox)
     #print(points)
     nimg = face_preprocess.preprocess(face_img, bbox, points, image_size='112,112')
