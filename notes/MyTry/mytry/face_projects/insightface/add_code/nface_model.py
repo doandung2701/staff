@@ -60,7 +60,7 @@ class FaceModel:
     self.det_threshold = [0.6,0.7,0.8]
     #self.det_factor = 0.9
     self.image_size = image_size
-    mtcnn_path = os.path.join(os.path.dirname(__file__), 'mtcnn-model')
+    mtcnn_path = os.path.join('deploy','mtcnn-model')
     if args.det==0:
       detector = MtcnnDetector(model_folder=mtcnn_path, ctx=ctx, num_worker=1, accurate_landmark = True, threshold=self.det_threshold)
     else:
