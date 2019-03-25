@@ -24,7 +24,7 @@ def get_config():
 	args.image_size = '112,112'
 	args.gpu = 0
 	args.ga_model = ''
-	args.flip = 0
+	args.flip = 1
 	return args
 
 def load_data(data_dir):
