@@ -89,17 +89,17 @@ def random_envirment(img,data_set):
 	return img
 
 def GenCh(f,val):
-	img=Image.new("RGB", (45,70),(255,255,255))
+	img=Image.new("RGB", (45,70),(0,0,255))
 	draw = ImageDraw.Draw(img)
-	draw.text((0, 3),val,(0,0,0),font=f)
+	draw.text((0, 3),val,(0,0,0),font=ImageFont.truetype("font/arial.ttf", 15))
 	img =  img.resize((23,70))
 	A = np.array(img)
 
 	return A
 def GenCh1(f,val):
-	img=Image.new("RGB", (23,70),(255,255,255))
+	img=Image.new("RGB", (23,70),(0,0,255))
 	draw = ImageDraw.Draw(img)
-	draw.text((0, 2),val.decode('utf-8'),(0,0,0),font=f)
+	draw.text((0, 2),val.decode('utf-8'),(0,0,0),font=ImageFont.truetype("font/arial.ttf", 15))
 	A = np.array(img)
 	return A
 def AddGauss(img, level):
@@ -150,6 +150,7 @@ class GenPlate:
 			base = offset+8+23+6+23+17 +i*23 + i*6 
 			self.img[0:70, base  : base+23]= GenCh1(self.fontE,val[i+2])
 		return self.img
+		
 	def generate(self,text):
 		print("text: ", text)
 		if len(text) == 9:

@@ -1,0 +1,5 @@
+classes=35
+train=data/finetune_ocr/train.txt
+valid=data/finetune_ocr/test.txt
+names=data/finetune_ocr/ocr-net.names
+backup=data/finetune_ocr/20192503-1538

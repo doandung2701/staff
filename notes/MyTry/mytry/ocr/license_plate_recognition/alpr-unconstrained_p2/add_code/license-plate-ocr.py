@@ -111,7 +111,7 @@ if __name__ == '__main__':
 
 		ocr_threshold = .4
 
-		ocr_weights = 'data/ocr/ocr-net.weights'
+		# ocr_weights = 'data/finetune_ocr/ocr-net.weights'
 		# ocr_weights = 'data/retrained_ocr/backup/ocr-net_final.weights'
 		# ocr_weights = 'data/retrained_ocr/20191103-1145/ocr-net_final.weights'
 		# ocr_weights = 'darknet/backup/ocr-net_final.weights'
@@ -120,10 +120,13 @@ if __name__ == '__main__':
 
 		# 2.5 hours
 		# ocr_weights = 'data/retrained_ocr/20191103-1458/ocr-net_final.weights'
-		ocr_netcfg  = 'data/ocr/ocr-net.cfg'
-		ocr_dataset = 'data/ocr/ocr-net.data'
+		# ocr_netcfg  = 'data/ocr/ocr-net.cfg'
+		# ocr_dataset = 'data/ocr/ocr-net.data'
 		# ocr_netcfg = 'data/retrained_ocr/ocr-net.cfg'
 		# ocr_dataset = 'data/retrained_ocr/ocr-net.data'
+
+		ocr_netcfg = 'data/finetune_ocr/ocr-net.cfg'
+		ocr_dataset = 'data/finetune_ocr/ocr-net.data'
 
 
 		# ocr_weights = 'data/retrained_ocr_keep_structure/20191103-1223/ocr-net_900.weights'

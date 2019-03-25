@@ -7,8 +7,8 @@ from os import listdir, mkdir
 from os.path import expanduser, join, split, splitext, exists
 from glob import glob
 import cv2, pickle
-from nface_model import FaceModel
-# from nface_embedding import FaceModel
+# from nface_model import FaceModel
+from nface_embedding import FaceModel
 from easydict import EasyDict as edict
 import mxnet as mx
 import argparse
@@ -53,13 +53,12 @@ def load_emb(data_dir, data, vector_dir):
 				_img = cv2.imread(join(data_dir, name, file_name))
 				# pdb.set_trace()
 
-				i_input = fmodel.get_input(_img)
-				if i_input is not None:
-					_img = i_input
-				else:
-					pdb.set_trace()
-					_img = cv2.resize(_img, (112,112))
-				# pdb.set_trace()
+				# i_input = fmodel.get_input(_img)
+				# if i_input is not None:
+				# 	_img = i_input
+				# else:
+				# 	pdb.set_trace()
+				# 	exit(0)
 				
 				_emb = fmodel.get_feature(_img)
 				with open(emb_path, 'wb') as f:
