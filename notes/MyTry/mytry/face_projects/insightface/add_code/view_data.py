@@ -54,9 +54,34 @@ if __name__=='__main__':
 	for name, max_dist in pairs[::-1]:
 		if max_dist > args['threshold']:
 			warm_names.append(name)
-	log_strs = [str(name) + ': ' + str(sorted(name2dist[name], key= lambda x: x[0], reverse=True)) for name in warm_names]
-	for log_str in log_strs:
-		print(log_str)
+	for name in warm_names:
+		dist_pairs = sorted(name2dist[name], key= lambda x: x[0], reverse=True)
+		dist_pairs = [dist for dist_pair in dist_pairs]
+		dist_pairs = filter(lambda x: x[0] > args['threshold'], dist_pairs)
+		pairs, _ = zip(*dist_pairs) 
+		l,r = zip(*pairs)
+		imgs = set(l+r)
+		img2n = {}
+		img2dist = {}
+		for img in imgs:
+			img2n[img] = 0
+			img2dist = []
+		for dist_pair in dist_pairs:
+			_l, _r = dist_pair[1]
+			img2n[_l] += 1
+			img2n[_r] += 1
+			img2dist[_l].append(dist_pair[0])
+			img2dist[_r].append(dist_pair[0])
+		print('name: ', name)
+		for img in sorted(imgs, key=lambda x:img2n[x], reverse=True):
+			print(img + ' :' + str(img2dist[img]))
+
+
+
+
+	# log_strs = [str(name) + ': ' + str(sorted(name2dist[name], key= lambda x: x[0], reverse=True)) for name in warm_names]
+	# for log_str in log_strs:
+	# 	print(log_str)
 			
 	
 
