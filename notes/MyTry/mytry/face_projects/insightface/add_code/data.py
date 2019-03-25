@@ -7,7 +7,7 @@ from os import listdir, mkdir
 from os.path import expanduser, join, split, splitext, exists
 from glob import glob
 import cv2, pickle
-from nface_model import FaceModel
+from face_model import FaceModel
 # from nface_embedding import FaceModel
 from easydict import EasyDict as edict
 import mxnet as mx
