@@ -53,6 +53,7 @@ def load_emb(data_dir, data, vector_dir):
 				if i_input is not None:
 					_img = i_input
 				else:
+					pdb.set_trace()
 					_img = cv2.resize(_img, (112,112))
 				_emb = fmodel.get_feature(_img)
 				with open(emb_path, 'wb') as f:
