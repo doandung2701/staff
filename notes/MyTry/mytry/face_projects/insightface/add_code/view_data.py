@@ -64,7 +64,7 @@ if __name__=='__main__':
 		img2dist = {}
 		for img in imgs:
 			img2n[img] = 0
-			img2dist = []
+			img2dist[img] = []
 		for dist_pair in dist_pairs:
 			_l, _r = dist_pair[1]
 			img2n[_l] += 1
