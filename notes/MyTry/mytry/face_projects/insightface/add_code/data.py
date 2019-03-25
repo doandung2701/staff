@@ -69,7 +69,7 @@ def load_emb(data_dir, data, vector_dir):
 					_emb = pickle.load(f)
 			_embs.append(_emb)
 		emb_data[name] = _embs
-	pdb.set_trace()
+	# pdb.set_trace()
 	return emb_data
 
 def load_emb_data(data_dir, vector_dir=None):
