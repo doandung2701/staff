@@ -25,6 +25,8 @@ model = face_model.FaceModel(args)
 # print(age)
 # sys.exit(0)
 img = cv2.imread('/home/cuongvm/Resources/datasets/faces/vn_celeb_face_recognition_lfw10_aligned_cp/198/198_0000.jpg')
+img = model.get_input(img)
+
 f2 = model.get_feature(img)
 # dist = np.sum(np.square(f1-f2))
 # print(dist)
