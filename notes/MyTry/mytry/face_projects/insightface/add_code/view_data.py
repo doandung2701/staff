@@ -56,8 +56,7 @@ if __name__=='__main__':
 			warm_names.append(name)
 	for name in warm_names:
 		dist_pairs = sorted(name2dist[name], key= lambda x: x[0], reverse=True)
-		dist_pairs = [dist for dist_pair in dist_pairs]
-		dist_pairs = filter(lambda x: x[0] > args['threshold'], dist_pairs)
+		dist_pairs = list(filter(lambda x: x[0] > args['threshold'], dist_pairs))
 		pairs, _ = zip(*dist_pairs) 
 		l,r = zip(*pairs)
 		imgs = set(l+r)
