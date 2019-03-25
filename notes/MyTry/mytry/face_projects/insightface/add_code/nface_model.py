@@ -4,6 +4,7 @@ from __future__ import print_function
 
 from scipy import misc
 import sys
+sys.path.append('./deploy')
 import os
 import argparse
 #import tensorflow as tf
