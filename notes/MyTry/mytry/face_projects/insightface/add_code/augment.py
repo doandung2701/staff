@@ -5,6 +5,7 @@ from os.path import split, splitext, join, exists
 from data import load_data
 from augmentation import flip, gamma_adjust
 from random import randint, shuffle
+import cv2
 
 def get_added_pairs(pairs, n_add):
     shuffle(pairs)
