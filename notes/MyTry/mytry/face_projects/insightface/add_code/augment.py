@@ -48,6 +48,6 @@ if __name__=='__main__':
 	ap = argparse.ArgumentParser()
 	ap.add_argument("--indir", help="indir")
 	ap.add_argument("--outdir", help="outdir")
-	ap.add_argument("--threshold", help="threshold")
+	ap.add_argument("--threshold", type=int, help="threshold")
 	args= vars(ap.parse_args())
 	main(args["indir"], args["outdir"], args['threshold'])
