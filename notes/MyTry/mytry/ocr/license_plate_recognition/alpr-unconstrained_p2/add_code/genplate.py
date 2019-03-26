@@ -7,6 +7,7 @@ import cv2
 import numpy as np
 import os
 from math import *
+import pdb
 
 
 # font = ImageFont.truetype("Arial-Bold.ttf",14)
@@ -89,17 +90,18 @@ def random_envirment(img,data_set):
 	return img
 
 def GenCh(f,val):
-	img=Image.new("RGB", (45,70),(0,0,255))
+	# pdb.set_trace()
+	img=Image.new("RGB", (45,70),(0,0,0))
 	draw = ImageDraw.Draw(img)
-	draw.text((0, 3),val,(0,0,0),font=ImageFont.truetype("font/arial.ttf", 15))
+	draw.text((0, 3),val,(0,0,0),font=f)
 	img =  img.resize((23,70))
 	A = np.array(img)
 
 	return A
 def GenCh1(f,val):
-	img=Image.new("RGB", (23,70),(0,0,255))
+	img=Image.new("RGB", (23,70),(0,0,0))
 	draw = ImageDraw.Draw(img)
-	draw.text((0, 2),val.decode('utf-8'),(0,0,0),font=ImageFont.truetype("font/arial.ttf", 15))
+	draw.text((0, 2),val.decode('utf-8'),(0,0,0),font=f)
 	A = np.array(img)
 	return A
 def AddGauss(img, level):
@@ -155,6 +157,7 @@ class GenPlate:
 		print("text: ", text)
 		if len(text) == 9:
 			fg = self.draw(text.decode(encoding="utf-8"))
+			pdb.set_trace()
 			fg = cv2.bitwise_not(fg)
 			com = cv2.bitwise_or(fg,self.bg)
 			com = rot(com,r(60)-30,com.shape,30)
@@ -164,7 +167,7 @@ class GenPlate:
 			com = tfactor(com)
 			com = random_envirment(com,self.noplates_path)
 			com = AddGauss(com, 1+r(4))
-			com = addNoise(com)
+			# com = addNoise(com)
 
 
 			return com
@@ -203,7 +206,7 @@ G.genBatch(1000,2,range(31,65),"/home/cuongvm/tmp/tmp14",(272,72))
 
 
 
-
+cv2.imwrite()
 
 
 
