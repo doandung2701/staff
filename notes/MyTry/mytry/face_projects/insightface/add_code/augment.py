@@ -6,6 +6,13 @@ from data import load_data
 from augmentation import flip, gamma_adjust
 from random import randint, shuffle
 import cv2
+from datetime import datetime as dt
+
+def get_time_id():
+    time_string = str(dt.now())
+    cvt_time_string = time_string.split('.')[0].replace(' ', '_').replace(':', '-')
+    time_id = cvt_time_string + '_' + str(randint(0, 100000))
+    return time_id
 
 def get_added_pairs(pairs, n_add):
     shuffle(pairs)
@@ -17,7 +24,7 @@ def get_added_pairs(pairs, n_add):
                 break
             path, img = pair
             img_bpath, ext = splitext(path)
-            _new_path = img_bpath + '_' + str(c) + ext 
+            _new_path = img_bpath + '_' + get_time_id() + ext 
             if c == 0:
                 added_pairs.append((_new_path, flip([img])[0]))
             else:
