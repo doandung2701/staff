@@ -69,14 +69,21 @@ if __name__=='__main__':
 			_l, _r = dist_pair[1]
 			img2n[_l] += 1
 			img2n[_r] += 1
-			img2dist[_l].append(dist_pair[0])
-			img2dist[_r].append(dist_pair[0])
+			img2dist[_l].append((dist_pair[0], _r))
+			img2dist[_r].append((dist_pair[0], _l))
 		print('name: ', name)
-		for img in sorted(imgs, key=lambda x:img2n[x], reverse=True):
+		imgs = sorted(imgs, key=lambda x:img2n[x], reverse=True)
+		deletes = []
+		for img in imgs:
 			if len(img2dist[img]) == len(name2file[name]) - 1:
-				should_delete = '-> Shoud delete! OK'
+				# should_delete = '->  OK'
+				deletes.append(img)
 			else:
-				should_delete = '-> Shoud delete?'
+				for dist, other in img2dist[img]:
+					if other in deletes:
+						
+				# should_delete = ''
+		
 			print(img + ' :' + str(img2dist[img]) + should_delete)
 
 
