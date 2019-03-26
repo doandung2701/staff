@@ -25,7 +25,7 @@ def get_added_pairs(pairs, n_add):
 
 def main(data_dir, outdir, threshold):
     name2file = load_data(data_dir)
-    name2path = {name: [join(args['data_dir'], name, f) for f in files] for name, files in name2file.items()}
+    name2path = {name: [join(data_dir, name, f) for f in files] for name, files in name2file.items()}
     for name, paths in name2path.items():
         n_f = len(paths)
         pairs = [(path, cv2.imread(path)) for path in paths]
