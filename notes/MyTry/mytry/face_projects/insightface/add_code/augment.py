@@ -19,14 +19,11 @@ def get_added_pairs(pairs, n_add):
                 added_pairs.append((flip([img])[0], _new_path))
             else:
                 added_pairs.append((gamma_adjust([img])[0], _new_path))
-            c += 
+            c += 1
     return added_pairs
 
 
-
 def main(data_dir, outdir, threshold):
-
-
     name2file = load_data(data_dir)
     name2path = {name: [join(args['data_dir'], name, f) for f in files] for name, files in name2file.items()}
     for name, paths in name2path.items():
