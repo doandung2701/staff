@@ -17,9 +17,9 @@ def get_added_pairs(pairs, n_add):
             img_bpath, ext = splitext(path)
             _new_path = img_bpath + '_' + str(c) + ext 
             if c == 0:
-                added_pairs.append((flip([img])[0], _new_path))
+                added_pairs.append((_new_path, flip([img])[0]))
             else:
-                added_pairs.append((gamma_adjust([img])[0], _new_path))
+                added_pairs.append((_new_path, gamma_adjust([img])[0]))
             c += 1
     return added_pairs
 
