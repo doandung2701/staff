@@ -40,7 +40,10 @@ def main(data_dir, outdir, threshold):
         for path, img in _final_pairs:
             name_path, img_name = split(path)
             name = split(name_path)[1]
-            cv2.imwrite(join(outdir, name, img_name),img)
+            out_path = join(outdir, name, img_name)
+            if not exists(join(outdir,name)):
+                mkdir(join(outdir,name))
+            cv2.imwrite(out_path,img)
 
 
 if __name__=='__main__':
