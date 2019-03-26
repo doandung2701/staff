@@ -37,7 +37,7 @@ def main(data_dir, outdir, threshold):
         else:
             _final_pairs = pairs
         
-        for path, img in zip(_final_pairs):
+        for path, img in _final_pairs:
             name_path, img_name = split(path)
             name = split(name_path)[1]
             cv2.imwrite(join(outdir, name, img_name),img)
