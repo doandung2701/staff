@@ -14,7 +14,7 @@ def get_added_pairs(pairs, n_add):
     while c < n_add:
         for pair in pairs:
             path, img = pair
-            img_bpath, ext = splitext(img_name)
+            img_bpath, ext = splitext(path)
             _new_path = img_bpath + '_' + str(c) + ext 
             if c == 0:
                 added_pairs.append((flip([img])[0], _new_path))
