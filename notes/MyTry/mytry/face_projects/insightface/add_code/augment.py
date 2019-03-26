@@ -13,6 +13,8 @@ def get_added_pairs(pairs, n_add):
     added_pairs = []
     while c < n_add:
         for pair in pairs:
+            if c >= n_add:
+                break
             path, img = pair
             img_bpath, ext = splitext(path)
             _new_path = img_bpath + '_' + str(c) + ext 
