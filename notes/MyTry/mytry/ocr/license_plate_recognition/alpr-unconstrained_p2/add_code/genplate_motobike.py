@@ -53,8 +53,9 @@ def rot(img,angel,shape,max_angel):
 
 	M  = cv2.getPerspectiveTransform(pts1,pts2)
 	dst = cv2.warpPerspective(img,M,size)
+	pdb.set_trace()
 
-	return dst
+	return dst, M
 
 def rotRandrom(img, factor, size):
 	shape = size
@@ -93,15 +94,18 @@ def GenCh(f,val):
 	# pdb.set_trace()
 	img=Image.new("RGB", (45,70),(255,255,255))
 	draw = ImageDraw.Draw(img)
-	draw.text((0, 3),val,(0,0,0),font=f)
+	draw.text((0, 1),val,(0,0,0),font=f)
 	img =  img.resize((23,70))
 	A = np.array(img)
 
 	return A
 def GenCh1(f,val):
-	img=Image.new("RGB", (23,70),(255,255,255))
+	img=Image.new("RGB", (32,70),(255,255,255))
+	# pdb.set_trace()
+
 	draw = ImageDraw.Draw(img)
 	draw.text((0, 2),val.decode('utf-8'),(0,0,0),font=f)
+	img = img.resize((23,70))
 	A = np.array(img)
 	return A
 def AddGauss(img, level):
@@ -133,8 +137,8 @@ class GenPlate:
 	def __init__(self,fontCh,fontEng,NoPlates):
 		self.fontC =  ImageFont.truetype(fontCh,43,0)
 		self.fontE =  ImageFont.truetype(fontEng,60,0)
-		self.img=np.array(Image.new("RGB", (226,70),(255,255,255)))
-		self.bg  = cv2.resize(cv2.imread("./images/xemaybg.bmp"),(226,70))
+		self.img=np.array(Image.new("RGB", (150,140),(255,255,255)))
+		self.bg  = cv2.resize(cv2.imread("./images/xemaybg.bmp"),(150,140))
 		self.smu = cv2.imread("./images/smu2.jpg")
 		self.noplates_path = []
 		for parent,parent_folder,filenames in os.walk(NoPlates):
@@ -144,26 +148,40 @@ class GenPlate:
 
 
 	def draw(self,val):
-		offset= 2 
-
-		self.img[0:70,offset+8:offset+8+23]= GenCh(self.fontC,val[0])
-		self.img[0:70,offset+8+23+6:offset+8+23+6+23]= GenCh1(self.fontE,val[1])
+		offset= 10
+		locations = []
+		# self.img[0:70,offset+8:offset+8+23]= GenCh1(self.fontC,val[0])
+		for line_idx in [0,1]:
+			# self.img[0 + 70*line_idx:70*(line_idx+1),offset+8+23+6:offset+8+23+6+23]= GenCh1(self.fontE,val[1])
+			# pdb.set_trace()
+			if line_idx == 0:
+				offset, n_c = 15, 4
+			else:
+				offset, n_c = 5, 5
+			for i in range(n_c):
+				# base = offset+8+23+6+23+17 +i*23 + i*6 
+				base = offset +i*23 + i*6 
+				l, t, w, h = base, 70*line_idx, 23, 53
+				location = (l, t, w, h)
+				locations.append(location)
+				#cv2.rectangle(self.img, (l, r), (l+w, r+h), (0,255,0), 1)
+				try:
+					self.img[0 + 70*line_idx:70*(line_idx+1), base  : base+23] = GenCh1(self.fontE,val[line_idx*4 +i])
+				except:
+					pdb.set_trace()
 		# pdb.set_trace()
-		for i in range(5):
-			base = offset+8+23+6+23+17 +i*23 + i*6 
-			self.img[0:70, base  : base+23]= GenCh1(self.fontE,val[i+2])
-		
-		return self.img
+		return self.img, locations
 		
 	def generate(self,text):
 		print("text: ", text)
 		if len(text) == 9:
-			fg = self.draw(text.decode(encoding="utf-8"))
+			fg, locations = self.draw(text.decode(encoding="utf-8"))
 			# pdb.set_trace()
 			# fg = cv2.bitwise_not(fg)
 			# com = cv2.bitwise_or(fg,self.bg)
 			com = fg
-			com = rot(com,r(20)-10,com.shape,10)
+			com, M = rot(com,r(20)-10,com.shape,10)
+			locations = [location for location in locations]
 			com = rotRandrom(com,4,(com.shape[1],com.shape[0]))
 			#com = AddSmudginess(com,self.smu)
 
@@ -205,7 +223,7 @@ class GenPlate:
 G = GenPlate("/home/cuongvm/Resources/common/Soxe2banh.TTF",'/home/cuongvm/Resources/common/Soxe2banh.TTF',"./NoPlates")
 
 # G.genBatch(10000,2,range(31,65),"./plate_train",(272,72))
-G.genBatch(1000,2,range(31,65),"/home/cuongvm/tmp/tmp14",(272,72))
+G.genBatch(1000,2,range(31,65),"/home/cuongvm/tmp/tmp14",(272,272))
 
 
 

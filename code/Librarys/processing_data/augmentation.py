@@ -13,7 +13,46 @@ import cv2
 
 import numpy as np
 
+# class Aug(object):
+#     def brightness_aug(self, src, x):
+#       alpha = 1.0 + random.uniform(-x, x)
+#       src *= alpha
+#       return src
 
+#     def contrast_aug(self, src, x):
+#       alpha = 1.0 + random.uniform(-x, x)
+#       coef = np.array([[[0.299, 0.587, 0.114]]])
+#       gray = src * coef
+#       gray = (3.0 * (1.0 - alpha) / gray.size) * np.sum(gray)
+#       src *= alpha
+#       src += gray
+#       return src
+
+#     def saturation_aug(self, src, x):
+#       alpha = 1.0 + random.uniform(-x, x)
+#       coef = np.array([[[0.299, 0.587, 0.114]]])
+#       gray = src * coef
+#       gray = np.sum(gray, axis=2, keepdims=True)
+#       gray *= (1.0 - alpha)
+#       src *= alpha
+#       src += gray
+#       return src
+
+#     def color_aug(self, img, x):
+#       augs = [self.brightness_aug, self.contrast_aug, self.saturation_aug]
+#       random.shuffle(augs)
+#       for aug in augs:
+#         #print(img.shape)
+#         img = aug(img, x)
+#         #print(img.shape)
+#       return img
+
+#     def mirror_aug(self, img):
+#       _rd = random.randint(0,1)
+#       if _rd==1:
+#         for c in xrange(img.shape[2]):
+#           img[:,:,c] = np.fliplr(img[:,:,c])
+#       return img
 
 def flip(imgs):
     """Flip images."""

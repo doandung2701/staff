@@ -7,6 +7,7 @@ from augmentation import flip, gamma_adjust
 from random import randint, shuffle
 import cv2
 from datetime import datetime as dt
+import pdb
 
 def get_time_id():
     time_string = str(dt.now())
@@ -40,7 +41,8 @@ def main(data_dir, outdir, threshold):
         n_f = len(paths)
         pairs = [(path, cv2.imread(path)) for path in paths]
         if n_f < threshold:
-            n_add = threshold - n_f
+            # n_add = threshold - n_f
+            n_add = min(n_f, threshold - n_f)
             _added_pairs = get_added_pairs(pairs, n_add)
             _final_pairs = pairs + _added_pairs
         else:
