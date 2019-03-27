@@ -181,7 +181,7 @@ class GenPlate:
 			# com = cv2.bitwise_or(fg,self.bg)
 			com = fg
 			com, M = rot(com,r(20)-10,com.shape,10)
-			locations = [ [(l,t), (l+w, t+h)] for (l,t, w, h) in locations]
+			locations = [cv2.transform(np.array([(l,t), (l+w, t+h)]).reshape(1,2,2), M) for (l,t, w, h) in locations]
 			
 			com = rotRandrom(com,4,(com.shape[1],com.shape[0]))
 			#com = AddSmudginess(com,self.smu)
