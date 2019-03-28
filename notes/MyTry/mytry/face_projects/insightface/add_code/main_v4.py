@@ -8,7 +8,7 @@ import numpy as np
 from utils import get_batch_number, get_slice_of_batch
 from time import time
 import pdb
-
+# import bottleneck as bn
 
 def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size, tree_path):
 	print('Identifing!')
@@ -58,15 +58,15 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 		with open(tree_path, 'wb') as f:
 			pickle.dump(tree, f)
 
-    # top_5s = []
-    # test_imgs = sorted(tree.test_imgs(), key=lambda test_img:min(test_img.dists()), reverse=True)
-    # for test_img in test_imgs:
-    #     pairs = list(zip(test_img.candidates(), test_img.dists()))
-    #     pairs = sorted(pairs, key x: min(x[1]), reverse=True)
-    #     for person, person_dist in zip(pairs):
-    #         if min(person_dist) < threshold:
-    #             top_5s.append(person.idx())
-                
+	# top_5s = []
+	# test_imgs = sorted(tree.test_imgs(), key=lambda test_img:min(test_img.dists()), reverse=True)
+	# for test_img in test_imgs:
+	#     pairs = list(zip(test_img.candidates(), test_img.dists()))
+	#     pairs = sorted(pairs, key x: min(x[1]), reverse=True)
+	#     for person, person_dist in zip(pairs):
+	#         if min(person_dist) < threshold:
+	#             top_5s.append(person.idx())
+				
 
 
 	top_5s = []
@@ -81,18 +81,15 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 			change_c += 1
 		
 		is_sames = []
-		for person_dist in ti_dists:
+		for person, person_dist in zip(ti_candidates,ti_dists):
 			print('person_dist: ', person_dist)
 			print('vote: ')
-
-			
+			_embs = np.array([img.emb() for img in person.imgs])
+			mean_emb = np.mean(_embs, axis=0)
+			# bn.median(sequence_mutil_probability, axis=0)
 			# pdb.set_trace()
-			vote = 0
-			for dist in person_dist:
-				if dist < threshold:
-					vote += 1
-			print  str(vote) + ', ',
-			if vote > 0:
+			dist = np.sum(np.square(test_emb-mean_emb))
+			if dist < threshold:
 				is_sames.append(1)
 			else:
 				is_sames.append(0)
@@ -110,8 +107,8 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 					is_novelty = True
 		candidate_idxs = [person.idx() for person in ti_candidates]
 		if is_novelty == False:
-			# top_5[-1] = 1000
-			top_5[1:] = candidate_idxs[1:]
+			top_5[-1] = 1000
+			top_5[1:-1] = candidate_idxs[1:-1]
 		else:
 			top_5[1:] = candidate_idxs[0:-1]
 		top_5s.append(top_5)
