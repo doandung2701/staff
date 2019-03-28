@@ -76,7 +76,8 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 		ti_candidates, ti_dists = test_img.candidates(), test_img.dists()
 
 		pairs = list(zip(ti_candidates, ti_dists))
-		sorted_pairs = sorted(pairs, key= lambda x: min(x[1]))
+		# sorted_pairs = sorted(pairs, key= lambda x: min(x[1]))
+		sorted_pairs = pairs
 		ti_candidates, ti_dists = zip(*sorted_pairs)
 		if [person.idx() for person in ti_candidates] != [person.idx() for person in test_img.candidates()]:
 			change_c += 1
