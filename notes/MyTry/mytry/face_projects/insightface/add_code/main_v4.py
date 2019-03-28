@@ -84,7 +84,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 		for person, person_dist in zip(ti_candidates,ti_dists):
 			print('person_dist: ', person_dist)
 			print('vote: ')
-			_embs = np.array([img.emb() for img in person.imgs])
+			_embs = np.array([img.emb() for img in person.imgs()])
 			mean_emb = np.mean(_embs, axis=0)
 			# bn.median(sequence_mutil_probability, axis=0)
 			# pdb.set_trace()
