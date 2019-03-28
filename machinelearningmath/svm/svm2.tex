@@ -1,0 +1,70 @@
+\documentclass{article}
+\usepackage[utf8]{vietnam}
+
+\title{svm}
+\author{cuongvomanh}
+\date{March 2019}
+
+\usepackage{natbib}
+
+\begin{document}
+    \section{Proven}
+    % \begin{enumerate}
+    \begin{description}
+        \item[1] Phụ đề $(*)$
+          
+        Ta có:
+        Vector từ điểm $O(0,0)$ đến mặt phẳng $\vec{w}\vec{x} + w_0 = 0 (d)$ 
+        hay vector từ điểm $O(0,0)$ đến hình chiếu của điểm $O$ lên 
+        mặt phẳng $d$ là:
+        $$\vec{(O,d)} = \frac{-w_0}{||\vec{w}||}$$
+
+        Từ đây ta có:
+        Vector từ điểm $I$ đến mặt phẳng $\vec{w}\vec{x} + w_0 = 0 (d)$ là:
+        
+        $$\vec{(I,d)} = -\vec{(O,d')} + \vec{(O,d)}$$
+        Với $\vec{w}(\vec{x} - \vec{I}) = 0 (d')$ 
+        là mặt phẳng đi qua $I$ và song song với mặt phẳng $d$
+        $$\Rightarrow \vec{(I,d)} = -\frac{\vec{w}\vec{I}}{||\vec{w}||} +  \frac{-w_0}{||\vec{w}||}$$
+        $$\Rightarrow \vec{(I,d)} = -\frac{\vec{w}\vec{I}+w_0}{||\vec{w}||}$$
+
+        Từ đó khoảng cách từ điểm $I$ đến mặt phẳng $\vec{w}\vec{x} + w_0 = 0 (d)$ là:
+        $$d(d,O) = ||\frac{\vec{w}\vec{I}+w_0}{||\vec{w}||}|| $$
+        
+
+        
+        
+        \item[3] Support Vector Machine
+        
+        
+         
+        \textbf{Bài toán}: Cho hai lớp và các điểm thuộc hai lớp đấy. 
+        Gọi các điểm đấy là các điểm dữ liệu.
+        Cần tìm mặt phẳng $d$ để khoảng cách giữa hai mặt 
+        phẳng song song, cách đều mặt phẳng $d$ mà vùng
+        không gian tạo bởi hai mặt phẳng đó vẫn không 
+        chứa bất kỳ điểm dữ liệu nào là lớn nhất.
+
+        Bài toán trên tương đương với bài toán: \newline
+        Cho hai lớp và các điểm thuộc hai lớp đấy. Gọi các điểm đấy là các điểm dữ liệu.
+        Cần tìm hai mặt phẳng song song sao cho vùng không gian tạo bởi hai mặt 
+        phẳng đấy chia không gian còn lại thành hai phần khác nhau, mỗi phần chỉ chứa 
+        các điểm dữ liệu của một lớp mà khoảng cách giữa hai mặt phẳng đấy là lớn nhất.
+
+        Ta có:
+        Bất kỳ hai mặt phẳng song song nào đều được biểu diễn bởi:
+        $$\vec{w}\vec{x} + w_0 - 1 = 0 (d_1)$$
+        $$\vec{w}\vec{x} + w_0 + 1 = 0 (d_2)$$
+
+        Khoảng cách giữa $d_1$ và $d_2$ là:
+        $$\Delta _{12} = \frac{2}{||\vec{w}||}$$
+
+
+
+
+
+    \end{description}
+    % \item SVM
+    
+    % \end{enumerate}
+\end{document}

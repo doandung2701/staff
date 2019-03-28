@@ -1,0 +1,105 @@
+\documentclass{article}
+\usepackage[utf8]{vietnam}
+
+\title{svm}
+\author{cuongvomanh}
+\date{March 2019}
+
+\usepackage{natbib}
+
+\begin{document}
+    \section{Proven}
+    % \begin{enumerate}
+    \begin{description}
+        \item[1] Phụ đề $(*)$
+          
+        Ta có:
+        Vector từ điểm $O(0,0)$ đến đường thẳng $\vec{w}\vec{x} + w_0 = 0 (d)$ 
+        hay vector từ điểm $O(0,0)$ đến hình chiếu của điểm $O$ lên 
+        đường thẳng $d$ là:
+        $$\vec{(O,d)} = \frac{-w_0}{||\vec{w}||}$$
+
+        Từ đây ta có:
+        Vector từ điểm $I$ đến đường thẳng $\vec{w}\vec{x} + w_0 = 0 (d)$ là:
+        
+        $$\vec{(I,d)} = -\vec{(O,d')} + \vec{(O,d)}$$
+        Với $\vec{w}(\vec{x} - \vec{I}) = 0 (d')$ 
+        là đường thẳng đi qua $I$ và song song với đường thẳng $d$
+        $$\Rightarrow \vec{(I,d)} = -\frac{\vec{w}\vec{I}}{||\vec{w}||} +  \frac{-w_0}{||\vec{w}||}$$
+        $$\Rightarrow \vec{(I,d)} = -\frac{\vec{w}\vec{I}+w_0}{||\vec{w}||}$$
+
+        Từ đó khoảng cách từ điểm $I$ đến đường thẳng $\vec{w}\vec{x} + w_0 = 0 (d)$ là:
+        $$d(d,O) = ||\frac{\vec{w}\vec{I}+w_0}{||\vec{w}||}|| $$
+        
+
+        \item [2] Phụ đề $(**)$
+        
+        Luôn chọn được một cách biểu diễn cho một đường thẳng bất kỳ
+        có dạng $\vec{w}\vec{x} + w_0 = 0 (d)$ sao cho hai đường thẳng song song 
+        và cách đều đường thẳng $d$ một khoảng cách bất kỳ có dạng:
+        $$\vec{w}\vec{x} + w_0 - 1 = 0 (d_1)$$
+        $$\vec{w}\vec{x} + w_0 + 1 = 0 (d_2)$$
+
+        \textbf{Chứng minh} \newline
+        Giả sử hai đường thẳng $d_1$ và $d_2$ có dạng:
+        $$\vec{w}\vec{x} + w_0 - m = 0 (d_1)$$
+        $$\vec{w}\vec{x} + w_0 + m = 0 (d_2)$$
+        Giả sử khoảng cách giữa $d_1$ và $d_2$ là $\Delta _{12}=p$.
+        Theo Phụ đề $(*)$ ta có khoảng cách giữa $d_1$ và $d_2$ là:
+        $\Delta _{12} = \frac{2m}{||\vec{w}||}$ 
+        $\Rightarrow m = \frac{p||\vec{w}||}{2}$
+        Vậy để khoảng cách giữa $d_1$ và $d_2$ là $p$ thì $d_1$ và 
+        $d_2$ có dạng:
+        $$\vec{w}\vec{x} + w_0 - \frac{p||\vec{w}||}{2} = 0 (d_1)$$
+        $$\vec{w}\vec{x} + w_0 + \frac{p||\vec{w}||}{2} = 0 (d_2)$$
+
+        hay 
+        $$\frac{2\vec{w}}{p||\vec{w}||}\vec{x} + \frac{2w_0}{p||\vec{w}||} - 1 = 0 (d_1)$$
+        $$\frac{2\vec{w}}{p||\vec{w}||}\vec{x} + \frac{2w_0}{p||\vec{w}||} + 1 = 0 (d_2)$$
+        và phương trình đường thẳng $d$ có thể được viết lại thành:
+        $$\frac{2\vec{w}}{p||\vec{w}||}\vec{x} + \frac{2w_0}{p||\vec{w}||} = 0$$
+
+        Đặt $\vec{w'} = \frac{2\vec{w}}{p||\vec{w}||}$ và $\vec{w'_0} = \frac{2w_0}{p||\vec{w}||}$, ta có:
+        phương trình đường thẳng $d, d_1, d_2$ được viết lại thành:
+
+        $$\vec{w'}\vec{x} + w'_0 = 0 (d)$$
+        $$\vec{w'}\vec{x} + w'_0 - 1 = 0 (d_1)$$
+        $$\vec{w'}\vec{x} + w'_0 + 1 = 0 (d_2)$$
+
+        Vậy ta có điều phải chứng minh.
+
+        
+        \item[3] Support Vector Machine
+         
+        \textbf{Bài toán}: Cho hai lớp và các điểm thuộc hai lớp đấy. 
+        Gọi các điểm đấy là điểm dữ liệu.
+        Cần tìm đường thẳng $d$ để khoảng cách giữa hai đường 
+        thẳng song song, cách đều đường thẳng $d$ mà vùng
+        không gian tạo bởi hai đường thẳng đó vẫn không 
+        chứa bất kỳ điểm dữ liệu nào là lớn nhất.
+
+        Theo mệnh đề $(**)$ ta có:\newline
+        Chọn cách biểu diễn đường thẳng $d$ là $\vec{w}\vec{x} + w_0 = 0 (d)$
+        sao cho hai đường thẳng song song và cách đều đường thẳng 
+        $d$ có dạng:
+        $$\vec{w}\vec{x} + w_0 - 1 = 0 (d_1)$$
+        $$\vec{w}\vec{x} + w_0 + 1 = 0 (d_2)$$
+
+        Khoảng cách giữa $d_1$ và $d_2$ là:
+        $$\Delta _{12} = \frac{2}{||\vec{w}||}$$
+
+
+        
+
+        
+        
+
+
+
+
+
+    \end{description}
+    % \item SVM
+    
+    % \end{enumerate}
+\end{document}
