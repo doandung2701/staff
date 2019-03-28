@@ -72,6 +72,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 	top_5s = []
 	change_c = 0
 	for test_img in tree.test_imgs():
+		test_emb = test_img.emb()
 		ti_candidates, ti_dists = test_img.candidates(), test_img.dists()
 
 		pairs = list(zip(ti_candidates, ti_dists))
