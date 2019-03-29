@@ -24,13 +24,13 @@ import face_image
 
 
 def evaluate(embeddings, issame_list):
-	thresholds = np.arange(0, 4, 0.01)
-	nrof_thresholds = len(thresholds)
+	# thresholds = np.arange(0, 4, 0.01)
+	# nrof_thresholds = len(thresholds)
 	embeddings1 = embeddings[0::2]
 	embeddings2 = embeddings[1::2]
 	assert(embeddings1.shape[0] == embeddings2.shape[0])
 	assert(embeddings1.shape[1] == embeddings2.shape[1])
-	actual_issame = np.asarray(actual_issame)
+	actual_issame = np.asarray(issame_list)
 	nrof_pairs = min(len(actual_issame), embeddings1.shape[0])
 
 	# n_train_set, n_test_set = 6000, 17091*1000
@@ -40,16 +40,19 @@ def evaluate(embeddings, issame_list):
 	# print('test_set', test_set)
 
 	if pca==0:
-	  diff = np.subtract(embeddings1, embeddings2)
-	  dist = np.sum(np.square(diff),1)
+		diff = np.subtract(embeddings1, embeddings2)
+		dist = np.sum(np.square(diff),1)
 
+	threshold = 0.96
+	predict_issame = np.less(dist[train_set], threshold)
 
+	
 	# Find the best threshold for the fold
-	acc_train = np.zeros((nrof_thresholds))
-	for threshold_idx, threshold in enumerate(thresholds):
-		_, _, acc_train[threshold_idx] = calculate_accuracy(threshold, dist[train_set], actual_issame[train_set])
-	best_threshold_index = np.argmax(acc_train)
-	print('threshold', thresholds[best_threshold_index])
+	# acc_train = np.zeros((nrof_thresholds))
+	# for threshold_idx, threshold in enumerate(thresholds):
+	# 	_, _, acc_train[threshold_idx] = calculate_accuracy(threshold, dist[train_set], actual_issame[train_set])
+	# best_threshold_index = np.argmax(acc_train)
+	# print('threshold', thresholds[best_threshold_index])
 
 	# predict_issame = np.less(dist[test_set], thresholds[best_threshold_index])
 
@@ -59,27 +62,27 @@ def evaluate(embeddings, issame_list):
 	# _, _, accuracy[fold_idx] = calculate_accuracy(thresholds[best_threshold_index], dist[test_set], actual_issame[test_set])
 
 def load_bin(path, image_size):
-  bins, issame_list = pickle.load(open(path, 'rb'))
-  print('len(issame_list): ', len(issame_list))
-  print('issame_list[0]: ', issame_list[0])
-  data_list = []
-  for flip in [0,1]:
-    data = nd.empty((len(issame_list)*2, 3, image_size[0], image_size[1]))
-    data_list.append(data)
-  for i in xrange(len(issame_list)*2):
-    _bin = bins[i]
-    img = mx.image.imdecode(_bin)
-    if img.shape[1]!=image_size[0]:
-      img = mx.image.resize_short(img, image_size[0])
-    img = nd.transpose(img, axes=(2, 0, 1))
-    for flip in [0,1]:
-      if flip==1:
-        img = mx.ndarray.flip(data=img, axis=2)
-      data_list[flip][i][:] = img
-    if i%1000==0:
-      print('loading bin', i)
-  print(data_list[0].shape)
-  return (data_list, issame_list)
+	bins, issame_list = pickle.load(open(path, 'rb'))
+	print('len(issame_list): ', len(issame_list))
+	print('issame_list[0]: ', issame_list[0])
+	data_list = []
+	for flip in [0,1]:
+		data = nd.empty((len(issame_list)*2, 3, image_size[0], image_size[1]))
+		data_list.append(data)
+	for i in xrange(len(issame_list)*2):
+		_bin = bins[i]
+		img = mx.image.imdecode(_bin)
+		if img.shape[1]!=image_size[0]:
+			img = mx.image.resize_short(img, image_size[0])
+		img = nd.transpose(img, axes=(2, 0, 1))
+		for flip in [0,1]:
+			if flip==1:
+				img = mx.ndarray.flip(data=img, axis=2)
+			data_list[flip][i][:] = img
+		if i%1000==0:
+			print('loading bin', i)
+	print(data_list[0].shape)
+	return (data_list, issame_list)
 
 
 def test(data_set, mx_model, batch_size, data_extra = None, label_shape = None):
@@ -156,8 +159,8 @@ if __name__=='__main__':
 	import argparse
 	parser = argparse.ArgumentParser(description='do verification')
 	parser.add_argument('--data-dir', help='data-dir')
-        parser.add_argument('--target', default='lfw,cfp_ff,cfp_fp,agedb_30', help='test targets.')
-        parser.add_argument('--model', default='../model/softmax,50', help='path to load model.')
+	parser.add_argument('--target', default='lfw,cfp_ff,cfp_fp,agedb_30', help='test targets.')
+	parser.add_argument('--model', default='../model/softmax,50', help='path to load model.')
 	parser.add_argument('--batch-size', default=32, type=int, help='')
 	parser.add_argument('--gpu', default=0, type=int, help='gpu id')
 
@@ -168,10 +171,10 @@ if __name__=='__main__':
 	args = parser.parse_args()
 
 	prop = face_image.load_property(args.data_dir)
-        image_size = prop.image_size
-        print('image_size', image_size)
+	image_size = prop.image_size
+	print('image_size', image_size)
 	ctx = mx.gpu(args.gpu)
-        nets = []
+	nets = []
 
 	vec = args.model.split(',')
 	prefix = args.model.split(',')[0]

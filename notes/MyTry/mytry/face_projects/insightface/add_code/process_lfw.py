@@ -52,7 +52,7 @@ def main(indir, outdir, npair):
         f.write('Hello\n')
         for i, pair in enumerate(final_pairs):
             f.write(' '.join(pair))
-            if i < len(pairs) - 1:
+            if i < len(final_pairs) - 1:
                 f.write('\n')
     
 

@@ -53,7 +53,7 @@ def rot(img,angel,shape,max_angel):
 
 	M  = cv2.getPerspectiveTransform(pts1,pts2)
 	dst = cv2.warpPerspective(img,M,size)
-	pdb.set_trace()
+	# pdb.set_trace()
 
 	return dst, M
 
@@ -181,6 +181,9 @@ class GenPlate:
 			# com = cv2.bitwise_or(fg,self.bg)
 			com = fg
 			com, M = rot(com,r(20)-10,com.shape,10)
+
+
+			pdb.set_trace()
 			locations = [cv2.transform(np.array([(l,t), (l+w, t+h)]).reshape(1,2,2), M) for (l,t, w, h) in locations]
 			
 			com = rotRandrom(com,4,(com.shape[1],com.shape[0]))
