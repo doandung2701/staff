@@ -78,7 +78,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 		print('is_sames: ', is_sames)
 
 		# top_5 = [1000] * k
-		top_5 = [1000, 0, 0, 0, 0]
+		top_5 = [0, 0, 0, 0, 0]
 		# is_novelty = False
 		# for i, (person, is_same) in enumerate(zip(test_img.candidates(), is_sames)):
 		# 	if i == 0:
