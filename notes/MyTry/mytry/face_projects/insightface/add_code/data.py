@@ -19,12 +19,12 @@ import pdb
 def get_config():
 	args = edict()
 	args.model = 'models/model-r100-ii/model,0000'
-	args.det = 0
+	args.det = 1
 	args.threshold = 0.87
 	args.image_size = '112,112'
 	args.gpu = 0
 	args.ga_model = ''
-	args.flip = 0
+	args.flip = 1
 	return args
 
 def load_data(data_dir):
