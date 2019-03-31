@@ -221,7 +221,7 @@ if __name__=='__main__':
 		if predict_issame == actual_issame:
 			acc += 1
 
-	print('acc: ', acc)
+	print('acc: ', acc/len(issame_list))
 
 
 		
