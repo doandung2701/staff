@@ -88,8 +88,9 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 					is_novelty = True
 		candidate_idxs = [person.idx() for person in test_img.candidates()]
 		if is_novelty == False:
-			top_5[1] = 1000
-			top_5[2:-1] = candidate_idxs[1:-1]
+			top_5[1] = candidate_idxs[1]
+			top_5[2] = 1000
+			top_5[3:-1] = candidate_idxs[2:-1]
 		else:
 			top_5[1:] = candidate_idxs[0:-1]
 		top_5s.append(top_5)
