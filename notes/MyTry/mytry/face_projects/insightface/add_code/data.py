@@ -81,6 +81,8 @@ def load_emb(data_dir, data, vector_dir, force):
 			emb_data[name] = good_embs
 		else:
 			emb_data[name] = _embs
+		if force == False and len(good_file_names) == 0:
+			pdb.set_trace()
 	# pdb.set_trace()
 	return data, emb_data
 
