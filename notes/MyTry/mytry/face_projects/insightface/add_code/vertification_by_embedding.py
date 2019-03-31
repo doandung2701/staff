@@ -127,32 +127,40 @@ def get_emb(path, data_dir, vector_dir):
 		_emb = pickle.load(f)
 	return _emb
 
-def get_paths(lfw_dir, pairs, file_ext):
-	import os
-	nrof_skipped_pairs = 0
-	path_list = []
-	issame_list = []
-	for pair in pairs:
-		if pair[0] == '611' and pair[1] == '0006':
-			pdb.set_trace()
-		if len(pair) == 3:
-			path0 = os.path.join(lfw_dir, pair[0], pair[0] + '_' + '%04d' % int(pair[1])+'.'+file_ext)
-			path1 = os.path.join(lfw_dir, pair[0], pair[0] + '_' + '%04d' % int(pair[2])+'.'+file_ext)
-			issame = True
-		elif len(pair) == 4:
-			path0 = os.path.join(lfw_dir, pair[0], pair[0] + '_' + '%04d' % int(pair[1])+'.'+file_ext)
-			path1 = os.path.join(lfw_dir, pair[2], pair[2] + '_' + '%04d' % int(pair[3])+'.'+file_ext)
-			issame = False
-		if os.path.exists(path0) and os.path.exists(path1):    # Only add the pair if both paths exist
-			path_list += (path0,path1)
-			issame_list.append(issame)
-		else:
-			print('not exists', path0, path1)
-			nrof_skipped_pairs += 1
-	if nrof_skipped_pairs>0:
-		print('Skipped %d image pairs' % nrof_skipped_pairs)
+# def get_paths(lfw_dir, pairs, file_ext):
+# 	import os
+# 	nrof_skipped_pairs = 0
+# 	path_list = []
+# 	issame_list = []
+# 	for pair in pairs:
+# 		if pair[0] == '611' and pair[1] == '0006':
+# 			pdb.set_trace()
+# 		if len(pair) == 3:
+# 			path0 = os.path.join(lfw_dir, pair[0], pair[0] + '_' + '%04d' % int(pair[1])+'.'+file_ext)
+# 			path1 = os.path.join(lfw_dir, pair[0], pair[0] + '_' + '%04d' % int(pair[2])+'.'+file_ext)
+# 			issame = True
+# 		elif len(pair) == 4:
+# 			path0 = os.path.join(lfw_dir, pair[0], pair[0] + '_' + '%04d' % int(pair[1])+'.'+file_ext)
+# 			path1 = os.path.join(lfw_dir, pair[2], pair[2] + '_' + '%04d' % int(pair[3])+'.'+file_ext)
+# 			issame = False
+# 		if os.path.exists(path0) and os.path.exists(path1):    # Only add the pair if both paths exist
+# 			path_list += (path0,path1)
+# 			issame_list.append(issame)
+# 		else:
+# 			print('not exists', path0, path1)
+# 			nrof_skipped_pairs += 1
+# 	if nrof_skipped_pairs>0:
+# 		print('Skipped %d image pairs' % nrof_skipped_pairs)
 	
-	return path_list, issame_list
+# 	return path_list, issame_list
+
+# def read_pairs(pairs_filename):
+#     pairs = []
+#     with open(pairs_filename, 'r') as f:
+#         for line in f.readlines()[1:]:
+#             pair = line.strip().split()
+#             pairs.append(pair)
+#     return np.array(pairs)
 
 if __name__=='__main__':
 	import argparse
@@ -182,7 +190,7 @@ if __name__=='__main__':
 	# pdb.set_trace()
 
 	lfw_pairs = lfw.read_pairs(join(args['data_dir'], 'pairs.txt'))
-	lfw_paths, issame_list = get_paths(args['data_dir'], lfw_pairs, 'jpg')
+	lfw_paths, issame_list = lfw.get_paths(args['data_dir'], lfw_pairs, 'jpg')
 	# pdb.set_trace()
 
 	# ide_model = IdentifyModel()
