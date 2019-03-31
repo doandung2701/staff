@@ -109,7 +109,8 @@ import lfw
 
 
 def get_emb(path, vector_dir):
-	file_name = split(path)[1]
+	person_dir, file_name = split(path)
+	name = split(person_dir)[1]
 	bfile_name = splitext(file_name)[0]
 	emb_path = join(vector_dir, name, bfile_name + '.pkl')
 	if not exists(join(vector_dir, name)):
