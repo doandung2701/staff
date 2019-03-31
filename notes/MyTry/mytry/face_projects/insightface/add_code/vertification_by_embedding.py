@@ -108,7 +108,7 @@ import lfw
 # 				f.write('\n')
 
 
-def get_emb(path, vector_dir):
+def get_emb(path, data_dir, vector_dir):
 	person_dir, file_name = split(path)
 	name = split(person_dir)[1]
 	bfile_name = splitext(file_name)[0]
@@ -175,8 +175,8 @@ if __name__=='__main__':
 	acc = 0
 	for path_pair, actual_issame in zip(pair_paths, issame_list):
 		l_path, r_path = path_pair
-		l_emb = get_emb(l_path, args['known_vector_dir'])
-		r_emb = get_emb(r_path, args['known_vector_dir'])
+		l_emb = get_emb(l_path, args['data_dir'], args['known_vector_dir'])
+		r_emb = get_emb(r_path, args['data_dir'], args['known_vector_dir'])
 		dist = np.sum(np.square(l_emb-r_emb))
 		if dist < args['threshold']:
 			predict_issame = True
