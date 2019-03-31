@@ -114,18 +114,45 @@ def get_emb(path, data_dir, vector_dir):
 	bfile_name = splitext(file_name)[0]
 	emb_path = join(vector_dir, name, bfile_name + '.pkl')
 	print('emb_path: ', emb_path)
-	if not exists(join(vector_dir, name)):
-		mkdir(join(vector_dir, name))
-	if not exists(emb_path):
-		_img = cv2.imread(join(data_dir, name, file_name))
+	# if not exists(join(vector_dir, name)):
+	# 	mkdir(join(vector_dir, name))
+	# if not exists(emb_path):
+	# 	_img = cv2.imread(join(data_dir, name, file_name))
 		
-		_emb = fmodel.get_feature(_img)
-		with open(emb_path, 'wb') as f:
-			pickle.dump(_emb, f)
-	else:
-		with open(emb_path, 'rb') as f:
-			_emb = pickle.load(f)
+	# 	_emb = fmodel.get_feature(_img)
+	# 	with open(emb_path, 'wb') as f:
+	# 		pickle.dump(_emb, f)
+	# else:
+	with open(emb_path, 'rb') as f:
+		_emb = pickle.load(f)
 	return _emb
+
+def get_paths(lfw_dir, pairs, file_ext):
+	import os
+	nrof_skipped_pairs = 0
+	path_list = []
+	issame_list = []
+	for pair in pairs:
+		if pair[0] == '611' and pair[1] == '0006':
+			pdb.set_trace()
+		if len(pair) == 3:
+			path0 = os.path.join(lfw_dir, pair[0], pair[0] + '_' + '%04d' % int(pair[1])+'.'+file_ext)
+			path1 = os.path.join(lfw_dir, pair[0], pair[0] + '_' + '%04d' % int(pair[2])+'.'+file_ext)
+			issame = True
+		elif len(pair) == 4:
+			path0 = os.path.join(lfw_dir, pair[0], pair[0] + '_' + '%04d' % int(pair[1])+'.'+file_ext)
+			path1 = os.path.join(lfw_dir, pair[2], pair[2] + '_' + '%04d' % int(pair[3])+'.'+file_ext)
+			issame = False
+		if os.path.exists(path0) and os.path.exists(path1):    # Only add the pair if both paths exist
+			path_list += (path0,path1)
+			issame_list.append(issame)
+		else:
+			print('not exists', path0, path1)
+			nrof_skipped_pairs += 1
+	if nrof_skipped_pairs>0:
+		print('Skipped %d image pairs' % nrof_skipped_pairs)
+	
+	return path_list, issame_list
 
 if __name__=='__main__':
 	import argparse
@@ -155,7 +182,7 @@ if __name__=='__main__':
 	# pdb.set_trace()
 
 	lfw_pairs = lfw.read_pairs(join(args['data_dir'], 'pairs.txt'))
-	lfw_paths, issame_list = lfw.get_paths(args['data_dir'], lfw_pairs, 'jpg')
+	lfw_paths, issame_list = get_paths(args['data_dir'], lfw_pairs, 'jpg')
 	# pdb.set_trace()
 
 	# ide_model = IdentifyModel()
