@@ -8,7 +8,7 @@ import numpy as np
 from utils import get_batch_number, get_slice_of_batch
 from time import time
 import pdb
-from lfw
+import lfw
 
 # def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size, tree_path):
 # 	print('Identifing!')
@@ -109,28 +109,28 @@ from lfw
 
 
 def get_emb(path, vector_dir):
-    file_name = split(path)[1]
-    bfile_name = splitext(file_name)[0]
-    emb_path = join(vector_dir, name, bfile_name + '.pkl')
-    if not exists(join(vector_dir, name)):
-        mkdir(join(vector_dir, name))
-    if not exists(emb_path):
-        _img = cv2.imread(join(data_dir, name, file_name))
-        
-        _emb = fmodel.get_feature(_img)
-        with open(emb_path, 'wb') as f:
-            pickle.dump(_emb, f)
-    else:
-        with open(emb_path, 'rb') as f:
-            _emb = pickle.load(f)
-    return _emb
+	file_name = split(path)[1]
+	bfile_name = splitext(file_name)[0]
+	emb_path = join(vector_dir, name, bfile_name + '.pkl')
+	if not exists(join(vector_dir, name)):
+		mkdir(join(vector_dir, name))
+	if not exists(emb_path):
+		_img = cv2.imread(join(data_dir, name, file_name))
+		
+		_emb = fmodel.get_feature(_img)
+		with open(emb_path, 'wb') as f:
+			pickle.dump(_emb, f)
+	else:
+		with open(emb_path, 'rb') as f:
+			_emb = pickle.load(f)
+	return _emb
 
 if __name__=='__main__':
 	import argparse
 	ap = argparse.ArgumentParser()
 	ap.add_argument("--data-dir", help="data-dir")
 	ap.add_argument("--known-vector-dir", help="known-vector-dir")
-	ap.add_argument("--ver-vector-dir", help="ver-vector-dir")
+	# ap.add_argument("--ver-vector-dir", help="ver-vector-dir")
 	# ap.add_argument("--model-path", help="model-path")
 	# ap.add_argument("--idx2path", help="idx2path")
 	ap.add_argument("--threshold", type=float,help="threshold")
@@ -152,9 +152,9 @@ if __name__=='__main__':
 	# 		tree.append(test_img) 
 	# pdb.set_trace()
 
-    lfw_pairs = lfw.read_pairs(os.path.join(args['data_dir'], 'pairs.txt'))
-    lfw_paths, issame_list = lfw.get_paths(args['data_dir'], lfw_pairs, 'jpg')
-    pdb.set_trace()
+	lfw_pairs = lfw.read_pairs(os.path.join(args['data_dir'], 'pairs.txt'))
+	lfw_paths, issame_list = lfw.get_paths(args['data_dir'], lfw_pairs, 'jpg')
+	pdb.set_trace()
 
 	ide_model = IdentifyModel()
 	ide_model.load_classify_model(args['model_path'])
@@ -164,27 +164,27 @@ if __name__=='__main__':
 	ide_model.load_idx2path(args['idx2path'])
 	print('ide_model.idx2path: ', ide_model.idx2path)
 	# identify(tree, ide_model, args['known_vector_dir'], args['k'], args['output'], args['threshold'], args['batch_size'], args['tree_path'])
-    # pairs = []
-    # for i, lfw_path in enumerate(lfw_paths):
-    #     if i//2 == 0
-    #     pairs[i//2] = 
+	# pairs = []
+	# for i, lfw_path in enumerate(lfw_paths):
+	#     if i//2 == 0
+	#     pairs[i//2] = 
 
-    left_paths, right_paths = lfw_paths[0::2], lfw_paths[1::2]
-    pair_paths = list(zip(left_paths, right_paths))
-    acc = 0
-    for path_pair, actual_issame in zip(pair_paths, issame_list):
-        l_path, r_path = path_pair
-        l_emb = get_emb(l_path, args['known_vector_dir'])
-        r_emb = get_emb(r_path, args['ver_vector_dir'])
-        dist = np.sum(np.square(l_emb-r_emb))
-        if dist < args['threshold']:
-            predict_issame = True
-        else:
-            predict_issame = False
-        if predict_issame == actual_issame:
-            acc += 1
+	left_paths, right_paths = lfw_paths[0::2], lfw_paths[1::2]
+	pair_paths = list(zip(left_paths, right_paths))
+	acc = 0
+	for path_pair, actual_issame in zip(pair_paths, issame_list):
+		l_path, r_path = path_pair
+		l_emb = get_emb(l_path, args['known_vector_dir'])
+		r_emb = get_emb(r_path, args['known_vector_dir'])
+		dist = np.sum(np.square(l_emb-r_emb))
+		if dist < args['threshold']:
+			predict_issame = True
+		else:
+			predict_issame = False
+		if predict_issame == actual_issame:
+			acc += 1
 
-    print('acc: ', acc)
+	print('acc: ', acc)
 
 
 		
