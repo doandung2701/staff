@@ -154,7 +154,7 @@ if __name__=='__main__':
 
 	lfw_pairs = lfw.read_pairs(join(args['data_dir'], 'pairs.txt'))
 	lfw_paths, issame_list = lfw.get_paths(args['data_dir'], lfw_pairs, 'jpg')
-	pdb.set_trace()
+	# pdb.set_trace()
 
 	ide_model = IdentifyModel()
 	ide_model.load_classify_model(args['model_path'])
