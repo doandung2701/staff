@@ -211,7 +211,7 @@ if __name__=='__main__':
 	thresholds = np.arange(s,e, st)
 	left_paths, right_paths = lfw_paths[0::2], lfw_paths[1::2]
 	pair_paths = list(zip(left_paths, right_paths))
-	accs = np.zeros((len(thresholds), len(issame_list)))
+	accs = np.array([0]*len(thresholds))
 	for path_pair, actual_issame in zip(pair_paths, issame_list):
 		l_path, r_path = path_pair
 		l_emb = get_emb(l_path, args['data_dir'], args['known_vector_dir'])
