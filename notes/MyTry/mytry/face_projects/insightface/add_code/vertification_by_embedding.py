@@ -152,7 +152,7 @@ if __name__=='__main__':
 	# 		tree.append(test_img) 
 	# pdb.set_trace()
 
-	lfw_pairs = lfw.read_pairs(os.path.join(args['data_dir'], 'pairs.txt'))
+	lfw_pairs = lfw.read_pairs(join(args['data_dir'], 'pairs.txt'))
 	lfw_paths, issame_list = lfw.get_paths(args['data_dir'], lfw_pairs, 'jpg')
 	pdb.set_trace()
 
