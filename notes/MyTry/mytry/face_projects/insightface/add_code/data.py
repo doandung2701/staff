@@ -65,9 +65,9 @@ def load_emb(data_dir, data, vector_dir, force):
 				# 	exit(0)
 				
 				detected, _emb = fmodel.get_feature(_img)
-					
-				with open(emb_path, 'wb') as f:
-					pickle.dump(_emb, f)
+				if (force == False and detected ==True) or force == True:
+					with open(emb_path, 'wb') as f:
+						pickle.dump(_emb, f)
 			else:
 				with open(emb_path, 'rb') as f:
 					_emb = pickle.load(f)
