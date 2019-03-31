@@ -117,15 +117,16 @@ def get_emb(path, data_dir, vector_dir):
 	emb_path = join(vector_dir, name, bfile_name + '.pkl')
 	# if not exists(join(vector_dir, name)):
 	# 	mkdir(join(vector_dir, name))
-	# if not exists(emb_path):
+	if not exists(emb_path):
+		_emb = None
 	# 	_img = cv2.imread(join(data_dir, name, file_name))
 		
 	# 	_emb = fmodel.get_feature(_img)
 	# 	with open(emb_path, 'wb') as f:
 	# 		pickle.dump(_emb, f)
-	# else:
-	with open(emb_path, 'rb') as f:
-		_emb = pickle.load(f)
+	else:
+		with open(emb_path, 'rb') as f:
+			_emb = pickle.load(f)
 	return _emb
 
 # def get_paths(lfw_dir, pairs, file_ext):
@@ -216,6 +217,8 @@ if __name__=='__main__':
 		l_path, r_path = path_pair
 		l_emb = get_emb(l_path, args['data_dir'], args['known_vector_dir'])
 		r_emb = get_emb(r_path, args['data_dir'], args['known_vector_dir'])
+		if l_emb is None or r_emb is None:
+			continue
 		dist = np.sum(np.square(l_emb-r_emb))
 		# np.less(dist, thresholds)
 		for i, threshold in enumerate(thresholds):
