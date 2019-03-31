@@ -58,34 +58,12 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 		with open(tree_path, 'wb') as f:
 			pickle.dump(tree, f)
 
-    # top_5s = []
-    # test_imgs = sorted(tree.test_imgs(), key=lambda test_img:min(test_img.dists()), reverse=True)
-    # for test_img in test_imgs:
-    #     pairs = list(zip(test_img.candidates(), test_img.dists()))
-    #     pairs = sorted(pairs, key x: min(x[1]), reverse=True)
-    #     for person, person_dist in zip(pairs):
-    #         if min(person_dist) < threshold:
-    #             top_5s.append(person.idx())
-                
-
-
 	top_5s = []
-	change_c = 0
 	for test_img in tree.test_imgs():
-		ti_candidates, ti_dists = test_img.candidates(), test_img.dists()
-
-		pairs = list(zip(ti_candidates, ti_dists))
-		sorted_pairs = sorted(pairs, key= lambda x: min(x[1]))
-		ti_candidates, ti_dists = zip(*sorted_pairs)
-		if [person.idx() for person in ti_candidates] != [person.idx() for person in test_img.candidates()]:
-			change_c += 1
-		
 		is_sames = []
-		for person_dist in ti_dists:
+		for person_dist in test_img.dists():
 			print('person_dist: ', person_dist)
 			print('vote: ')
-
-			
 			# pdb.set_trace()
 			vote = 0
 			for dist in person_dist:
@@ -101,17 +79,17 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 
 		top_5 = [0] * k
 		is_novelty = False
-		for i, (person, is_same) in enumerate(zip(ti_candidates, is_sames)):
+		for i, (person, is_same) in enumerate(zip(test_img.candidates(), is_sames)):
 			if i == 0:
 				if is_same == 1:
 					top_5[i] = person.idx()
 				else:
 					top_5[i] = 1000
 					is_novelty = True
-		candidate_idxs = [person.idx() for person in ti_candidates]
+		candidate_idxs = [person.idx() for person in test_img.candidates()]
 		if is_novelty == False:
-			# top_5[-1] = 1000
-			top_5[1:] = candidate_idxs[1:]
+			top_5[1] = 1000
+			top_5[2:-1] = candidate_idxs[1:-1]
 		else:
 			top_5[1:] = candidate_idxs[0:-1]
 		top_5s.append(top_5)
@@ -129,7 +107,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 			if i < len(top_5s) - 1:
 				f.write('\n')
 
-	print('change_c: ', change_c)
+
 if __name__=='__main__':
 	import argparse
 	ap = argparse.ArgumentParser()
