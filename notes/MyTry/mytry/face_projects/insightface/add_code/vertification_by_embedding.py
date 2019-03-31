@@ -213,12 +213,14 @@ if __name__=='__main__':
 	left_paths, right_paths = lfw_paths[0::2], lfw_paths[1::2]
 	pair_paths = list(zip(left_paths, right_paths))
 	accs = np.array([0]*len(thresholds))
+	n_actual_pair = 0
 	for path_pair, actual_issame in zip(pair_paths, issame_list):
 		l_path, r_path = path_pair
 		l_emb = get_emb(l_path, args['data_dir'], args['known_vector_dir'])
 		r_emb = get_emb(r_path, args['data_dir'], args['known_vector_dir'])
 		if l_emb is None or r_emb is None:
 			continue
+		n_actual_pair += 1
 		dist = np.sum(np.square(l_emb-r_emb))
 		# np.less(dist, thresholds)
 		for i, threshold in enumerate(thresholds):
@@ -228,7 +230,8 @@ if __name__=='__main__':
 				predict_issame = False
 			if predict_issame == actual_issame:
 				accs[i] += 1
-	accs = accs/len(issame_list)
+	print('n_actual_pair: ', n_actual_pair)
+	accs = accs/n_actual_pair
 	best_threshold_idx = np.argmax(accs)
 	print('acc: ', accs[best_threshold_idx])
 	print('threshold: ', thresholds[best_threshold_idx])
