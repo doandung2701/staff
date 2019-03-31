@@ -31,7 +31,7 @@ def load_data(data_dir):
 	name2file = {}
 	person_dirs = listdir(data_dir)
 	for person_dir in person_dirs:
-		if isfile(person_dir):
+		if isfile(join(data_dir, person_dir)):
 			continue
 		person_files = listdir(join(data_dir, person_dir))
 		name2file[person_dir] = []
