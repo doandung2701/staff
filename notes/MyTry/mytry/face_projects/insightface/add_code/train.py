@@ -17,7 +17,7 @@ if __name__=='__main__':
 	ap.add_argument("--vector-dir", help="vector_dir")
 	args= vars(ap.parse_args())
 
-	name2file, name2emb = load_emb_data(args['data_dir'], vector_dir=args['vector_dir'])
+	name2file, name2emb = load_emb_data(args['data_dir'], vector_dir=args['vector_dir'], force=False)
 	idx2path = {name: [join(args['data_dir'], name, f) for f in files] for name, files in name2file.items()}
 	emb_data = name2emb
 	with open(args['idx2path'], 'wb') as f:

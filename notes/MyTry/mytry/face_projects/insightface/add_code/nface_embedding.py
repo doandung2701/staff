@@ -59,13 +59,16 @@ class FaceModel:
 
 
   def get_feature(self, face_img):
+    detected = True
     #face_img is bgr image
     ret = self.detector.detect_face_limited(face_img, det_type = self.args.det)
     if ret is None:
+      detected = False
       bbox, points = None, None
     else:
       bbox, points = ret
       if bbox.shape[0]==0:
+        detected = False
         bbox, points = None, None
       else:
         bbox = bbox[0,0:4]
@@ -93,5 +96,5 @@ class FaceModel:
       else:
         embedding += _embedding
     embedding = sklearn.preprocessing.normalize(embedding).flatten()
-    return embedding
+    return detected, embedding
 
