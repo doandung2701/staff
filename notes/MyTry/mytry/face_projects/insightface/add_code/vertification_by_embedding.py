@@ -115,7 +115,6 @@ def get_emb(path, data_dir, vector_dir):
 	name = split(person_dir)[1]
 	bfile_name = splitext(file_name)[0]
 	emb_path = join(vector_dir, name, bfile_name + '.pkl')
-	print('emb_path: ', emb_path)
 	# if not exists(join(vector_dir, name)):
 	# 	mkdir(join(vector_dir, name))
 	# if not exists(emb_path):
