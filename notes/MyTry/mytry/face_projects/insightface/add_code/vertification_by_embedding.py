@@ -1,3 +1,5 @@
+from __future__ import division
+from __future__ import print_function
 from os import mkdir, system
 from os.path import split, splitext, join, exists
 from identification import IdentifyModel, Image, TestImage, Person, Tree
@@ -170,7 +172,7 @@ if __name__=='__main__':
 	# ap.add_argument("--ver-vector-dir", help="ver-vector-dir")
 	# ap.add_argument("--model-path", help="model-path")
 	# ap.add_argument("--idx2path", help="idx2path")
-	ap.add_argument("--threshold", type=float,help="threshold")
+	ap.add_argument("--threshold-range",help="threshold-range")
 	# ap.add_argument("--k", type=int, help="n_top_candidate")
 	# ap.add_argument("--output", help="output")
 	# ap.add_argument("--batch-size", type=int, help="batch-size")
@@ -206,22 +208,28 @@ if __name__=='__main__':
 	#     if i//2 == 0
 	#     pairs[i//2] = 
 
+	s, e, st = [float(el) for el in args['threshold_range'].split(',')]
+	thresholds = np.arange(s,e, st)
 	left_paths, right_paths = lfw_paths[0::2], lfw_paths[1::2]
 	pair_paths = list(zip(left_paths, right_paths))
-	acc = 0
+	accs = np.zeros((len(thresholds), len(issame_list)))
 	for path_pair, actual_issame in zip(pair_paths, issame_list):
 		l_path, r_path = path_pair
 		l_emb = get_emb(l_path, args['data_dir'], args['known_vector_dir'])
 		r_emb = get_emb(r_path, args['data_dir'], args['known_vector_dir'])
 		dist = np.sum(np.square(l_emb-r_emb))
-		if dist < args['threshold']:
-			predict_issame = True
-		else:
-			predict_issame = False
-		if predict_issame == actual_issame:
-			acc += 1
-
-	print('acc: ', acc/len(issame_list))
+		# np.less(dist, thresholds)
+		for i, threshold in enumerate(thresholds):
+			if dist < threshold:
+				predict_issame = True
+			else:
+				predict_issame = False
+			if predict_issame == actual_issame:
+				accs[i] += 1
+	accs = accs/len(issame_list)
+	best_threshold_idx = np.argmax(accs)
+	print('acc: ', accs[best_threshold_idx])
+	print('threshold: ', thresholds[best_threshold_idx])
 
 
 		
