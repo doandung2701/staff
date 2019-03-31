@@ -7,8 +7,8 @@ from os import listdir, mkdir
 from os.path import expanduser, join, split, splitext, exists, isfile
 from glob import glob
 import cv2, pickle
-# from nface_model import FaceModel
-from nface_embedding import FaceModel
+from nface_model import FaceModel
+# from nface_embedding import FaceModel
 from easydict import EasyDict as edict
 import mxnet as mx
 import argparse
@@ -19,7 +19,7 @@ import pdb
 def get_config():
 	args = edict()
 	args.model = 'models/model-r100-ii/model,0000'
-	args.det = 2
+	args.det = 0
 	args.threshold = 0.87
 	args.image_size = '112,112'
 	args.gpu = 0
