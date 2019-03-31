@@ -156,13 +156,13 @@ if __name__=='__main__':
 	lfw_paths, issame_list = lfw.get_paths(args['data_dir'], lfw_pairs, 'jpg')
 	# pdb.set_trace()
 
-	ide_model = IdentifyModel()
-	ide_model.load_classify_model(args['model_path'])
+	# ide_model = IdentifyModel()
+	# ide_model.load_classify_model(args['model_path'])
 	# ide_model.known_vector_dir(args['known_vector_dir'])
 	# ide_model.set_threshold(args['threshold'])
-	ide_model.set_n_top_candidate(args['k'])
-	ide_model.load_idx2path(args['idx2path'])
-	print('ide_model.idx2path: ', ide_model.idx2path)
+	# ide_model.set_n_top_candidate(args['k'])
+	# ide_model.load_idx2path(args['idx2path'])
+	# print('ide_model.idx2path: ', ide_model.idx2path)
 	# identify(tree, ide_model, args['known_vector_dir'], args['k'], args['output'], args['threshold'], args['batch_size'], args['tree_path'])
 	# pairs = []
 	# for i, lfw_path in enumerate(lfw_paths):
