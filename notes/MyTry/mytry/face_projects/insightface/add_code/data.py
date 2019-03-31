@@ -4,7 +4,7 @@ sys.path.append('./deploy')
 
 import random
 from os import listdir, mkdir
-from os.path import expanduser, join, split, splitext, exists
+from os.path import expanduser, join, split, splitext, exists, isfile
 from glob import glob
 import cv2, pickle
 # from nface_model import FaceModel
@@ -31,6 +31,8 @@ def load_data(data_dir):
 	name2file = {}
 	person_dirs = listdir(data_dir)
 	for person_dir in person_dirs:
+		if isfile(person_dir):
+			continue
 		person_files = listdir(join(data_dir, person_dir))
 		name2file[person_dir] = []
 		for person_file in person_files:
