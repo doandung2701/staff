@@ -9,6 +9,8 @@ from glob import glob
 import cv2, pickle
 # from nface_model import FaceModel
 from nface_embedding import FaceModel
+# from nface_embedding_v2 import FaceModel
+# from nface_embedding_v3 import FaceModel
 from easydict import EasyDict as edict
 import mxnet as mx
 import argparse
@@ -63,8 +65,11 @@ def load_emb(data_dir, data, vector_dir, force):
 				# else:
 				# 	pdb.set_trace()
 				# 	exit(0)
-				
-				detected, _emb = fmodel.get_feature(_img)
+				try:
+					detected, _emb = fmodel.get_feature(_img)
+				except:
+					detected = True
+					_emb = fmodel.get_feature(_img)
 				if (force == False and detected ==True) or force == True:
 					with open(emb_path, 'wb') as f:
 						pickle.dump(_emb, f)
