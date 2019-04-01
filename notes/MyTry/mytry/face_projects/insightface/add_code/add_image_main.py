@@ -62,26 +62,26 @@ def load_emb_from_idx2path(data_dir, idx2path, vector_dir, force=True):
 
 def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size, tree_path, idx2path_path):
 	print('Identifing!')
-	if exists(tree_path):
-		with open(tree_path, 'rb') as f:
-			tree = pickle.load(f)
-	else:
+	# if exists(tree_path):
+	# 	with open(tree_path, 'rb') as f:
+	# 		tree = pickle.load(f)
+	# else:
 	# if True:
-		n_test_img = tree.len()
-		tree_candidates = []
-		# pdb.set_trace()
-		n_batch = get_batch_number(n_test_img, batch_size)
-		start = time()
-		for batch_idx in range(n_batch):
-			s, e = get_slice_of_batch(n_test_img, batch_size, batch_idx)
-			_batch = tree.test_imgs()[s:e]
-			_batch = [e.emb() for e in _batch]
-			bstart = time()
-			_batch_candidates = ide_model.batch_candidates(_batch)
-			print(batch_idx, time() - bstart)
-			tree_candidates.extend(_batch_candidates)
-		tree.paste_candidate_idx(tree_candidates)
-		print('Get candidate done! ', time() - start)
+	n_test_img = tree.len()
+	tree_candidates = []
+	# pdb.set_trace()
+	n_batch = get_batch_number(n_test_img, batch_size)
+	start = time()
+	for batch_idx in range(n_batch):
+		s, e = get_slice_of_batch(n_test_img, batch_size, batch_idx)
+		_batch = tree.test_imgs()[s:e]
+		_batch = [e.emb() for e in _batch]
+		bstart = time()
+		_batch_candidates = ide_model.batch_candidates(_batch)
+		print(batch_idx, time() - bstart)
+		tree_candidates.extend(_batch_candidates)
+	tree.paste_candidate_idx(tree_candidates)
+	print('Get candidate done! ', time() - start)
 
 	start = time()
 	for test_img in tree.test_imgs():
@@ -109,7 +109,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 		system('mkdir -p ' + split(tree_path)[0])
 	with open(tree_path, 'wb') as f:
 		pickle.dump(tree, f)
-		
+
 	added_name2path = {}
 	for name in ide_model.idx2path.keys():
 		added_name2path[name] = []
@@ -196,15 +196,15 @@ if __name__=='__main__':
 	args= vars(ap.parse_args())
 
 	tree = Tree()
-	if not exists(args['tree_path']):
-		start = time()
-		name2file, emb_data = load_emb_data(args['data_dir'], vector_dir=args['ver_vector_dir'])
-		data = {name: [join(args['data_dir'], name, f) for f in files] for name, files in name2file.items()}
-		print('loaded data: ', time() - start)
-		for name, paths in data.items():
-			_emb = emb_data[name][0]
-			test_img = TestImage(paths[0], _emb)
-			tree.append(test_img) 
+	# if not exists(args['tree_path']):
+	start = time()
+	name2file, emb_data = load_emb_data(args['data_dir'], vector_dir=args['ver_vector_dir'])
+	data = {name: [join(args['data_dir'], name, f) for f in files] for name, files in name2file.items()}
+	print('loaded data: ', time() - start)
+	for name, paths in data.items():
+		_emb = emb_data[name][0]
+		test_img = TestImage(paths[0], _emb)
+		tree.append(test_img) 
 	# pdb.set_trace()
 
 	ide_model = IdentifyModel()
