@@ -72,7 +72,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 			for _img, dist in zip(person.imgs(),person_dist):
 				if dist < threshold:
 					vote += 1
-					if  threshold - dist > 0.2 and len(person_dict) + len(added_name2path[str(person.idx())]) <= 2\
+					if  threshold - dist > 0.2 and len(person_dist) + len(added_name2path[str(person.idx())]) <= 2\
 						and _img.path() not in added_name2path[str(person.idx())] :
 						added_name2path[str(person.idx())].append(_img.path())
 			print  str(vote) + ', ',
