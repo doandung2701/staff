@@ -105,10 +105,10 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 				test_img.append_dist(person_dist)
 		print('Cal dist done! ', time() - start)
 
-		if not exists(split(tree_path)[0]):
-			system('mkdir -p ' + split(tree_path)[0])
-		with open(tree_path, 'wb') as f:
-			pickle.dump(tree, f)
+		# if not exists(split(tree_path)[0]):
+		# 	system('mkdir -p ' + split(tree_path)[0])
+		# with open(tree_path, 'wb') as f:
+		# 	pickle.dump(tree, f)
 	added_name2path = {}
 	for name in ide_model.idx2path.keys():
 		added_name2path[name] = []
@@ -162,8 +162,8 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 			count_a += len(added_name2path[name])
 	print('Added: ', count_a)
 
-	with open(idx2path_path, 'wb') as f:
-		pickle.dump(ide_model.idx2path, f)
+	# with open(idx2path_path, 'wb') as f:
+	# 	pickle.dump(ide_model.idx2path, f)
 
 	if not exists(split(output)[0]):
 		system('mkdir -p ' + split(output)[0])
