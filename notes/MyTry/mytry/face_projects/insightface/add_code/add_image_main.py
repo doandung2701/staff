@@ -10,7 +10,7 @@ from time import time
 import pdb
 
 
-def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size, tree_path):
+def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size, tree_path, idx2path_path):
 	print('Identifing!')
 	if exists(tree_path):
 		with open(tree_path, 'rb') as f:
@@ -39,6 +39,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 			for person in persons:
 				paths = ide_model.idx2path[str(person.idx())]
 				person_dist = []
+				n_path = len(paths)
 				for path in paths:
 					img_dir, file_name = split(path)
 					bfile_name = splitext(file_name)[0]
@@ -57,18 +58,23 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 			system('mkdir -p ' + split(tree_path)[0])
 		with open(tree_path, 'wb') as f:
 			pickle.dump(tree, f)
-
+	added_name2path = {}
+	for name in ide_model.idx2path.keys():
+		added_name2path[name] = []
 	top_5s = []
 	for test_img in tree.test_imgs():
 		is_sames = []
-		for person_dist in test_img.dists():
+		for person_dist, person in zip(test_img.dists(), test_img.candidates()):
 			print('person_dist: ', person_dist)
 			print('vote: ')
 			# pdb.set_trace()
 			vote = 0
-			for dist in person_dist:
+			for _img, dist in zip(person.imgs(),person_dist):
 				if dist < threshold:
 					vote += 1
+					if  threshold - dist > 0.2 and len(person_dict) + len(added_name2path[str(person.idx())]) <= 2\
+						and _img.path() not in added_name2path[str(person.idx())] :
+						added_name2path[str(person.idx())].append(_img.path())
 			print  str(vote) + ', ',
 			if vote > 0:
 				is_sames.append(1)
@@ -96,7 +102,18 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 		# else:
 		# 	top_5[1:] = candidate_idxs[0:-1]
 		top_5s.append(top_5)
-		
+	
+	count_a = 0
+	for name, paths in ide_model.idx2path.items():
+		ide_model.idx2path[name].extend(added_name2path[name])
+		if len(added_name2path[name]) == 0:
+			print('name: ' + name + ': ' +str(len(paths)) + ' -> ' +str(len(added_name2path[name])))
+			count_a += len(added_name2path[name])
+	print('Added: ', count_a)
+
+	with open(idx2path_path, 'wb') as f:
+		pickle.dump(ide_model.idx2path, f)
+
 	if not exists(split(output)[0]):
 		system('mkdir -p ' + split(output)[0])
 	with open(output, 'w') as f:
@@ -145,7 +162,7 @@ if __name__=='__main__':
 	ide_model.set_n_top_candidate(args['k'])
 	ide_model.load_idx2path(args['idx2path'])
 	print('ide_model.idx2path: ', ide_model.idx2path)
-	identify(tree, ide_model, args['known_vector_dir'], args['k'], args['output'], args['threshold'], args['batch_size'], args['tree_path'])
+	identify(tree, ide_model, args['known_vector_dir'], args['k'], args['output'], args['threshold'], args['batch_size'], args['tree_path'], args['idx2path'])
 
 
 		
