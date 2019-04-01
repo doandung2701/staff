@@ -58,7 +58,7 @@ def load_emb_from_idx2path(data_dir, idx2path, vector_dir, force=True):
 		if force == False and len(good_file_names) == 0:
 			pdb.set_trace()
 	# pdb.set_trace()
-	return data, emb_data
+	return emb_data
 
 def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size, tree_path, idx2path_path):
 	print('Identifing!')

@@ -20,7 +20,7 @@ if __name__=='__main__':
 	from add_image_main import load_emb_from_idx2path
 	with open(args['idx2path'], 'rb') as f:
 		idx2path = pickle.load(f)
-	name2file, name2emb = load_emb_from_idx2path(args['data_dir'],idx2path, vector_dir=args['vector_dir'])
+	name2emb = load_emb_from_idx2path(args['data_dir'],idx2path, vector_dir=args['vector_dir'])
 	# idx2path = {name: [join(args['data_dir'], name, f) for f in files] for name, files in name2file.items()}
 	emb_data = name2emb
 	# with open(args['idx2path'], 'wb') as f:
