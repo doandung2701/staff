@@ -62,11 +62,11 @@ def load_emb_from_idx2path(data_dir, idx2path, vector_dir, force=True):
 
 def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size, tree_path, idx2path_path):
 	print('Identifing!')
-	# if exists(tree_path):
-	# 	with open(tree_path, 'rb') as f:
-	# 		tree = pickle.load(f)
-	# else:
-	if True:
+	if exists(tree_path):
+		with open(tree_path, 'rb') as f:
+			tree = pickle.load(f)
+	else:
+	# if True:
 		n_test_img = tree.len()
 		tree_candidates = []
 		# pdb.set_trace()
@@ -83,32 +83,33 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 		tree.paste_candidate_idx(tree_candidates)
 		print('Get candidate done! ', time() - start)
 
-		start = time()
-		for test_img in tree.test_imgs():
-			test_emb = test_img.emb()
-			persons = test_img.candidates()
-			for person in persons:
-				paths = ide_model.idx2path[str(person.idx())]
-				person_dist = []
-				n_path = len(paths)
-				for path in paths:
-					img_dir, file_name = split(path)
-					bfile_name = splitext(file_name)[0]
-					name = split(img_dir)[1]
-					emb_path = join(known_vector_dir, name, bfile_name + '.pkl')
-					with open(emb_path, 'rb') as f:
-						_emb = pickle.load(f)
-					img = Image(path, _emb)
-					person.append(img)
-					dist = np.sum(np.square(test_emb-img.emb()))
-					person_dist.append(dist)
-				test_img.append_dist(person_dist)
-		print('Cal dist done! ', time() - start)
+	start = time()
+	for test_img in tree.test_imgs():
+		test_emb = test_img.emb()
+		persons = test_img.candidates()
+		for person in persons:
+			paths = ide_model.idx2path[str(person.idx())]
+			person_dist = []
+			n_path = len(paths)
+			for path in paths:
+				img_dir, file_name = split(path)
+				bfile_name = splitext(file_name)[0]
+				name = split(img_dir)[1]
+				emb_path = join(known_vector_dir, name, bfile_name + '.pkl')
+				with open(emb_path, 'rb') as f:
+					_emb = pickle.load(f)
+				img = Image(path, _emb)
+				person.append(img)
+				dist = np.sum(np.square(test_emb-img.emb()))
+				person_dist.append(dist)
+			test_img.append_dist(person_dist)
+	print('Cal dist done! ', time() - start)
 
-		# if not exists(split(tree_path)[0]):
-		# 	system('mkdir -p ' + split(tree_path)[0])
-		# with open(tree_path, 'wb') as f:
-		# 	pickle.dump(tree, f)
+	if not exists(split(tree_path)[0]):
+		system('mkdir -p ' + split(tree_path)[0])
+	with open(tree_path, 'wb') as f:
+		pickle.dump(tree, f)
+		
 	added_name2path = {}
 	for name in ide_model.idx2path.keys():
 		added_name2path[name] = []
