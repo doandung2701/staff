@@ -62,10 +62,11 @@ def load_emb_from_idx2path(data_dir, idx2path, vector_dir, force=True):
 
 def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size, tree_path, idx2path_path):
 	print('Identifing!')
-	if exists(tree_path):
-		with open(tree_path, 'rb') as f:
-			tree = pickle.load(f)
-	else:
+	# if exists(tree_path):
+	# 	with open(tree_path, 'rb') as f:
+	# 		tree = pickle.load(f)
+	# else:
+	if True:
 		n_test_img = tree.len()
 		tree_candidates = []
 		# pdb.set_trace()
