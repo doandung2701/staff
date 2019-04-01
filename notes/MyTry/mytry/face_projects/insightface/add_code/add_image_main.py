@@ -106,7 +106,7 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 	count_a = 0
 	for name, paths in ide_model.idx2path.items():
 		ide_model.idx2path[name].extend(added_name2path[name])
-		if len(added_name2path[name]) == 0:
+		if len(added_name2path[name]) > 0:
 			print('name: ' + name + ': ' +str(len(paths)) + ' -> ' +str(len(added_name2path[name])))
 			count_a += len(added_name2path[name])
 	print('Added: ', count_a)
