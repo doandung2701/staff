@@ -80,20 +80,21 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 		top_5 = [0] * k
 		is_novelty = False
 		for i, (person, is_same) in enumerate(zip(test_img.candidates(), is_sames)):
-			if i == 0:
-				if is_same == 1:
-					top_5[i] = person.idx()
-				else:
-					top_5[i] = 1000
-					is_novelty = True
-		candidate_idxs = [person.idx() for person in test_img.candidates()]
+			# if i == 0:
+			if is_same == 1:
+				top_5[i] = person.idx()
+			else:
+				top_5[i] = 1000
+				is_novelty = True
+		# candidate_idxs = [person.idx() for person in test_img.candidates()]
 		if is_novelty == False:
-			top_5[1] = candidate_idxs[1]
-			top_5[2] = 1000
-			top_5[3:] = candidate_idxs[2:-1]
+			# top_5[1] = candidate_idxs[1]
+			# top_5[2] = 1000
+			# top_5[3:] = candidate_idxs[2:-1]
 			# top_5[4] = candidate_idxs[3]
-		else:
-			top_5[1:] = candidate_idxs[0:-1]
+			top_5[-1] = 1000
+		# else:
+		# 	top_5[1:] = candidate_idxs[0:-1]
 		top_5s.append(top_5)
 		
 	if not exists(split(output)[0]):
