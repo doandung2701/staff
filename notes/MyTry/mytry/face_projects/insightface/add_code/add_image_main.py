@@ -9,6 +9,56 @@ from utils import get_batch_number, get_slice_of_batch
 from time import time
 import pdb
 
+def load_emb_from_idx2path(data_dir, idx2path, vector_dir, force=True):
+	args = get_config()
+	fmodel = FaceModel(args)
+	emb_data = {}
+
+	for name, paths in idx2path.items():
+		_embs = []
+		good_file_names = []
+		good_embs = []
+		for path in paths:
+			file_name = split(path)[1]
+			bfile_name = splitext(file_name)[0]
+			emb_path = join(vector_dir, name, bfile_name + '.pkl')
+			if not exists(join(vector_dir, name)):
+				mkdir(join(vector_dir, name))
+			if not exists(emb_path):
+				_img = cv2.imread(path)
+				# pdb.set_trace()
+
+				# i_input = fmodel.get_input(_img)
+				# if i_input is not None:
+				# 	_img = i_input
+				# else:
+				# 	pdb.set_trace()
+				# 	exit(0)
+				try:
+					detected, _emb = fmodel.get_feature(_img)
+				except:
+					detected = True
+					_emb = fmodel.get_feature(_img)
+				if (force == False and detected ==True) or force == True:
+					with open(emb_path, 'wb') as f:
+						pickle.dump(_emb, f)
+			else:
+				with open(emb_path, 'rb') as f:
+					_emb = pickle.load(f)
+			if force == False:
+				if detected == True:
+					good_file_names.append(file_name)
+					good_embs.append(_emb)
+			_embs.append(_emb)
+		if len(good_file_names) > 0:
+			data[name] = good_file_names
+			emb_data[name] = good_embs
+		else:
+			emb_data[name] = _embs
+		if force == False and len(good_file_names) == 0:
+			pdb.set_trace()
+	# pdb.set_trace()
+	return data, emb_data
 
 def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size, tree_path, idx2path_path):
 	print('Identifing!')
