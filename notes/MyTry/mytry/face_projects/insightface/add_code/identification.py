@@ -118,7 +118,13 @@ class IdentifyModel:
 		# print('pairs: ', pairs)
 		X, Y = zip(*pairs)
 		print('len(X), len(Y): ', len(X), len(Y))
-		self.classify_model = svm_classify(X, Y)
+		if len(X) > len(data.items())*2:
+			self.classify_model = svm_classify(X, Y)
+		else:
+			from sklearn import svm
+			clf = svm.SVC(gamma='scale')
+			clf.fit(X, Y)
+			self.classify_model = clf
 
 	def dump_classify_model(self, classify_model_path):
 		with open(classify_model_path, 'wb') as f:
@@ -129,8 +135,8 @@ class IdentifyModel:
 			self.classify_model = pickle.load(f)
 	
 	def _classify_batch(self, batch):
-		# pdb.set_trace()
 		batch_probs = self.classify_model.decision_function(batch)
+		# pdb.set_trace()
 		batch_idx2prob = [{self.classify_model.classes_[i]:prob for i, prob in enumerate(probs)} for probs in batch_probs]
 		return batch_idx2prob
 

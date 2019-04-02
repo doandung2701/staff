@@ -1,4 +1,6 @@
 #coding=utf-8
+from __future__ import division
+from __future__ import print_function
 import PIL
 from PIL import ImageFont
 from PIL import Image
@@ -64,7 +66,7 @@ def rotRandrom(img, factor, size):
 					   [shape[1] - r(factor), shape[0] - r(factor)]])
 	M = cv2.getPerspectiveTransform(pts1, pts2)
 	dst = cv2.warpPerspective(img, M, size)
-	return dst
+	return dst, M
 
 
 
@@ -182,20 +184,24 @@ class GenPlate:
 			com = fg
 			com, M = rot(com,r(20)-10,com.shape,10)
 
-
-			pdb.set_trace()
-			locations = [cv2.transform(np.array([(l,t), (l+w, t+h)]).reshape(1,2,2), M) for (l,t, w, h) in locations]
+			points = [np.float32([(l,t), (l+w, t), (l, t+h), (l+w, t+h)]) for (l,t, w, h) in locations]
+			cvt_points = [cv2.perspectiveTransform(pt.reshape(4,1,2), M).reshape(4,-1) for pt in points]
+			# pdb.set_trace()
 			
-			com = rotRandrom(com,4,(com.shape[1],com.shape[0]))
+			com, M = rotRandrom(com,4,(com.shape[1],com.shape[0]))
+			cvt_points = [cv2.perspectiveTransform(pt.reshape(4,1,2), M).reshape(4,-1) for pt in cvt_points]
+			img_h, img_w = com.shape[:-1]
+			rlocations = [(lt[0]/img_w, lt[1]/img_h, (rb[0] - lt[0])/img_w, (rb[1] - lt[1])/img_h) for lt, _,_, rb in cvt_points]
 			#com = AddSmudginess(com,self.smu)
 
 			com = tfactor(com)
 			com = random_envirment(com,self.noplates_path)
 			com = AddGauss(com, 1+r(4))
 			# com = addNoise(com)
+			
 
 
-			return com
+			return com, rlocations
 	def genPlateString(self,pos,val):
 		plateStr = ""
 		box = [0,0,0,0,0,0,0,0,0]
@@ -214,20 +220,47 @@ class GenPlate:
 
 		return plateStr
 
-	def genBatch(self, batchSize,pos,charRange, outputPath,size):
+	def genBatch(self, batchSize,pos,charRange, outputPath,size, name2idx):
 		if (not os.path.exists(outputPath)):
 			os.mkdir(outputPath)
 		for i in range(batchSize):
 			plateStr = G.genPlateString(-1,-1)
-			img =  G.generate(plateStr)
+			img, rlocations =  G.generate(plateStr)
 			img = cv2.resize(img,size)
-			filename = os.path.join(outputPath, str(i).zfill(4) + '.' + plateStr + ".jpg")
+			bfile_name = os.path.join(outputPath, str(i).zfill(4) + '_' + plateStr)
+			with open(bfile_name + '.txt', 'w+') as f:
+				# pdb.set_trace()
+				for l_i, (l, t, w, h) in enumerate(rlocations):
+					print('i: ', i)
+					xmin, ymin, xmax, ymax = l, t, l + w, t + h
+					yolo_location = [(xmin + xmax)/2, (ymin + ymax)/2, xmax - xmin, ymax - ymin]
+					yolo_strg = str(name2idx[plateStr[l_i]]) + ' ' + ' '.join(["%.6f" % round(e, 6) for e in yolo_location]) 
+					print('i, yolo_strg: ', i,yolo_strg)
+					if l_i < len(rlocations) - 1:
+						yolo_strg += '\n'
+					f.write(yolo_strg)
+			filename = os.path.join(bfile_name + ".jpg")
 			cv2.imwrite(filename, img)
 
-G = GenPlate("/home/cuongvm/Resources/common/Soxe2banh.TTF",'/home/cuongvm/Resources/common/Soxe2banh.TTF',"./NoPlates")
+if __name__=='__main__':
+	import argparse
+	ap = argparse.ArgumentParser()
+	ap.add_argument("--indir", help="indir")
+	ap.add_argument("--lpdir", help="lpdir")
+	ap.add_argument("--imgdir", help="imgdir")
+	ap.add_argument("--name_file", help="name_file")
+	ap.add_argument("--outdir", help="outdir")
+	args= vars(ap.parse_args())
+	with open(args['name_file']) as f:
+		names = f.readlines()
+		print(names)
+		print('sorted(names)',sorted(names))
+		name2idx = {name.rstrip().upper(): i for i, name in enumerate(sorted(names))}
+		print('name2idx = ', name2idx)
+	G = GenPlate("/home/cuongvm/Resources/common/Soxe2banh.TTF",'/home/cuongvm/Resources/common/Soxe2banh.TTF',"./NoPlates")
+	# G.genBatch(10000,2,range(31,65),"./plate_train",(272,72))
+	G.genBatch(1000,2,range(31,65),args['outdir'],(272,272), name2idx)
 
-# G.genBatch(10000,2,range(31,65),"./plate_train",(272,72))
-G.genBatch(1000,2,range(31,65),"/home/cuongvm/tmp/tmp14",(272,272))
 
 
 

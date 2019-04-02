@@ -1,0 +1,2 @@
+train=data/retrained_ocr/carlong_GreenParking_fold_01_split_fold_0_convert_size_train.txt
+valid=data/retrained_ocr/carlong_GreenParking_fold_0_split_fold_1_test.txt

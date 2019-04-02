@@ -2,14 +2,14 @@ from os import mkdir, system
 from os.path import split, splitext, join, exists
 from identification import IdentifyModel, Image, TestImage, Person, Tree
 from data import load_emb_data, get_config
-from face_model import FaceModel
+from nface_embedding import FaceModel
 import cv2, pickle
 import numpy as np
 from utils import get_batch_number, get_slice_of_batch
 from time import time
 import pdb
 
-def load_emb_from_idx2path(data_dir, idx2path, vector_dir, force=True):
+def load_emb_from_idx2path(data_dir, idx2path, vector_dir, ver_vector_dir, force=True):
 	args = get_config()
 	fmodel = FaceModel(args)
 	emb_data = {}
@@ -25,23 +25,29 @@ def load_emb_from_idx2path(data_dir, idx2path, vector_dir, force=True):
 			if not exists(join(vector_dir, name)):
 				mkdir(join(vector_dir, name))
 			if not exists(emb_path):
-				_img = cv2.imread(path)
-				# pdb.set_trace()
+				if exists(join(ver_vector_dir, bfile_name[:bfile_name.rfind('_')], bfile_name + '.pkl')):
+					emb_path = join(ver_vector_dir, bfile_name[:bfile_name.rfind('_')], bfile_name + '.pkl')
+					with open(emb_path, 'rb') as f:
+						_emb = pickle.load(f)
+				else:
+					pdb.set_trace()
+					_img = cv2.imread(path)
+					# pdb.set_trace()
 
-				# i_input = fmodel.get_input(_img)
-				# if i_input is not None:
-				# 	_img = i_input
-				# else:
-				# 	pdb.set_trace()
-				# 	exit(0)
-				try:
-					detected, _emb = fmodel.get_feature(_img)
-				except:
-					detected = True
-					_emb = fmodel.get_feature(_img)
-				if (force == False and detected ==True) or force == True:
-					with open(emb_path, 'wb') as f:
-						pickle.dump(_emb, f)
+					# i_input = fmodel.get_input(_img)
+					# if i_input is not None:
+					# 	_img = i_input
+					# else:
+					# 	pdb.set_trace()
+					# 	exit(0)
+					try:
+						detected, _emb = fmodel.get_feature(_img)
+					except:
+						detected = True
+						_emb = fmodel.get_feature(_img)
+					if (force == False and detected ==True) or force == True:
+						with open(emb_path, 'wb') as f:
+							pickle.dump(_emb, f)
 			else:
 				with open(emb_path, 'rb') as f:
 					_emb = pickle.load(f)
@@ -60,7 +66,7 @@ def load_emb_from_idx2path(data_dir, idx2path, vector_dir, force=True):
 	# pdb.set_trace()
 	return emb_data
 
-def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size, tree_path, idx2path_path):
+def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size, tree_path, idx2path_path, ver_vector_dir):
 	print('Identifing!')
 	# if exists(tree_path):
 	# 	with open(tree_path, 'rb') as f:
@@ -96,6 +102,8 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 				bfile_name = splitext(file_name)[0]
 				name = split(img_dir)[1]
 				emb_path = join(known_vector_dir, name, bfile_name + '.pkl')
+				if not exists(emb_path):
+					emb_path = join(ver_vector_dir, name, bfile_name + '.pkl')
 				with open(emb_path, 'rb') as f:
 					_emb = pickle.load(f)
 				img = Image(path, _emb)
@@ -124,9 +132,11 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 			for _img, dist in zip(person.imgs(),person_dist):
 				if dist < threshold:
 					vote += 1
-					if  threshold - dist > 0.2 and len(person_dist) + len(added_name2path[str(person.idx())]) <= 2\
-						and _img.path() not in added_name2path[str(person.idx())] :
-						added_name2path[str(person.idx())].append(_img.path())
+					# if  threshold - dist > 0.4 and len(person_dist) + len(added_name2path[str(person.idx())]) <= 4\
+					# 	and _img.path() not in added_name2path[str(person.idx())] and _img.path() not in ide_model.idx2path[name]:
+					if len(person_dist) + len(added_name2path[str(person.idx())]) <= 15\
+						and _img.path() not in added_name2path[str(person.idx())] and _img.path() not in ide_model.idx2path[name]:
+						added_name2path[str(person.idx())].append(test_img.path())
 			print  str(vote) + ', ',
 			if vote > 0:
 				is_sames.append(1)
@@ -157,14 +167,14 @@ def identify(tree, ide_model, known_vector_dir, k, output, threshold, batch_size
 	
 	count_a = 0
 	for name, paths in ide_model.idx2path.items():
-		ide_model.idx2path[name].extend(added_name2path[name])
 		if len(added_name2path[name]) > 0:
 			print('name: ' + name + ': ' +str(len(paths)) + ' -> ' +str(len(added_name2path[name])))
 			count_a += len(added_name2path[name])
+		ide_model.idx2path[name].extend(added_name2path[name])
 	print('Added: ', count_a)
 
-	# with open(idx2path_path, 'wb') as f:
-	# 	pickle.dump(ide_model.idx2path, f)
+	with open(idx2path_path, 'wb') as f:
+		pickle.dump(ide_model.idx2path, f)
 
 	if not exists(split(output)[0]):
 		system('mkdir -p ' + split(output)[0])
@@ -214,7 +224,11 @@ if __name__=='__main__':
 	ide_model.set_n_top_candidate(args['k'])
 	ide_model.load_idx2path(args['idx2path'])
 	print('ide_model.idx2path: ', ide_model.idx2path)
-	identify(tree, ide_model, args['known_vector_dir'], args['k'], args['output'], args['threshold'], args['batch_size'], args['tree_path'], args['idx2path'])
+	c = 0
+	for name, paths in ide_model.idx2path.items():
+		c += len(paths)
+	print('c: ', c)
+	identify(tree, ide_model, args['known_vector_dir'], args['k'], args['output'], args['threshold'], args['batch_size'], args['tree_path'], args['idx2path'], args['ver_vector_dir'])
 
 
 		
