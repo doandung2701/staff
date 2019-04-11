@@ -63,10 +63,10 @@ def reconstruct(Iorig,I,Y,out_sizes,threshold=.9):
 				h=label.pts[1][3]-label.pts[1][0]
 				r = w/h
 				s1, s2 = out_sizes[0], out_sizes[1]
-				if abs(r - s1[0]/s1[1]) < abs(r - s2[0]/s2[1]):
-					out_size = s1
+				if r > 1.3:
+					out_size = s1 if s1[0]/s1[1] > s2[0]/s2[1] else s2
 				else:
-					out_size = s2
+					out_size = s1 if s1[0]/s1[1] < s2[0]/s2[1] else s2
 				print('r, out_size: ',r, out_size)
 			##
 			t_ptsh 	= getRectPts(0,0,out_size[0],out_size[1])

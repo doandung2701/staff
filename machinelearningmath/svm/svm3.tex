@@ -240,31 +240,55 @@
         Xét hàm số Lagrange:
         $$L(\vec{w}, c, \lambda) = \frac{||\vec{w}||^{2}}{2} + \sum_{\forall (x_i, y_i) \in D_1}^{}{\lambda _i[1 - y_i(\vec{w}\vec{x_i} + c)]}$$
 
-        Giả sử các hàm số 
-        $f(\vec{w},c) = \frac{||\vec{w}||}{2} $ và $g_i(\vec{w},c) = y_i(\vec{w}\vec{x_i} + c) \forall (x_i, y_i) \in D_1$ 
-        có đạo hàm riêng
-        cấp hai liên tục. Khi đó nếu hàm số $f(\vec{w},c)$, với điều kiện $g_i(\vec{w},c) = 1$ đạt cực trị tại điểm 
-        $M_0(\vec{\bar{w}},\bar{c})$ thì tồn tại bộ $(\vec{\bar{w}}, \bar{c}, \bar{\lambda})$ là nghiệm của hệ phương trình:
-        $$
-        \left\{\begin{matrix}
-            L'_{\lambda _i} = 1 - y_i(\vec{w}\vec{x_i} + c) = 0 \forall (x_i, y_i) \in D_1\\
-            L'_{\vec{w}} = \vec{w} - \sum_{\forall (x_i, y_i) \in D_1}^{}{\lambda _i y_i \vec{x_i}} = 0 \\
-            L'_c = -\sum_{\forall (x_i, y_i) \in D_1}^{}{\lambda _i y_i} = 0
-        \end{matrix}\right.$$
-        Hay tương đương với:
+        Ta xét bài toán: \newline 
+        Tìm giá trị lớn nhất của:
+        $$R(\lambda) = \frac{||\vec{w}||^{2}}{2}$$
+        Với điều kiện:
         $$\left\{\begin{matrix}
             y_i(\vec{w}\vec{x_i} + c) = 1 \forall (x_i, y_i) \in D_1\\
             \vec{w} = \sum_{\forall (x_i, y_i) \in D_1}^{}{\lambda _i y_i \vec{x_i}}  \\
-            \sum_{\forall (x_i, y_i) \in D_1}^{}{\lambda _i y_i} = 0
+            \sum_{\forall (x_i, y_i) \in D_1}^{}{\lambda _i y_i} = 0 \\
+            $\lambda_i \geq 0 \forall \lambda_i \in P$
         \end{matrix}\right.$$
-        Giả sử $(\vec{\bar{w}}, \bar{c}, \bar{\lambda})$ là một nghiệm của hệ phương trình trên.\newline 
-        Khi đó 
-        % $$L(\vec{w}, c, \lambda) =  \frac{||\vec{w}||^{2}}{2} $$
-        % $$\Leftrightarrow  L(\vec{w}, c, \lambda) =  \frac{(\sum_{\forall (x_i, y_i) \in D_1}^{}{\lambda _i y_i \vec{x_i}})^{2}}{2} (2.1)$$
-        % Ta sẽ tìm giá trị nhỏ nhất của $(2.1)$ với điều kiện $\sum_{\forall (x_i, y_i) \in D_1}^{}{\lambda _i y_i} = 0$ và $\lambda_i \geq 0 \forall \lambda_i \in P$
+        
+        Giả sử tại $\bar{\lambda}$ $L(\vec{w}, c, \lambda)$ đạt cực tiểu, ta sẽ chứng minh rằng tại $\bar{\lambda}$
+        thì $R(\lambda)$ đạt cực đại. Thật vậy giả sử tại $\bar{\lambda}$ $R(\lambda)$ không đạt cực đại.
+        Vậy tồn tại một $\bar{\lambda^{*}}$ sao cho:
+        % tại $\bar{\lambda^{*}}$ $L(\vec{w}, c, \lambda^{*}) = L_{min}$ đạt cực tiểu và
+        $$R(\bar{\lambda^{*}}) > R(\bar{\lambda})$$ và
+        $$ R(\bar{\lambda^{*}}) = L(\vec{w}, c, \lambda^{*})$$
+        % Mà tại $\bar{\lambda}$ $L(\vec{w}, c, \lambda)$ đạt cực tiểu:
+        % $$\Rightarrow R(\bar{\lambda}) = L(\vec{w}, c, \lambda)$$
+        Mà: 
+        $$ R(\bar{\lambda^{*}}) < L(\vec{w}, c, \lambda)$$
+        $$ \Rightarrow L(\vec{w}, c, \lambda^{*}) < L(\vec{w}, c, \lambda)$$
+        Mâu thuẫn với giả thiết tại $\bar{\lambda}$ $L(\vec{w}, c, \lambda)$ đạt cực tiểu
 
-        $$L(\vec{w}, c, \lambda) =  \frac{||\vec{w}||^{2}}{2} + \sum_{\forall (x_i, y_i) \in D_1}^{}{\lambda _i} - \sum_{\forall (x_i, y_i) \in D_1}^{}{\lambda _i y_i c} - \vec{w}\sum_{\forall (x_i, y_i) \in D_1}^{}{\lambda _i y_i \vec{x_i}} $$
-        $$L(\vec{w}, c, \lambda) =  -\frac{(\sum_{\forall (x_i, y_i) \in D_1}^{}{\lambda _i y_i \vec{x_i}})^{2}}{2} + \sum_{\forall (x_i, y_i) \in D_1}^{}{\lambda _i} $$
+        % Giả sử các hàm số 
+        % $f(\vec{w},c) = \frac{||\vec{w}||}{2} $ và $g_i(\vec{w},c) = y_i(\vec{w}\vec{x_i} + c) \forall (x_i, y_i) \in D_1$ 
+        % có đạo hàm riêng
+        % cấp hai liên tục. Khi đó nếu hàm số $f(\vec{w},c)$, với điều kiện $g_i(\vec{w},c) = 1$ đạt cực trị tại điểm 
+        % $M_0(\vec{\bar{w}},\bar{c})$ thì tồn tại bộ $(\vec{\bar{w}}, \bar{c}, \bar{\lambda})$ là nghiệm của hệ phương trình:
+        % $$
+        % \left\{\begin{matrix}
+        %     L'_{\lambda _i} = 1 - y_i(\vec{w}\vec{x_i} + c) = 0 \forall (x_i, y_i) \in D_1\\
+        %     L'_{\vec{w}} = \vec{w} - \sum_{\forall (x_i, y_i) \in D_1}^{}{\lambda _i y_i \vec{x_i}} = 0 \\
+        %     L'_c = -\sum_{\forall (x_i, y_i) \in D_1}^{}{\lambda _i y_i} = 0
+        % \end{matrix}\right.$$
+        % Hay tương đương với:
+        % $$\left\{\begin{matrix}
+        %     y_i(\vec{w}\vec{x_i} + c) = 1 \forall (x_i, y_i) \in D_1\\
+        %     \vec{w} = \sum_{\forall (x_i, y_i) \in D_1}^{}{\lambda _i y_i \vec{x_i}}  \\
+        %     \sum_{\forall (x_i, y_i) \in D_1}^{}{\lambda _i y_i} = 0
+        % \end{matrix}\right.$$
+        % Giả sử $(\vec{\bar{w}}, \bar{c}, \bar{\lambda})$ là một nghiệm của hệ phương trình trên.\newline 
+        % Khi đó 
+        % % $$L(\vec{w}, c, \lambda) =  \frac{||\vec{w}||^{2}}{2} $$
+        % % $$\Leftrightarrow  L(\vec{w}, c, \lambda) =  \frac{(\sum_{\forall (x_i, y_i) \in D_1}^{}{\lambda _i y_i \vec{x_i}})^{2}}{2} (2.1)$$
+        % % Ta sẽ tìm giá trị nhỏ nhất của $(2.1)$ với điều kiện $\sum_{\forall (x_i, y_i) \in D_1}^{}{\lambda _i y_i} = 0$ và $\lambda_i \geq 0 \forall \lambda_i \in P$
+
+        % $$L(\vec{w}, c, \lambda) =  \frac{||\vec{w}||^{2}}{2} + \sum_{\forall (x_i, y_i) \in D_1}^{}{\lambda _i} - \sum_{\forall (x_i, y_i) \in D_1}^{}{\lambda _i y_i c} - \vec{w}\sum_{\forall (x_i, y_i) \in D_1}^{}{\lambda _i y_i \vec{x_i}} $$
+        % $$L(\vec{w}, c, \lambda) =  -\frac{(\sum_{\forall (x_i, y_i) \in D_1}^{}{\lambda _i y_i \vec{x_i}})^{2}}{2} + \sum_{\forall (x_i, y_i) \in D_1}^{}{\lambda _i} $$
 
 
         

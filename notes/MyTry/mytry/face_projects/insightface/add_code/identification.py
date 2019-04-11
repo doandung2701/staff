@@ -136,8 +136,12 @@ class IdentifyModel:
 	
 	def _classify_batch(self, batch):
 		batch_probs = self.classify_model.decision_function(batch)
-		# pdb.set_trace()
-		batch_idx2prob = [{self.classify_model.classes_[i]:prob for i, prob in enumerate(probs)} for probs in batch_probs]
+		try:
+			batch_idx2prob = [{self.classify_model.classes_[i]:prob for i, prob in enumerate(probs)} for probs in batch_probs]
+		except:
+			max_idxs = self.classify_model.predict(batch)
+			batch_idx2prob = [{l:1 if l == max_idx else 0  for l in self.classify_model.classes_} for max_idx in max_idxs]
+			# pdb.set_trace()
 		return batch_idx2prob
 
 	def batch_candidates(self, batch):

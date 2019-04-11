@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.3.28)  4 APR 2019 11:45
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.3.28)  3 APR 2019 14:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**svm2.tex
-(./svm2.tex
+**test.tex
+(./test.tex
 LaTeX2e <2017-04-15>
 Babel <3.18> and hyphenation patterns for 25 language(s) loaded.
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
@@ -582,8 +582,9 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
 \mathdisplay@stack=\toks20
 LaTeX Info: Redefining \[ on input line 2817.
 LaTeX Info: Redefining \] on input line 2818.
-) (./svm2.aux)
-\openout1 = `svm2.aux'.
+)
+No file test.aux.
+\openout1 = `test.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
 LaTeX Font Info:    ... okay on input line 11.
@@ -599,76 +600,23 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 11.
 LaTeX Font Info:    ... okay on input line 11.
 LaTeX Font Info:    Checking defaults for T5/cmr/m/n on input line 11.
 LaTeX Font Info:    ... okay on input line 11.
-
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Underfull \hbox (badness 10000) in paragraph at lines 61--74
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 96--103
-
- []
-
-[2]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 106.
-
- (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
-File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 106.
- [3]
-Underfull \hbox (badness 10000) in paragraph at lines 180--185
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 188--190
-
- []
-
-[4]
-Underfull \hbox (badness 10000) in paragraph at lines 217--224
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 229--234
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 235--239
-
- []
-
-[5] [6] (./svm2.aux) ) 
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./test.aux) ) 
 Here is how much of TeX's memory you used:
- 2169 strings out of 494415
- 22880 string characters out of 6170237
- 81985 words of memory out of 5000000
- 5654 multiletter control sequences out of 15000+600000
- 9948 words of font info for 22 fonts, out of 8000000 for 9000
+ 2136 strings out of 494415
+ 22438 string characters out of 6170237
+ 72985 words of memory out of 5000000
+ 5632 multiletter control sequences out of 15000+600000
+ 4611 words of font info for 15 fonts, out of 8000000 for 9000
  264 hyphenation exceptions out of 8191
- 30i,9n,22p,215b,306s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.p
-fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share
-/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fo
-nts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/typ
-e1/vntex/vnr/vnbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/vntex/vnr/vn
-bx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/vntex/vnr/vnr10.pfb>
-Output written on svm2.pdf (6 pages, 133638 bytes).
+ 30i,4n,22p,200b,129s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/
+texlive/texmf-dist/fonts/type1/vntex/vnr/vnr10.pfb>
+Output written on test.pdf (1 page, 8382 bytes).
 PDF statistics:
- 71 PDF objects out of 1000 (max. 8388607)
- 50 compressed objects within 1 object stream
+ 12 PDF objects out of 1000 (max. 8388607)
+ 7 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

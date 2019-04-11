@@ -8,8 +8,11 @@ from identification import IdentifyModel, Image, TestImage, Person, Tree
 from easydict import EasyDict as edict
 import pickle
 import numpy as np
-from datetime import datetime as dt
 from random import randint
+import pdb
+from utils import get_iou, get_time_id, tuple2iou
+from time import time
+from datetime import datetime as dt
 
 def get_config():
 	args = edict()
@@ -22,11 +25,7 @@ def get_config():
 	args.flip = 1
 	return args
 
-def get_time_id():
-    time_string = str(dt.now())
-    cvt_time_string = time_string.split('.')[0].replace(' ', '_').replace(':', '-')
-    time_id = cvt_time_string + '_' + str(randint(0, 100000))
-    return time_id
+
 
 def main(url, ide_model, args):
 	model_args = get_config()
@@ -66,8 +65,12 @@ def main(url, ide_model, args):
 					k_emb = pickle.load(f)
 			_embs.append(k_emb)
 		idx2embs[idx] = _embs
+	idx2la = {}
 	uidx2embs = {}
 	u_ide = IdentifyModel()
+	u_ide.set_n_top_candidate(1)
+	uidx2la = {}
+
 
 	while video.isOpened():
 		ret, frame = video.read()
@@ -89,22 +92,38 @@ def main(url, ide_model, args):
 				dist = np.sum(np.square(_emb-k_emb))
 				if dist < args['threshold']:
 					is_same = True
+					idx2la[predict] = (dt.utcnow(), box)
 					break
+				if dist < args['threshold'] + 0.2:
+					if predict not in idx2la.keys():
+						continue
+					_ltime, _lbox = idx2la[predict]
+					if (dt.utcnow() - _ltime).total_seconds() < 4 and tuple2iou(box, _lbox) > 0.5:
+						is_same = True
+						break
 			
 			if not is_same:
 				u_is_same = False
 				if len(uidx2embs.items()) > 1:
 					u_batch_candidates = u_ide.batch_candidates([_emb])
 					u_predict = [candidates[0] for candidates in u_batch_candidates][0]
+					# pdb.set_trace()
 					u_embs = uidx2embs[u_predict]
 					for u_emb in u_embs:
 						dist = np.sum(np.square(_emb-u_emb))
-						if dist < args['threshold'] + 0.2:
+						if dist < args['threshold']:
 							u_is_same = True
-							u_predict = uidx
-							if len(uidx2embs[uidx]) < 5:
-								uidx2embs[uidx].append(_emb)
+							uidx2la[u_predict] = (dt.utcnow(), box)
+							if len(uidx2embs[u_predict]) < 5:
+								uidx2embs[u_predict].append(_emb)
 							break
+						if dist < args['threshold'] + 0.2:
+							if u_predict not in uidx2la.keys():
+								continue
+							_ltime, _lbox = uidx2la[u_predict]
+							if (dt.utcnow() - _ltime).total_seconds() < 4 and tuple2iou(box, _lbox) > 0.5:
+								u_is_same = True
+								break
 				if not u_is_same:
 					# n_udix = get_time_id()
 					n_udix = str(len(uidx2embs.items()))
@@ -112,7 +131,7 @@ def main(url, ide_model, args):
 					if len(uidx2embs.items()) > 1:
 						u_ide.fit(uidx2embs)
 			
-			out_strg = predict if is_same else ('Unk:' + u_predict if u_is_same else '')
+			out_strg = predict if is_same else ('Unk:' + u_predict if u_is_same else n_udix)
 
 			l, t, r, b = int(box[0]), int(box[1]), int(box[2]), int(box[3])
 			cv2.rectangle(out_frame, (l,t), (r, b), (0,255,0), 1)

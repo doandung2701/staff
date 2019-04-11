@@ -131,7 +131,8 @@ python ~/MySetting/staff/notes/MyTry/mytry/ocr/license_plate_recognition/alpr-un
 python ~/MySetting/staff/notes/MyTry/mytry/ocr/license_plate_recognition/alpr-unconstrained_p2/add_code/license-plate-detection-vn-ch-size.py $output_dir $lp_model $out_size
 
 # OCR
-python ~/MySetting/staff/notes/MyTry/mytry/ocr/license_plate_recognition/alpr-unconstrained_p2/add_code/license-plate-ocr.py $output_dir $ocr_weights
+# python ~/MySetting/staff/notes/MyTry/mytry/ocr/license_plate_recognition/alpr-unconstrained_p2/add_code/license-plate-ocr.py $output_dir $ocr_weights
+python ~/MySetting/staff/notes/MyTry/mytry/ocr/license_plate_recognition/alpr-unconstrained_p2/add_code/split-license-plate-ocr.py $output_dir $ocr_weights
 # Draw output and generate list
 python gen-outputs.py $input_dir $output_dir > $csv_file
 

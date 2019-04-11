@@ -22,7 +22,7 @@ img_files = image_files_from_folder(input_dir)
 
 for img_file in img_files:
 
-	bname = splitext(basename(img_file))[0][:-2]
+	bname = splitext(basename(img_file))[0]
 
 	# I = cv2.imread(img_file)
 

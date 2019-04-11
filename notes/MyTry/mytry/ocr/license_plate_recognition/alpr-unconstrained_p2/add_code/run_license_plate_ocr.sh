@@ -44,26 +44,26 @@ usage() {
 	echo "   bash $0 -i input/dir -o output/dir -c csv_file.csv [-h] [-l path/to/model]:"
 	echo ""
 	echo "   -i   Input dir path (containing JPG or PNG images)"
-	echo "   -d   annotation dir path "
 	echo "   -o   Output dir path"
 	echo "   -c   Output CSV file path"
 	echo "   -l   Path to Keras LP detector model (default = $lp_model)"
+	echo "   -n   Name file"
+	echo "   -w   ocr_weights"
 	echo "   -g   Log dir (default = outdir)"
-	echo "   -s   out_size"
 	echo "   -h   Print this help information"
 	echo ""
 	exit 1
 }
 
-while getopts 'i:o:c:l:g:s:d:h' OPTION; do
+while getopts 'i:o:c:l:g:s:n:w:h' OPTION; do
 	case $OPTION in
 		i) input_dir=$OPTARG;;
 		o) output_dir=$OPTARG;;
 		c) csv_file=$OPTARG;;
 		l) lp_model=$OPTARG;;
+		n) name_file=$OPTARG;;
+		w) ocr_weights=$OPTARG;;
 		g) log_dir=$OPTARG;;
-		s) out_size=$OPTARG;;
-        d) des_dir=$OPTARG;;
 		h) usage;;
 	esac
 done
@@ -72,7 +72,8 @@ if [ -z "$input_dir"  ]; then echo "Input dir not set."; usage; exit 1; fi
 if [ -z "$output_dir" ]; then echo "Ouput dir not set."; usage; exit 1; fi
 if [ -z "$csv_file"   ]; then echo "CSV file not set." ; usage; exit 1; fi
 # if [ -z "$out_size"   ]; then echo "out_size not set." ; usage; exit 1; fi
-if [ -z "$des_dir"   ]; then echo "des_dir not set." ; usage; exit 1; fi
+if [ -z "$name_file"   ]; then echo "name_file not set." ; usage; exit 1; fi
+if [ -z "$ocr_weights"   ]; then echo "ocr_weights not set." ; usage; exit 1; fi
 if [ -z "$log_dir"    ]; then $log_dir=$outdir         ; fi
 
 
@@ -110,7 +111,7 @@ for f in $input_dir/*.jpg; do cp $f $output_dir/$(basename $f .jpg)_lp.jpg; done
 for f in $output_dir/*.jpg; do convert $f $output_dir/$(basename $f .jpg).png;done
 
 # OCR
-python ~/MySetting/staff/notes/MyTry/mytry/ocr/license_plate_recognition/alpr-unconstrained_p2/add_code/license-plate-ocr.py $output_dir
+python ~/MySetting/staff/notes/MyTry/mytry/ocr/license_plate_recognition/alpr-unconstrained_p2/add_code/license-plate-ocr.py $output_dir $ocr_weights
 # Draw output and generate list
 python ~/MySetting/staff/notes/MyTry/mytry/ocr/license_plate_recognition/alpr-unconstrained_p2/add_code/gen-outputs.py $input_dir $output_dir > $csv_file
 
@@ -127,7 +128,9 @@ pred_dir="${csv_file:0:${#csv_file} - ${#pred_filename}}"
 # rm $output_dir'/evaluate_log.txt'
 # rm $output_dir'/detection_evaluate_log.txt'
 echo 'log_dir: '$log_dir
-python ~/MySetting/staff/code/Librarys/evaluate/evaluate.py --indir=$des_dir --preddir=$pred_dir >> $log_dir'/evaluate_log.txt'
+
+# python ~/MySetting/staff/code/Librarys/evaluate/evaluate.py --indir=$des_dir --preddir=$pred_dir >> $log_dir'/evaluate_log.txt'
+python ~/MySetting/staff/code/Librarys/evaluate/ocr_evaluate.py --indir=$input_dir --preddir=$pred_dir --name_file=$name_file  > $log_dir'/evaluate_log.txt'
 
 # Clean files and draw output
 # rm $output_dir/*_lp.png
