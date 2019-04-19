@@ -128,7 +128,15 @@ if __name__ == '__main__':
 		input_dir  = sys.argv[1]
 		output_dir = input_dir
 		ocr_weights = sys.argv[2]
+		out_sizes_str = sys.argv[3]
 
+		out_size_strs = out_sizes_str.split(':')
+		out_sizes = []
+		for out_size_str in out_size_strs:
+			out_size = tuple([int(x) for x in out_size_str.split('x')])
+			out_sizes.append(out_size)
+		print('out_sizes: ', out_sizes)
+		
 		ocr_threshold = .4
 
 		# ocr_weights = 'data/finetune_ocr/ocr-net.weights'
@@ -171,9 +179,26 @@ if __name__ == '__main__':
 			# 	import pdb; pdb.set_trace()
 				
 			Ilp = cv2.imread(img_path)
+			assert isinstance(out_sizes, list) and len(out_sizes) > 0 and len(out_sizes) < 3
+			is_split = None
+			if len(out_sizes) == 1:
+				out_size = out_sizes[0]
+			else:
+				r = Ilp.shape[1]/Ilp.shape[0]
+				s1, s2 = out_sizes[0], out_sizes[1]
+				if r >= 1.8:
+					out_size = s1 if s1[0]/s1[1] > s2[0]/s2[1] else s2
+					is_split = False
+				else:
+					out_size = s1 if s1[0]/s1[1] < s2[0]/s2[1] else s2
+					is_split = True
+			if out_size != Ilp.shape[1::-1]:
+				Ilp = cv2.resize(Ilp, out_size)
+			
+
 			is_detected = False 
 			# print('Ilp.shape[1]/Ilp.shape[0] : ', Ilp.shape[1]/Ilp.shape[0] )
-			if Ilp.shape[1]/Ilp.shape[0] < 1.8:
+			if is_split:
 				ocr_tmp = 'ocr-tmp'
 				system('rm -r ' + ocr_tmp)
 				mkdir(ocr_tmp)

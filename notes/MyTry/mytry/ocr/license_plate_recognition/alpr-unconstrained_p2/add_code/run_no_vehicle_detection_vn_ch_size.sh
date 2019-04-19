@@ -132,7 +132,7 @@ python ~/MySetting/staff/notes/MyTry/mytry/ocr/license_plate_recognition/alpr-un
 
 # OCR
 # python ~/MySetting/staff/notes/MyTry/mytry/ocr/license_plate_recognition/alpr-unconstrained_p2/add_code/license-plate-ocr.py $output_dir $ocr_weights
-python ~/MySetting/staff/notes/MyTry/mytry/ocr/license_plate_recognition/alpr-unconstrained_p2/add_code/split-license-plate-ocr.py $output_dir $ocr_weights
+python ~/MySetting/staff/notes/MyTry/mytry/ocr/license_plate_recognition/alpr-unconstrained_p2/add_code/split-license-plate-ocr.py $output_dir $ocr_weights $out_size
 # Draw output and generate list
 python gen-outputs.py $input_dir $output_dir > $csv_file
 
@@ -158,3 +158,4 @@ rm $output_dir/*car.png
 rm $output_dir/*_cars.txt
 # rm $output_dir/*_lp.txt
 rm $output_dir/*_str.txt
+rm $output_dir/*_output.png

@@ -48,6 +48,7 @@ usage() {
 	echo "   -c   Output CSV file path"
 	echo "   -l   Path to Keras LP detector model (default = $lp_model)"
 	echo "   -n   Name file"
+	echo "   -s   out_size"
 	echo "   -w   ocr_weights"
 	echo "   -g   Log dir (default = outdir)"
 	echo "   -h   Print this help information"
@@ -62,6 +63,7 @@ while getopts 'i:o:c:l:g:s:n:w:h' OPTION; do
 		c) csv_file=$OPTARG;;
 		l) lp_model=$OPTARG;;
 		n) name_file=$OPTARG;;
+		s) out_size=$OPTARG;;
 		w) ocr_weights=$OPTARG;;
 		g) log_dir=$OPTARG;;
 		h) usage;;
@@ -71,7 +73,7 @@ done
 if [ -z "$input_dir"  ]; then echo "Input dir not set."; usage; exit 1; fi
 if [ -z "$output_dir" ]; then echo "Ouput dir not set."; usage; exit 1; fi
 if [ -z "$csv_file"   ]; then echo "CSV file not set." ; usage; exit 1; fi
-# if [ -z "$out_size"   ]; then echo "out_size not set." ; usage; exit 1; fi
+if [ -z "$out_size"   ]; then echo "out_size not set." ; usage; exit 1; fi
 if [ -z "$name_file"   ]; then echo "name_file not set." ; usage; exit 1; fi
 if [ -z "$ocr_weights"   ]; then echo "ocr_weights not set." ; usage; exit 1; fi
 if [ -z "$log_dir"    ]; then $log_dir=$outdir         ; fi
@@ -111,7 +113,7 @@ for f in $input_dir/*.jpg; do cp $f $output_dir/$(basename $f .jpg)_lp.jpg; done
 for f in $output_dir/*.jpg; do convert $f $output_dir/$(basename $f .jpg).png;done
 
 # OCR
-python ~/MySetting/staff/notes/MyTry/mytry/ocr/license_plate_recognition/alpr-unconstrained_p2/add_code/license-plate-ocr.py $output_dir $ocr_weights
+python ~/MySetting/staff/notes/MyTry/mytry/ocr/license_plate_recognition/alpr-unconstrained_p2/add_code/split-license-plate-ocr.py $output_dir $ocr_weights $out_size
 # Draw output and generate list
 python ~/MySetting/staff/notes/MyTry/mytry/ocr/license_plate_recognition/alpr-unconstrained_p2/add_code/gen-outputs.py $input_dir $output_dir > $csv_file
 
