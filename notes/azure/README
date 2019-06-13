@@ -1,2 +1,12 @@
+# Buoc 1
+Web:
+Copy folder tmp ở ~
+Copy tomcat ... ở ~
+Ở folder tomcat... chạy: . ../tmp/setup.sh
 
-. setup.sh
+
+# Buoc 2
+GW:
+Copy folder tmp ở ~
+Copy EInvoiceGW 
+Ở folder EInvoiceGW chạy: . ../tmp/setup.sh
