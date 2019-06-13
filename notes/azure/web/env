@@ -1,0 +1,2 @@
+export publicIPWeb=52.230.123.39
+export privateIPGW=10.0.0.6
