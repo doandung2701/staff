@@ -1,4 +1,5 @@
 sudo apt update
+sleep 5
 sudo apt install zip
 sudo apt install openjdk-8-jdk
 sudo apt install subversion
